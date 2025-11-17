@@ -1,0 +1,141 @@
+<div class="landing-container">
+    <!-- Navbar -->
+    <header>
+        <nav class="navbar">
+            <!-- Logo -->
+            <div class="img-logo">
+                <img src="/assets/img/images/logo-playa.png" alt="Logo de PlaYA!" />
+            </div>
+
+            <!-- Search Form -->
+            <form class="search-form" (ngSubmit)="onSearch()" role="search" aria-label="Buscar en la plataforma">
+                <input type="search" [(ngModel)]="searchQuery" name="search" placeholder="Buscar.."
+                    aria-label="Buscar" />
+                <button type="submit" aria-label="Buscar">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+
+            <!-- Navigation Links -->
+            <ul class="nav-links">
+                <li><a href="#categorias">Categorías</a></li>
+                <li><a href="#biblioteca">Biblioteca</a></li>
+                <li><a href="#comunidades">Comunidades</a></li>
+            </ul>
+
+            <!-- Auth Buttons -->
+            <div class="auth-buttons">
+                <button class="btn login primary" (click)="navigateToLogin()">
+                    Iniciar Sesión
+                </button>
+                <button class="btn signup primary" (click)="navigateToRegister()">
+                    Crear cuenta
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="hero">
+        <div class="hero-text">
+            <h1>Escucha la mejor música independiente y descubre nuevos talentos!</h1>
+            <p>Una plataforma para artistas emergentes donde compartir, descubrir y conectar</p>
+            <div class="hero-buttons">
+                <button class="btn primary" (click)="navigateToLogin()">
+                    Escuchar ahora
+                </button>
+                <button class="btn secondary" routerLink="/about">
+                    Aprender más
+                </button>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="/assets/img/images/hero-dj.png" alt="DJ tocando música" />
+        </div>
+    </main>
+
+    <!-- Features Section -->
+    <section class="features" id="categorias">
+        <h2 class="section-title">¿Por qué PlaYa?</h2>
+        <div class="features-grid">
+
+            <div class="feature-card">
+                <i class="fas fa-music fa-3x"></i>
+                <h3>Música independiente</h3>
+                <p>Descubre artistas emergentes y apoya el talento independiente.</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-users fa-3x"></i>
+                <h3>Comunidades</h3>
+                <p>Únete a comunidades y descubre música con otros fans.</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-list fa-3x"></i>
+                <h3>Playlists personalizadas</h3>
+                <p>Crea y comparte tus propias listas de reproducción.</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-microphone fa-3x"></i>
+                <h3>Para artistas</h3>
+                <p>Sube tu música y conecta directamente con tu audiencia.</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-heart fa-3x"></i>
+                <h3>Sigue a tus artistas</h3>
+                <p>Mantente al día con los últimos lanzamientos de tus favoritos.</p>
+            </div>
+
+            <div class="feature-card">
+                <i class="fas fa-crown fa-3x"></i>
+                <h3>Premium</h3>
+                <p>Disfruta de funciones exclusivas con PlaYa Premium.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <h2>¿Listo para comenzar tu viaje musical?</h2>
+        <button class="btn primary" (click)="navigateToRegister()">
+            Registrarse Gratis
+        </button>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>PlaYa</h4>
+                <ul>
+                    <li><a href="#about">Acerca de</a></li>
+                    <li><a href="#careers">Empleos</a></li>
+                    <li><a href="#press">Prensa</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Comunidades</h4>
+                <ul>
+                    <li><a href="#artists">Para artistas</a></li>
+                    <li><a href="#developers">Desarrolladores</a></li>
+                    <li><a href="#advertising">Publicidad</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#privacy">Privacidad</a></li>
+                    <li><a href="#terms">Términos</a></li>
+                    <li><a href="#cookies">Cookies</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025 PlaYa. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+</div>

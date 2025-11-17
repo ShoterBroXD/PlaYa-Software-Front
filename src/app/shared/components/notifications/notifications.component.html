@@ -1,0 +1,132 @@
+<!-- Botón de notificaciones (para el navbar) -->
+<div class="notification-wrapper">
+  <!-- Badge con contador -->
+  <button 
+    class="notification-button" 
+    (click)="togglePanel()"
+    [class.has-notifications]="unreadCount() > 0"
+  >
+    <i class="fas fa-bell"></i>
+    <span class="notification-badge" *ngIf="unreadCount() > 0">
+      {{ unreadCount() > 99 ? '99+' : unreadCount() }}
+    </span>
+  </button>
+
+  <!-- Panel de notificaciones -->
+  <div 
+    class="notification-panel" 
+    [class.open]="isOpen()"
+    *ngIf="isOpen()"
+  >
+    <!-- Header -->
+    <div class="notification-header">
+      <h3>
+        <i class="fas fa-bell"></i>
+        Notificaciones
+      </h3>
+      
+      <div class="header-actions">
+        <!-- Filtro -->
+        <button 
+          class="btn-filter" 
+          (click)="toggleFilter()"
+          [class.active]="filterUnread()"
+          title="Solo no leídas"
+        >
+          <i class="fas fa-filter"></i>
+        </button>
+
+        <!-- Marcar todas como leídas -->
+        <button 
+          class="btn-mark-all" 
+          (click)="markAllAsRead()"
+          *ngIf="unreadCount() > 0"
+          title="Marcar todas como leídas"
+        >
+          <i class="fas fa-check-double"></i>
+        </button>
+
+        <!-- Cerrar -->
+        <button 
+          class="btn-close" 
+          (click)="closePanel()"
+          title="Cerrar"
+        >
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div class="notification-loading" *ngIf="loading()">
+      <i class="fas fa-spinner fa-spin"></i>
+      <span>Cargando notificaciones...</span>
+    </div>
+
+    <!-- Lista de notificaciones -->
+    <div class="notification-list" *ngIf="!loading()">
+      
+      <!-- Sin notificaciones -->
+      <div class="no-notifications" *ngIf="filteredNotifications().length === 0">
+        <i class="fas fa-bell-slash"></i>
+        <p>No tienes notificaciones</p>
+      </div>
+
+      <!-- Notificaciones agrupadas por fecha -->
+      <div *ngIf="filteredNotifications().length > 0">
+        <div 
+          *ngFor="let group of groupNotificationsByDate()" 
+          class="notification-group"
+        >
+          <div class="group-title">{{ group.title }}</div>
+          
+          <div 
+            *ngFor="let notification of group.notifications"
+            class="notification-item"
+            [class.unread]="!notification.read"
+            (click)="markAsRead(notification)"
+          >
+            <!-- Ícono de tipo -->
+            <div class="notification-icon" [class]="notification.type.toLowerCase()">
+              <i [class]="getNotificationIcon(notification.type)"></i>
+            </div>
+
+            <!-- Contenido -->
+            <div class="notification-content">
+              <p class="notification-text">{{ notification.content }}</p>
+              <span class="notification-time">
+                {{ getRelativeTime(notification.date) }}
+              </span>
+            </div>
+
+            <!-- Indicador de no leída -->
+            <div class="unread-indicator" *ngIf="!notification.read"></div>
+
+            <!-- Botón eliminar -->
+            <button 
+              class="btn-delete"
+              (click)="deleteNotification(notification.idNotification, $event)"
+              title="Eliminar"
+            >
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="notification-footer">
+      <button class="btn-view-all" (click)="closePanel()">
+        Ver todas las notificaciones
+      </button>
+    </div>
+  </div>
+
+  <!-- Overlay -->
+  <div 
+    class="notification-overlay" 
+    *ngIf="isOpen()"
+    (click)="closePanel()"
+  ></div>
+</div>

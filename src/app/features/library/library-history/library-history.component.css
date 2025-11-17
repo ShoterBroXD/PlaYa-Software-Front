@@ -1,0 +1,2 @@
+/* Importar estilos compartidos desde library-main */
+@import '../library-main/library-main.component.css';

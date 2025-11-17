@@ -1,0 +1,33 @@
+<div class="categories-page">
+  <div class="header">
+    <div class="title-row">
+      <h1 class="page-title">Pistas</h1>
+    </div>
+    <div class="filter-buttons">
+      <a routerLink="/categories" class="filter-button">Todos</a>
+      <a routerLink="/categories/tracks" class="filter-button active">Pistas</a>
+      <a routerLink="/categories/playlists" class="filter-button">Listas</a>
+      <a routerLink="/categories/albums" class="filter-button">Álbumes</a>
+    </div>
+  </div>
+
+  <div class="track-list">
+    <div class="track-item" *ngFor="let t of tracks">
+      <div class="track-image"><img [src]="t.image" [alt]="t.title" /></div>
+      <div class="track-info">
+        <span class="artist">{{ t.artist }}</span>
+        <span class="title">{{ t.title }}</span>
+        <div class="actions">
+          <button class="pill"><i class="fa-solid fa-heart"></i> 123</button>
+          <button class="pill"><i class="fa-solid fa-repeat"></i> 123</button>
+          <button class="pill"><i class="fa-solid fa-list"></i> 123</button>
+        </div>
+        <div class="controls">
+          <button class="icon"><i class="fa-solid fa-pause"></i></button>
+          <button class="icon"><i class="fa-solid fa-play"></i></button>
+        </div>
+      </div>
+      <div class="duration">{{ t.duration }}</div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,118 @@
+<div class="home-container">
+    <!-- Contenido principal -->
+    <main class="home-content">
+
+        <!-- Mensaje de bienvenida -->
+        <section class="welcome-section">
+            <h1>¡Bienvenido a PlaYa, {{ userName }}! 🎉</h1>
+            <p class="user-type-badge" [class.artist]="userType === 'ARTIST'">
+                <i [class]="userType === 'ARTIST' ? 'fas fa-microphone' : 'fas fa-headphones'"></i>
+                {{ userType === 'ARTIST' ? 'Artista' : 'Oyente' }}
+            </p>
+        </section>
+
+        <!-- Info de sesión -->
+        <section class="session-info">
+            <div class="info-card">
+                <h3>📧 Email</h3>
+                <p>{{ userEmail }}</p>
+            </div>
+
+            <div class="info-card">
+                <h3>👤 Tipo de cuenta</h3>
+                <p>{{ userType }}</p>
+            </div>
+
+            <div class="info-card">
+                <h3>🔐 Estado</h3>
+                <p class="status-active">✓ Sesión activa</p>
+            </div>
+        </section>
+
+        <!-- Mensaje temporal -->
+        <section class="coming-soon">
+            <div class="alert-info">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <h3>Dashboard en construcción</h3>
+                    <p>
+                        Este es un componente temporal. En la <strong>Fase 2</strong>,
+                        implementaremos el dashboard completo con todas las funcionalidades:
+                    </p>
+                    <ul>
+                        <li *ngIf="userType === 'LISTENER'">
+                            ✓ Géneros musicales en tendencia
+                        </li>
+                        <li *ngIf="userType === 'LISTENER'">
+                            ✓ Comunidades destacadas
+                        </li>
+                        <li *ngIf="userType === 'LISTENER'">
+                            ✓ Recomendaciones personalizadas
+                        </li>
+                        <li *ngIf="userType === 'ARTIST'">
+                            ✓ Sidebar de navegación
+                        </li>
+                        <li *ngIf="userType === 'ARTIST'">
+                            ✓ Subir canciones
+                        </li>
+                        <li *ngIf="userType === 'ARTIST'">
+                            ✓ Estadísticas y ganancias
+                        </li>
+                        <li>✓ Navbar con notificaciones</li>
+                        <li>✓ Búsqueda avanzada</li>
+                        <li>✓ Reproductor de música</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Acciones rápidas -->
+        <section class="quick-actions" *ngIf="userType === 'ARTIST'">
+            <h2>Acciones rápidas</h2>
+            <div class="actions-grid">
+                <button class="action-card" disabled>
+                    <i class="fas fa-upload"></i>
+                    <span>Subir Canción</span>
+                    <small>(Próximamente)</small>
+                </button>
+                <button class="action-card" disabled>
+                    <i class="fas fa-chart-line"></i>
+                    <span>Ver Estadísticas</span>
+                    <small>(Próximamente)</small>
+                </button>
+                <button class="action-card" disabled>
+                    <i class="fas fa-users"></i>
+                    <span>Mis Seguidores</span>
+                    <small>(Próximamente)</small>
+                </button>
+            </div>
+        </section>
+
+        <section class="quick-actions" *ngIf="userType === 'LISTENER'">
+            <h2>Explora</h2>
+            <div class="actions-grid">
+                <button class="action-card" disabled>
+                    <i class="fas fa-search"></i>
+                    <span>Buscar Música</span>
+                    <small>(Próximamente)</small>
+                </button>
+                <button class="action-card" disabled>
+                    <i class="fas fa-list"></i>
+                    <span>Mis Playlists</span>
+                    <small>(Próximamente)</small>
+                </button>
+                <button class="action-card" disabled>
+                    <i class="fas fa-heart"></i>
+                    <span>Favoritos</span>
+                    <small>(Próximamente)</small>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer temporal -->
+    <footer class="home-footer">
+        <p>© 2025 PlaYa - Fase 1 Completa ✓</p>
+    </footer>
+</div>

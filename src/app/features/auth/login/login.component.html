@@ -1,0 +1,96 @@
+<div class="login-container">
+    <!-- Título -->
+    <h2 class="login-title">Inicia sesión en PlaYA!</h2>
+
+    <!-- Tabs Usuario/Artista -->
+    <div class="tabs">
+        <button class="tab-btn" [class.active]="activeTab === 'usuario'" (click)="toggleTab('usuario')">
+            Usuario
+        </button>
+        <button class="tab-btn" [class.active]="activeTab === 'artista'" (click)="toggleTab('artista')">
+            Artista
+        </button>
+    </div>
+
+    <!-- Formulario Usuario -->
+    <form *ngIf="activeTab === 'usuario'" [formGroup]="usuarioForm" (ngSubmit)="onSubmit()" class="login-form">
+        <label for="usuarioEmail">Correo electrónico</label>
+        <input id="usuarioEmail" type="email" formControlName="email" placeholder="Coloque su correo..."
+            class="form-control" [class.error]="usuarioEmail?.invalid && usuarioEmail?.touched">
+        <div class="error-message" *ngIf="usuarioEmail?.invalid && usuarioEmail?.touched">
+            <span *ngIf="usuarioEmail?.errors?.['required']">El correo es requerido</span>
+            <span *ngIf="usuarioEmail?.errors?.['email']">Correo inválido</span>
+        </div>
+
+        <label for="usuarioPassword">Contraseña</label>
+        <input id="usuarioPassword" type="password" formControlName="password" placeholder="Coloque su contraseña..."
+            class="form-control" [class.error]="usuarioPassword?.invalid && usuarioPassword?.touched">
+        <div class="error-message" *ngIf="usuarioPassword?.invalid && usuarioPassword?.touched">
+            <span *ngIf="usuarioPassword?.errors?.['required']">La contraseña es requerida</span>
+            <span *ngIf="usuarioPassword?.errors?.['minlength']">Mínimo 6 caracteres</span>
+        </div>
+
+        <!-- Error general -->
+        <div class="alert-error" *ngIf="errorMessage">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ errorMessage }}
+        </div>
+
+        <!-- Botones -->
+        <div class="button-container">
+            <button type="button" class="btn cancel secondary" (click)="onCancel()">
+                Cancelar
+            </button>
+            <button type="submit" class="btn go primary" [disabled]="loading || usuarioForm.invalid">
+                <span *ngIf="!loading">Iniciar Sesión</span>
+                <span *ngIf="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Iniciando...
+                </span>
+            </button>
+        </div>
+    </form>
+
+    <!-- Formulario Artista -->
+    <form *ngIf="activeTab === 'artista'" [formGroup]="artistaForm" (ngSubmit)="onSubmit()" class="login-form">
+        <label for="artistaEmail">Correo electrónico</label>
+        <input id="artistaEmail" type="email" formControlName="email" placeholder="Coloque su correo..."
+            class="form-control" [class.error]="artistaEmail?.invalid && artistaEmail?.touched">
+        <div class="error-message" *ngIf="artistaEmail?.invalid && artistaEmail?.touched">
+            <span *ngIf="artistaEmail?.errors?.['required']">El correo es requerido</span>
+            <span *ngIf="artistaEmail?.errors?.['email']">Correo inválido</span>
+        </div>
+
+        <label for="artistaPassword">Contraseña</label>
+        <input id="artistaPassword" type="password" formControlName="password" placeholder="Coloque su contraseña..."
+            class="form-control" [class.error]="artistaPassword?.invalid && artistaPassword?.touched">
+        <div class="error-message" *ngIf="artistaPassword?.invalid && artistaPassword?.touched">
+            <span *ngIf="artistaPassword?.errors?.['required']">La contraseña es requerida</span>
+            <span *ngIf="artistaPassword?.errors?.['minlength']">Mínimo 6 caracteres</span>
+        </div>
+
+        <!-- Error general -->
+        <div class="alert-error" *ngIf="errorMessage">
+            <i class="fas fa-exclamation-circle"></i>
+            {{ errorMessage }}
+        </div>
+
+        <!-- Botones -->
+        <div class="button-container">
+            <button type="button" class="btn cancel secondary" (click)="onCancel()">
+                Cancelar
+            </button>
+            <button type="submit" class="btn go primary" [disabled]="loading || artistaForm.invalid">
+                <span *ngIf="!loading">Iniciar Sesión</span>
+                <span *ngIf="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Iniciando...
+                </span>
+            </button>
+        </div>
+    </form>
+
+    <!-- Link a registro -->
+    <p class="auth-footer">
+        ¿Aún no tienes una cuenta?
+        <a routerLink="/auth/register" class="link-primary">Regístrate en PlaYa!</a>
+    </p>
+</div>

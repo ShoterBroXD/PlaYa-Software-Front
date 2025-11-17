@@ -1,0 +1,68 @@
+/* Detalle de comunidad */
+.community-detail-page { max-width: 1200px; margin: 0 auto; }
+
+/* Header */
+.community-header { margin-bottom: 2rem; }
+.community-hero { display: flex; gap: 24px; background: #fff; padding: 24px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+.community-hero-image { width: 150px; height: 150px; border-radius: 12px; object-fit: cover; }
+.community-hero-info { flex: 1; }
+.community-hero-title { font-family: 'Raleway', sans-serif; font-size: 2rem; font-weight: 700; color: #05255a; margin: 0 0 8px; }
+.community-hero-followers { font-family: 'Montserrat', sans-serif; font-size: 1rem; color: #666; margin: 0 0 12px; }
+.community-hero-description { font-family: 'Montserrat', sans-serif; color: #333; margin: 0 0 16px; }
+.community-actions { display: flex; gap: 12px; }
+.btn-primary { background-color: #0a6e99; color: #fff; border: none; border-radius: 25px; padding: 10px 24px; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; transition: all .2s; }
+.btn-primary:hover { background-color: #084f6a; transform: translateY(-2px); }
+.btn-secondary { background-color: transparent; color: #0a6e99; border: 2px solid #0a6e99; border-radius: 25px; padding: 8px 24px; font-family: 'Montserrat', sans-serif; font-weight: 600; cursor: pointer; transition: all .2s; }
+.btn-secondary:hover { background-color: #0a6e99; color: #fff; }
+
+/* Tabs */
+.community-nav { background: #fff; border-radius: 12px; padding: 12px 24px; margin-bottom: 2rem; box-shadow: 0 2px 4px rgba(0,0,0,.05); }
+.community-tabs { display: flex; gap: 24px; border-bottom: 2px solid #e0e0e0; }
+.tab-button { background: none; border: none; padding: 12px 16px; font-family: 'Montserrat', sans-serif; font-weight: 600; color: #666; cursor: pointer; position: relative; transition: color .2s; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+.tab-button:hover { color: #0a6e99; }
+.tab-button.active { color: #0a6e99; border-bottom-color: #0a6e99; }
+
+/* Posts */
+.posts-container { display: flex; flex-direction: column; gap: 16px; }
+.post-card { background: #fff; border-radius: 12px; padding: 20px; box-shadow: 0 2px 6px rgba(0,0,0,.06); }
+.post-header { display: flex; gap: 12px; margin-bottom: 12px; }
+.post-author-image { width: 40px; height: 40px; border-radius: 50%; }
+.post-author-name { font-family: 'Raleway', sans-serif; font-weight: 600; margin: 0; }
+.post-time { font-family: 'Montserrat', sans-serif; font-size: .85rem; color: #999; margin: 0; }
+.post-content { margin-bottom: 12px; font-family: 'Montserrat', sans-serif; }
+.post-media { margin-top: 12px; }
+.song-preview { display: flex; align-items: center; gap: 12px; background: #f9f9f9; padding: 12px; border-radius: 8px; }
+.song-image { width: 50px; height: 50px; border-radius: 6px; }
+.song-info { flex: 1; }
+.song-title { font-weight: 600; margin: 0; }
+.song-artist { font-size: .85rem; color: #666; margin: 0; }
+.play-btn { background: #0a6e99; color: #fff; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; }
+.post-actions { display: flex; gap: 16px; padding-top: 12px; border-top: 1px solid #e0e0e0; }
+.post-action-btn { background: none; border: none; font-family: 'Montserrat', sans-serif; color: #666; cursor: pointer; transition: color .2s; }
+.post-action-btn:hover { color: #0a6e99; }
+
+/* Members */
+.members-container { display: flex; flex-direction: column; gap: 12px; }
+.member-card { background: #fff; border-radius: 12px; padding: 16px; display: flex; align-items: center; gap: 16px; box-shadow: 0 2px 4px rgba(0,0,0,.05); }
+.member-image { width: 50px; height: 50px; border-radius: 50%; }
+.member-info { flex: 1; }
+.member-name { font-family: 'Raleway', sans-serif; font-weight: 600; margin: 0; }
+.member-role { font-family: 'Montserrat', sans-serif; font-size: .85rem; color: #666; margin: 0; }
+
+/* About */
+.about-container { background: #fff; border-radius: 12px; padding: 24px; box-shadow: 0 2px 6px rgba(0,0,0,.06); }
+.about-container h3 { font-family: 'Raleway', sans-serif; font-weight: 700; color: #05255a; }
+.about-container p { font-family: 'Montserrat', sans-serif; color: #333; line-height: 1.6; }
+.community-stats { display: flex; gap: 32px; margin: 24px 0; }
+.stat-item { text-align: center; }
+.stat-item h4 { font-family: 'Raleway', sans-serif; font-size: 1.8rem; color: #0a6e99; margin: 0; }
+.stat-item p { font-family: 'Montserrat', sans-serif; color: #666; margin: 4px 0 0; }
+.community-rules h4 { font-family: 'Raleway', sans-serif; font-weight: 600; color: #05255a; }
+.community-rules ul { font-family: 'Montserrat', sans-serif; color: #333; }
+.community-rules li { margin-bottom: 8px; }
+
+@media (max-width: 768px) {
+  .community-hero { flex-direction: column; }
+  .community-hero-image { width: 100%; height: auto; }
+  .community-stats { flex-direction: column; gap: 16px; }
+}

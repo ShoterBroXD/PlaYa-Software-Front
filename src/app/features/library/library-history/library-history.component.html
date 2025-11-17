@@ -1,0 +1,28 @@
+<div class="library-page">
+  <div class="library-header">
+    <h1 class="library-title">Tu Biblioteca</h1>
+    <p class="library-subtitle">Escuchado recientemente</p>
+  </div>
+
+  <div class="clear-history-container">
+    <button class="clear-history-btn" (click)="clearHistory()">
+      <i class="fa-solid fa-trash"></i>
+      Borrar historial
+    </button>
+  </div>
+
+  <div class="library-grid" *ngIf="history.length > 0">
+    <div class="card-library" *ngFor="let song of history" (click)="playSong(song)">
+      <img [src]="song.image" [alt]="song.title" class="card-img">
+      <div class="card-info">
+        <p class="song-title">{{ song.title }}</p>
+        <p class="song-details">{{ song.artist }} · {{ song.year }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="history.length === 0">
+    <i class="fa-solid fa-clock-rotate-left empty-icon"></i>
+    <p class="empty-text">Tu historial está vacío</p>
+  </div>
+</div>
