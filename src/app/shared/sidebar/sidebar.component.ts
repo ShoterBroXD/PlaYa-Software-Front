@@ -1,8 +1,10 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { SidebarConfig } from '../models/sidebar.model';
 import { AuthService } from '../../core/services/auth.service';
+import { SidebarStateService } from '../../core/services/sidebar-state.service';
+import { PlayerService } from '../../core/services/player.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,16 +15,20 @@ import { AuthService } from '../../core/services/auth.service';
 })
 export class SidebarComponent {
   @Input() config!: SidebarConfig;
-  
-  isCollapsed = signal(false);
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    public sidebarState: SidebarStateService,
+    public playerService: PlayerService
   ) {}
 
   toggleCollapse() {
-    this.isCollapsed.update(value => !value);
+    this.sidebarState.toggleCollapse();
+  }
+
+  isCollapsed() {
+    return this.sidebarState.collapsed();
   }
 
   handleItemClick(route: string, event: Event) {

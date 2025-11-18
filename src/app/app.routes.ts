@@ -24,6 +24,16 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/auth/register/register.component').then((m) => m.RegisterComponent),
   },
+    {
+      path: 'auth/get-token',
+      loadComponent: () =>
+        import('./features/auth/get-token/get-token.component').then((m) => m.GetTokenComponent),
+    },
+    {
+      path: 'auth/reset-password',
+      loadComponent: () =>
+        import('./features/auth/reset-password/reset-password.component').then((m) => m.ResetPasswordComponent),
+    },
 
   // Protected Routes (CON navbar autenticado via MainLayout)
   {

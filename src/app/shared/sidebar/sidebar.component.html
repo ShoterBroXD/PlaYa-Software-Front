@@ -1,7 +1,7 @@
-<aside class="sidebar-main" [class.collapsed]="isCollapsed()">
+<aside class="sidebar-main" [class.collapsed]="isCollapsed()" [class.has-player]="playerService.hasTrack()">
   <!-- Botón para colapsar/expandir -->
   <button class="collapse-toggle" (click)="toggleCollapse()" type="button">
-    <i [class]="isCollapsed() ? 'fa-solid fa-angles-right' : 'fa-solid fa-angles-left'"></i>
+    <img src="/assets/img/icons/toggle-sidebar.svg" alt="Toggle sidebar" class="toggle-icon">
   </button>
 
   <!-- Items superiores -->

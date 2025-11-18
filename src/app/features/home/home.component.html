@@ -66,6 +66,40 @@
             </div>
         </section>
 
+        <!-- Demo del reproductor -->
+        <section class="player-demo">
+            <h2>🎵 Prueba el Reproductor</h2>
+            <p>Haz clic en una canción para empezar a reproducir:</p>
+            <div class="demo-tracks">
+                <div 
+                    *ngFor="let track of mockTracks; let i = index"
+                    class="demo-track"
+                    (click)="playTrack(track, i)"
+                >
+                    <img [src]="track.coverImage" [alt]="track.title" class="track-cover">
+                    <div class="track-info-demo">
+                        <p class="track-name">{{ track.title }}</p>
+                        <p class="track-artist-demo">{{ track.artist }}</p>
+                    </div>
+                    <button class="btn-play-demo">
+                        <i class="fas fa-play"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="demo-instructions">
+                <p><strong>Funcionalidades disponibles:</strong></p>
+                <ul>
+                    <li>▶️ Play/Pause, siguiente, anterior</li>
+                    <li>🔀 Reproducción aleatoria y repetición</li>
+                    <li>🔊 Control de volumen</li>
+                    <li>🖼️ Click en la portada para expandir</li>
+                    <li>📋 Ver cola de reproducción</li>
+                    <li>💬 Ver comentarios de la canción</li>
+                    <li>❤️ Like y agregar a playlist</li>
+                </ul>
+            </div>
+        </section>
+
         <!-- Acciones rápidas -->
         <section class="quick-actions" *ngIf="userType === 'ARTIST'">
             <h2>Acciones rápidas</h2>

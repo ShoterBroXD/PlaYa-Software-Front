@@ -1,0 +1,162 @@
+/* Sidebar de playlist */
+.playlist-sidebar {
+  position: fixed;
+  right: 0;
+  top: 4rem;
+  bottom: 65px;
+  width: 35%;
+  background: #fff;
+  border-left: 1px solid #e0e0e0;
+  overflow-y: auto;
+  z-index: 950;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.sidebar-header {
+  padding: 1.5rem 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.header-subtitle {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 0.85rem;
+  color: #0a6e99;
+  margin: 0 0 0.25rem;
+  text-transform: lowercase;
+}
+
+.header-title {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #000;
+  margin: 0;
+}
+
+.playlist-container {
+  padding: 1rem;
+}
+
+.song-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-bottom: 0.5rem;
+}
+
+.song-item:hover {
+  background: #1282A2;
+}
+
+.song-item:hover .song-title,
+.song-item:hover .song-artist,
+.song-item:hover .song-duration {
+  color: #fff;
+}
+
+.song-item.current {
+  background: rgba(10, 110, 153, 0.1);
+  border-left: 3px solid #0a6e99;
+}
+
+.song-cover {
+  width: 50px;
+  height: 50px;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.song-info {
+  flex: 1;
+  overflow: hidden;
+}
+
+.song-title {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #000;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0.25rem;
+}
+
+.song-artist {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #034078;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.song-duration {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #034078;
+  flex-shrink: 0;
+}
+
+.song-duration i {
+  font-size: 0.9rem;
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  color: #999;
+  text-align: center;
+}
+
+.empty-state i {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-state p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .playlist-sidebar {
+    width: 45%;
+  }
+}
+
+@media (max-width: 768px) {
+  .playlist-sidebar {
+    width: 100%;
+    left: 0;
+  }
+}

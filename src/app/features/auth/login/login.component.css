@@ -172,6 +172,7 @@
     font-size: 0.9rem;
     font-family: 'Montserrat', sans-serif;
     color: #333;
+    margin-bottom: 0.5rem;
 }
 
 .auth-footer .link-primary {
@@ -181,4 +182,15 @@
 
 .auth-footer .link-primary:hover {
     text-decoration: underline;
+}
+
+.auth-footer .link-secondary {
+    color: #6c757d;
+    text-decoration: none;
+    font-size: 0.85rem;
+}
+
+.auth-footer .link-secondary:hover {
+    text-decoration: underline;
+    color: #0a6e99;
 }

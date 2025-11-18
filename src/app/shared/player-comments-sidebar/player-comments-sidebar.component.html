@@ -1,0 +1,93 @@
+<aside 
+  *ngIf="playerService.showCommentsSidebar() && playerService.showCoverExpanded()" 
+  class="comments-sidebar"
+>
+  <!-- Header -->
+  <div class="sidebar-header">
+    <h2 class="comments-count">{{ comments().length }} comentarios</h2>
+    <button class="sort-button">
+      <span>Ordenar por</span>
+      <i class="fas fa-chevron-down"></i>
+    </button>
+  </div>
+
+  <!-- Input para nuevo comentario -->
+  <div class="comment-input-section">
+    <img src="/assets/img/icons/user.png" alt="Tu perfil" class="user-avatar">
+    <textarea 
+      [(ngModel)]="newComment"
+      placeholder="Escribe un comentario..."
+      class="comment-textarea"
+      rows="2"
+    ></textarea>
+    <button 
+      class="btn-post-comment" 
+      (click)="postComment()"
+      [disabled]="!newComment().trim()"
+    >
+      Comentar
+    </button>
+  </div>
+
+  <!-- Lista de comentarios -->
+  <div class="comments-list">
+    <div *ngIf="comments().length === 0" class="no-comments">
+      <i class="fas fa-comment-slash"></i>
+      <p>Ningún comentario aún, ¡sé el primero en comentar!</p>
+    </div>
+
+    <div *ngFor="let comment of comments()" class="comment-item">
+      <img [src]="comment.avatar" [alt]="comment.username" class="comment-avatar">
+      
+      <div class="comment-content">
+        <div class="comment-header">
+          <span class="comment-username">{{ comment.username }}</span>
+          <span class="comment-time">{{ getTimeAgo(comment.timestamp) }}</span>
+        </div>
+        
+        <p class="comment-text">{{ comment.content }}</p>
+        
+        <div class="comment-actions">
+          <button 
+            *ngIf="comment.replies && comment.replies.length > 0"
+            class="btn-toggle-replies"
+            (click)="toggleReplies(comment.id)"
+          >
+            <i class="fas fa-reply"></i>
+            {{ comment.replies.length }} respuesta{{ comment.replies.length !== 1 ? 's' : '' }}
+          </button>
+          <button class="btn-reply">Responder</button>
+        </div>
+
+        <!-- Respuestas -->
+        <div *ngIf="isRepliesExpanded(comment.id) && comment.replies" class="replies-container">
+          <div *ngFor="let reply of comment.replies" class="reply-item">
+            <img [src]="reply.avatar" [alt]="reply.username" class="reply-avatar">
+            <div class="reply-content">
+              <span class="reply-username">{{ reply.username }}</span>
+              <p class="reply-text">{{ reply.content }}</p>
+            </div>
+            <button class="btn-like-reply" (click)="toggleLike(reply)">
+              <i class="fas fa-heart" [class.liked]="reply.isLiked"></i>
+              <span>{{ reply.likes }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="comment-options">
+        <button class="btn-more-options">
+          <i class="fas fa-ellipsis-v"></i>
+        </button>
+        <button 
+          class="btn-like-comment" 
+          [class.liked]="comment.isLiked"
+          (click)="toggleLike(comment)"
+        >
+          <i class="fas fa-heart"></i>
+          <span>{{ comment.likes }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</aside>
