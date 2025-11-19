@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -22,7 +22,12 @@ export class RegisterComponent {
   loading = false;
   errorMessage = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     // Formulario Usuario (LISTENER)
     this.usuarioForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
@@ -97,7 +102,9 @@ export class RegisterComponent {
     this.authService.register(registerData).subscribe({
       next: (response) => {
         console.log('Registro exitoso', response);
-        this.router.navigate(['/home']);
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+        const destination = this.getDashboardRoute(response.type ?? registerData.type);
+        this.router.navigate([returnUrl || destination]);
       },
       error: (error) => {
         console.error('Error en registro', error);
@@ -115,5 +122,17 @@ export class RegisterComponent {
    */
   onCancel(): void {
     this.router.navigate(['/landing']);
+  }
+
+  private getDashboardRoute(
+    type: 'ARTIST' | 'LISTENER' | string | null | undefined
+  ): string {
+    if (type === 'ARTIST') {
+      return '/dashboard-artista';
+    }
+    if (type === 'LISTENER') {
+      return '/dashboard-usuario';
+    }
+    return '/home';
   }
 }

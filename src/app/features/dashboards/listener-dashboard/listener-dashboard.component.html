@@ -1,0 +1,64 @@
+<section class="listener-dashboard">
+  <div class="listener-dashboard__panel">
+    <header class="listener-dashboard__hero">
+      <div>
+        <p class="eyebrow">Descubrimiento</p>
+        <h1>Bienvenido ({{ userName }})!</h1>
+        <p class="subtitle">{{ welcomeSubtitle }}</p>
+      </div>
+      <div class="hero-actions">
+        <button class="cta secondary">Explorar</button>
+        <button class="cta primary">Premium</button>
+      </div>
+    </header>
+
+    <section class="card-section">
+      <div class="section-header">
+        <div>
+          <p class="section-eyebrow">Recomendado para ti</p>
+          <h2>Generos en tendencia</h2>
+        </div>
+        <button class="cta text">Ver todo</button>
+      </div>
+      <div class="genre-grid">
+        <article class="genre-card" *ngFor="let genre of trendingGenres">
+          <div class="genre-card__placeholder"></div>
+          <h3>{{ genre.name }}</h3>
+          <p>{{ genre.description }}</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="card-section">
+      <div class="section-header">
+        <div>
+          <p class="section-eyebrow">Lo que se habla</p>
+          <h2>Comunidades en tendencia</h2>
+        </div>
+        <button class="cta text">Ver todas</button>
+      </div>
+      <div class="community-list">
+        <article class="community-card" *ngFor="let community of trendingCommunities">
+          <div class="community-card__avatar">
+            <span>{{ community.name.charAt(0) }}</span>
+          </div>
+          <div class="community-card__body">
+            <div class="community-card__title">
+              <h3>{{ community.name }}</h3>
+              <span>{{ community.time }}</span>
+            </div>
+            <p class="topic">{{ community.topic }}</p>
+            <p class="excerpt">{{ community.excerpt }}</p>
+          </div>
+          <button class="cta icon" aria-label="Ir a comunidad">
+            <span>&rsaquo;</span>
+          </button>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <aside class="listener-dashboard__illustration">
+    <img [src]="illustration" alt="Ilustracion oyente" />
+  </aside>
+</section>

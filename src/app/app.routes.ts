@@ -39,11 +39,25 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
-    canActivate: [AuthGuard],
+    //canActivate: [AuthGuard],
     children: [
       {
         path: 'home',
         loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
+      },
+      {
+        path: 'dashboard-usuario',
+        loadComponent: () =>
+          import('./features/dashboards/listener-dashboard/listener-dashboard.component').then(
+            (m) => m.ListenerDashboardComponent
+          ),
+      },
+      {
+        path: 'dashboard-artista',
+        loadComponent: () =>
+          import('./features/dashboards/artist-dashboard/artist-dashboard.component').then(
+            (m) => m.ArtistDashboardComponent
+          ),
       },
       {
         path: 'categories',
