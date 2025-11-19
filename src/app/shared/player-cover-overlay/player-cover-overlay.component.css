@@ -1,7 +1,7 @@
 /* Overlay de portada expandida */
 .cover-overlay {
   position: fixed;
-  top: 4rem; /* Debajo de navbar */
+  top: 40px; /* Debajo de navbar */
   left: 0;
   right: 0;
   bottom: 65px; /* Encima de footer */

@@ -6,7 +6,7 @@
     (click)="togglePanel()"
     [class.has-notifications]="unreadCount() > 0"
   >
-    <i class="fas fa-bell"></i>
+    <img src="/assets/img/icons/notification.svg" alt="Notificaciones" class="bell-icon" />
     <span class="notification-badge" *ngIf="unreadCount() > 0">
       {{ unreadCount() > 99 ? '99+' : unreadCount() }}
     </span>
@@ -21,7 +21,7 @@
     <!-- Header -->
     <div class="notification-header">
       <h3>
-        <i class="fas fa-bell"></i>
+        <img src="/assets/img/icons/notification.svg" alt="Notificaciones" class="bell-icon" />
         Notificaciones
       </h3>
       
@@ -115,12 +115,12 @@
       </div>
     </div>
 
-    <!-- Footer -->
+    <!-- Footer
     <div class="notification-footer">
       <button class="btn-view-all" (click)="closePanel()">
         Ver todas las notificaciones
       </button>
-    </div>
+    </div> -->
   </div>
 
   <!-- Overlay -->

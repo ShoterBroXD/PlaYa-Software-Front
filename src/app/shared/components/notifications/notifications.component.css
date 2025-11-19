@@ -32,12 +32,28 @@
   color: #1db954;
 }
 
+/* Icono SVG del botón */
+.notification-button .bell-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+  filter: invert(55%); /* tono gris similar a #B3B3B3 */
+}
+
+.notification-button:hover .bell-icon {
+  filter: invert(100%);
+}
+
+.notification-button.has-notifications .bell-icon {
+  filter: none; /* preserva el color original del SVG si lo tuviera */
+}
+
 /* === BADGE DE CONTADOR === */
 .notification-badge {
   position: absolute;
   top: 2px;
   right: 2px;
-  background-color: #e74c3c;
+  background-color: #1282A2;
   color: #fff;
   border-radius: 10px;
   padding: 2px 6px;
@@ -69,13 +85,13 @@
 /* === PANEL DE NOTIFICACIONES === */
 .notification-panel {
   position: fixed;
-  top: 60px;
-  right: 20px;
-  width: 400px;
-  max-height: 600px;
+  top: 40px;
+  right: 110px;
+  width: 300px;
+  max-height: 420px;
   background-color: #ffffff;
-  border-radius: 10px;
-  border: 2px solid #000000;
+  border-radius: 15px;
+  border: 1.5px solid #000000;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 999;
   display: flex;
@@ -100,14 +116,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
+  padding: 10px 20px;
   background-color: #f4f4f4;
   border-bottom: 1px solid #ccc;
 }
 
 .notification-header h3 {
   margin: 0;
-  font-size: 18px;
+  font-size: 12px;
   font-weight: 700;
   font-family: 'Raleway', sans-serif;
   color: #05255a;
@@ -116,8 +132,11 @@
   gap: 10px;
 }
 
-.notification-header h3 i {
-  color: #1db954;
+/* Icono SVG en el header */
+.notification-header .bell-icon {
+  width: 15px;
+  height: 15px;
+  display: block;
 }
 
 .header-actions {
@@ -133,9 +152,16 @@
   color: #666;
   font-size: 16px;
   cursor: pointer;
-  padding: 8px;
+  padding: 0 8px;
   border-radius: 6px;
   transition: all 0.2s;
+}
+
+.btn-filter i,
+.btn-mark-all i,
+.btn-close i{
+  width: 12px;
+  height: 12px;
 }
 
 .btn-filter:hover,
@@ -346,7 +372,7 @@
   background-color: #f4f4f4;
   border-top: 1px solid #ccc;
 }
-
+/*
 .btn-view-all {
   width: 100%;
   background: none;
@@ -364,7 +390,7 @@
 .btn-view-all:hover {
   background-color: #0a6e99;
   color: #fff;
-}
+}*/
 
 /* === RESPONSIVE === */
 @media (max-width: 768px) {

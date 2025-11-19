@@ -34,7 +34,7 @@ import { PlayerCommentsSidebarComponent } from '../shared/player-comments-sideba
       min-height: calc(100vh - 60px - 65px);
       margin-top: 0px;
       padding-bottom: 65px;
-      padding-top: 60px;
+      padding-top: 2.5rem;
     }
   `]
 })

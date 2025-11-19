@@ -11,7 +11,7 @@ export class SidebarStateService {
   collapsed = computed(() => this.isCollapsed());
   
   // Ancho actual de la sidebar
-  sidebarWidth = computed(() => this.isCollapsed() ? 60 : 280);
+  sidebarWidth = computed(() => this.isCollapsed() ? 45 : 200);
 
   toggleCollapse() {
     this.isCollapsed.update(value => !value);

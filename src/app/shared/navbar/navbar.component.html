@@ -6,6 +6,7 @@
       <li><a [routerLink]="'/categories'" routerLinkActive="active">Categorías</a></li>
       <li><a [routerLink]="'/library'" routerLinkActive="active">Biblioteca</a></li>
       <li><a [routerLink]="'/communities'" routerLinkActive="active">Comunidades</a></li>
+      <li><a [routerLink]="'/artists'" routerLinkActive="active">Artistas</a></li>
     </ul>
   </div>
 
@@ -19,9 +20,10 @@
   </div>
 
   <div class="nav-right">
-    <a [routerLink]="'/premium'" class="premium-link" routerLinkActive="active">Premium</a>
-    <a [routerLink]="'/upload'" class="upload-link" routerLinkActive="active">Subir</a>
-    
+    <ul class="nav-links">
+      <a [routerLink]="'/premium'" class="premium-link" routerLinkActive="active">Premium</a>
+      <a [routerLink]="'/upload'" class="upload-link" routerLinkActive="active">Subir</a>
+    </ul>
     <!-- Componente de notificaciones -->
     <app-notifications />
     

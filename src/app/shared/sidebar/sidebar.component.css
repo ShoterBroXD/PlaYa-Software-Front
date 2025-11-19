@@ -1,36 +1,33 @@
 /* Sidebar principal */
 .sidebar-main {
-  width: 280px;
-  height: calc(100vh - 60px);
+  width: 200px;
+  height: calc(100vh - 70px);
   background-color: #fff;
   border-right: 2px solid #e0e0e0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 1.5rem 0;
+  padding: 0;
   transition: width 0.3s ease, height 0.3s ease;
   position: fixed;
   left: 0;
-  top: 60px;
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 100;
 }
 
 .sidebar-main.collapsed {
-  width: 60px;
+  width: 45px;
 }
 
 /* Ajuste de altura cuando el player está visible */
 .sidebar-main.has-player {
-  height: calc(100vh - 60px - 65px);
+  height: calc(100vh - 45px - 65px);
 }
 
 /* Botón de colapsar */
 .collapse-toggle {
   position: absolute;
-  top: 1rem;
-  right: 0.5rem;
   background: none;
   border: none;
   cursor: pointer;
@@ -77,7 +74,7 @@
   color: #666;
   text-decoration: none;
   font-family: 'Montserrat', sans-serif;
-  font-size: 0.95rem;
+  font-size: 0.7rem;
   font-weight: 500;
   transition: all 0.2s;
   position: relative;
