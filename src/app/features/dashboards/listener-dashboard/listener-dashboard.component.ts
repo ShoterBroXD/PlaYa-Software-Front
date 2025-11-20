@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { AuthService } from '../../../core/services/auth.service';
 
 interface TrendingGenre {
   name: string;
@@ -21,7 +22,8 @@ interface TrendingCommunity {
   styleUrl: './listener-dashboard.component.css',
 })
 export class ListenerDashboardComponent {
-  userName = 'Usuario';
+  private authService = inject(AuthService);
+  userName = computed(() => this.authService.getCurrentUser()?.name || 'Usuario');
   welcomeSubtitle = 'Listo para descubrir nuevos gustos?';
   illustration = '/assets/img/images/sing-girl.png';
 

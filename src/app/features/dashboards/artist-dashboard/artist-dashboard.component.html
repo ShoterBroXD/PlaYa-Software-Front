@@ -18,7 +18,7 @@
       <img [src]="avatar" alt="Avatar artista" class="avatar" />
       <div>
         <p class="eyebrow">Perfil principal</p>
-        <h1>Bienvenido ({{ userName }})!</h1>
+        <h1>Bienvenido {{ userName() }}!</h1>
         <p>
           Veo que aun no tienes ninguna cancion subida. Que esperas? Sube una cancion y ensenale a las
           personas tus melodias. Conecta con tus fans respondiendo mensajes, compartiendo enlaces y
@@ -30,7 +30,7 @@
     <section class="panel-card songs-card">
       <div class="section-header">
         <h2>Canciones subidas</h2>
-        <button class="cta primary">Subir cancion</button>
+        <button class="cta primary" routerLink="/upload">Subir cancion</button>
       </div>
 
       <div *ngIf="uploadedSongs.length === 0" class="empty-state">
@@ -40,7 +40,7 @@
         <div class="empty-state__copy">
           <h3>Aun no tienes musicas subidas</h3>
           <p>Usa el boton azul para comenzar a subir tus primeras melodias.</p>
-          <button class="cta ghost">Comienza subiendo tu musica</button>
+          <button class="cta ghost" routerLink="/upload">Comienza subiendo tu musica</button>
         </div>
       </div>
 
@@ -70,7 +70,7 @@
           <h2>{{ gainsCard.title }}</h2>
           <p>{{ gainsCard.description }}</p>
         </div>
-        <button class="cta outline">{{ gainsCard.action }}</button>
+        <button class="cta outline" routerLink="/upload">{{ gainsCard.action }}</button>
       </section>
       <section class="panel-card highlight">
         <div

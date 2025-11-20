@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 
 interface SidebarLink {
   label: string;
@@ -26,12 +28,13 @@ interface HighlightCard {
 @Component({
   selector: 'app-artist-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './artist-dashboard.component.html',
   styleUrls: ['./artist-dashboard.component.css'],
 })
 export class ArtistDashboardComponent {
-  userName = 'Usuario';
+  private authService = inject(AuthService);
+  userName = computed(() => this.authService.getCurrentUser()?.name || 'Usuario');
   avatar = '/assets/img/images/profile-pic.jpg';
 
   sidebarLinks: SidebarLink[] = [
