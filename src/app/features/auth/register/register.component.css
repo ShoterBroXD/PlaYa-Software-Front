@@ -51,10 +51,10 @@
 .user-type-selector {
     display: flex;
     justify-content: center;
-    gap: 1rem;
+    /* gap: 1rem; */
     margin-bottom: 1.5rem;
     background-color: #f4f4f4;
-    padding: 1rem;
+    /* padding: 1rem; */
     border-radius: 8px;
     width: fit-content;
     margin-left: auto;
