@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, computed, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
@@ -31,6 +31,7 @@ export class UploadComponent implements OnInit {
   private authService = inject(AuthService);
   private cloudinaryService = inject(CloudinaryService);
   private songService = inject(SongService);
+  private cdr = inject(ChangeDetectorRef);
   userType = computed(() => this.authService.resolveUserType());
 
   showModal = false;
@@ -49,6 +50,8 @@ export class UploadComponent implements OnInit {
 
   genres: Genre[] = [];
   selectedGenreId: number | null = null;
+  isGenresLoading = false;
+  genreError: string | null = null;
 
   formState: UploadFormState = {
     title: '',
@@ -173,15 +176,22 @@ export class UploadComponent implements OnInit {
   }
 
   private loadGenres() {
+    this.isGenresLoading = true;
+    this.genreError = null;
     this.songService.getGenres().subscribe({
       next: (genres) => {
         this.genres = genres;
         if (!this.selectedGenreId && genres.length) {
           this.onGenreChange(genres[0].idGenre);
         }
+        this.isGenresLoading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.genres = [];
+        this.genreError = 'No se pudieron cargar los géneros. Intenta nuevamente.';
+        this.isGenresLoading = false;
+        this.cdr.detectChanges();
       },
     });
   }
@@ -195,13 +205,16 @@ export class UploadComponent implements OnInit {
     this.uploadError = null;
     this.cloudinaryService.uploadFile(file, 'auto').subscribe({
       next: (response) => {
+        console.log('Cloudinary success', response);
         this.audioUrl = response.secure_url;
         this.audioDuration = response.duration;
         this.isAudioUploading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.uploadError = 'No se pudo subir el archivo. Inténtalo de nuevo.';
         this.isAudioUploading = false;
+        this.cdr.detectChanges();
       },
     });
   }
@@ -213,10 +226,12 @@ export class UploadComponent implements OnInit {
       next: (response) => {
         this.coverUrl = response.secure_url;
         this.isCoverUploading = false;
+        this.cdr.detectChanges();
       },
       error: () => {
         this.coverError = 'No se pudo subir la portada. Inténtalo de nuevo.';
         this.isCoverUploading = false;
+        this.cdr.detectChanges();
       },
     });
   }

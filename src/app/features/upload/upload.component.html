@@ -55,7 +55,7 @@
         </p>
         <div class="drop-zone">
           <div>
-            <img src="/assets/img/icons/cloud-upload.png" alt="upload" />
+            <img src="/assets/img/icons/add-list.svg" alt="upload" />
             <p>Arrastra y suelta tus archivos de audio para empezar</p>
             <label class="primary ghost">
               Elegir archivos
@@ -107,15 +107,18 @@
                 Etiqueta
                 <input type="text" [(ngModel)]="formState.tag" placeholder="Ej: #summer" />
               </label>
-              <label>
-                Genero
-                <select [ngModel]="selectedGenreId" (ngModelChange)="onGenreChange($event)">
-                  <option *ngFor="let genre of genres" [ngValue]="genre.idGenre">
-                    {{ genre.name }}
-                  </option>
-                </select>
-              </label>
-            </div>
+            <label>
+              Genero
+              <select [ngModel]="selectedGenreId" (ngModelChange)="onGenreChange($event)" [disabled]="isGenresLoading">
+                <option [ngValue]="null" disabled>Selecciona un genero</option>
+                <option *ngFor="let genre of genres" [ngValue]="genre.idGenre">
+                  {{ genre.name }}
+                </option>
+              </select>
+              <small *ngIf="isGenresLoading">Cargando...</small>
+              <small class="error-text" *ngIf="genreError">{{ genreError }}</small>
+            </label>
+          </div>
             <div class="drop-zone cover">
               <p>Arrastra y suelta tu portada</p>
               <label class="primary ghost">
@@ -130,10 +133,10 @@
             <img src="/assets/img/images/man-singing.png" alt="Ilustracion cantante" />
           </div>
         </div>
-        <div class="modal-actions">
-          <button class="secondary" (click)="prevStep()">Volver</button>
-          <button class="primary" (click)="nextStep()">Siguiente</button>
-        </div>
+      <div class="modal-actions">
+        <button class="secondary" (click)="prevStep()">Volver</button>
+        <button class="primary" [disabled]="isCoverUploading" (click)="nextStep()">Siguiente</button>
+      </div>
       </ng-container>
 
       <!-- Paso 3 -->
