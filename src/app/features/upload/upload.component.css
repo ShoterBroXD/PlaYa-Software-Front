@@ -311,6 +311,18 @@ textarea {
   background: linear-gradient(90deg, #24d2a0, #6465f1);
 }
 
+.info-text {
+  color: #1f96bf;
+  margin: 0.5rem 0 0;
+  font-weight: 600;
+}
+
+.error-text {
+  color: #d73737;
+  margin: 0.5rem 0 0;
+  font-weight: 600;
+}
+
 @media (max-width: 720px) {
   .upload-modal {
     padding: 1.5rem;

@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, OnInit, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
+import { CloudinaryService } from '../../core/services/cloudinary.service';
+import { Genre, SongService } from '../../core/services/song.service';
 
 interface UploadFormState {
   title: string;
@@ -10,8 +12,7 @@ interface UploadFormState {
   album: string;
   description: string;
   tag: string;
-  genre: string;
-  visibility: 'Publico' | 'Privado';
+  visibility: 'Publico' | 'Privado' | 'Solo seguidores';
   comments: 'Todos' | 'Solo seguidores' | 'Nadie';
   schedule: boolean;
   scheduleDate: string;
@@ -26,14 +27,28 @@ interface UploadFormState {
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.css'],
 })
-export class UploadComponent {
+export class UploadComponent implements OnInit {
   private authService = inject(AuthService);
+  private cloudinaryService = inject(CloudinaryService);
+  private songService = inject(SongService);
   userType = computed(() => this.authService.resolveUserType());
 
   showModal = false;
   activeStep: 'upload' | 'details' | 'privacy' | 'summary' | 'progress' = 'upload';
   uploadedFiles: File[] = [];
   coverPreview: string | null = null;
+  audioUrl: string | null = null;
+  audioDuration: number | undefined;
+  coverUrl: string | null = null;
+  isAudioUploading = false;
+  isCoverUploading = false;
+  uploadError: string | null = null;
+  coverError: string | null = null;
+  submitError: string | null = null;
+  isSubmitting = false;
+
+  genres: Genre[] = [];
+  selectedGenreId: number | null = null;
 
   formState: UploadFormState = {
     title: '',
@@ -41,7 +56,6 @@ export class UploadComponent {
     album: '',
     description: '',
     tag: '',
-    genre: 'Rock',
     visibility: 'Publico',
     comments: 'Todos',
     schedule: false,
@@ -49,6 +63,10 @@ export class UploadComponent {
     allowDownload: false,
     includeInLists: false,
   };
+
+  ngOnInit(): void {
+    this.loadGenres();
+  }
 
   openModal() {
     this.showModal = true;
@@ -65,13 +83,17 @@ export class UploadComponent {
 
   nextStep() {
     if (this.activeStep === 'upload') {
+      if (!this.audioUrl || this.isAudioUploading) {
+        this.uploadError = 'Necesitas subir al menos un archivo de audio.';
+        return;
+      }
       this.activeStep = 'details';
     } else if (this.activeStep === 'details') {
       this.activeStep = 'privacy';
     } else if (this.activeStep === 'privacy') {
       this.activeStep = 'summary';
     } else if (this.activeStep === 'summary') {
-      this.activeStep = 'progress';
+      this.submitSong();
     }
   }
 
@@ -90,6 +112,10 @@ export class UploadComponent {
       return;
     }
     this.uploadedFiles = Array.from(files);
+    const [file] = this.uploadedFiles;
+    if (file) {
+      this.uploadAudioFile(file);
+    }
   }
 
   handleCover(event: Event) {
@@ -98,17 +124,23 @@ export class UploadComponent {
       return;
     }
     const file = input.files[0];
+    if (!file) {
+      return;
+    }
+
     const reader = new FileReader();
     reader.onload = () => {
       this.coverPreview = reader.result as string;
     };
     reader.readAsDataURL(file);
+    this.uploadCoverFile(file);
   }
 
   get summaryData() {
     return {
       fileName: this.uploadedFiles[0]?.name ?? 'archivo.mp3',
-      duration: '3:45',
+      duration: this.formatDuration(this.audioDuration),
+      genre: this.selectedGenreName,
       ...this.formState,
     };
   }
@@ -122,7 +154,6 @@ export class UploadComponent {
       album: '',
       description: '',
       tag: '',
-      genre: 'Rock',
       visibility: 'Publico',
       comments: 'Todos',
       schedule: false,
@@ -131,5 +162,121 @@ export class UploadComponent {
       includeInLists: false,
     };
     this.activeStep = 'upload';
+    this.audioUrl = null;
+    this.coverUrl = null;
+    this.audioDuration = undefined;
+    this.uploadError = null;
+    this.coverError = null;
+    this.submitError = null;
+    this.isSubmitting = false;
+    this.selectedGenreId = this.genres.length ? this.genres[0].idGenre : null;
+  }
+
+  private loadGenres() {
+    this.songService.getGenres().subscribe({
+      next: (genres) => {
+        this.genres = genres;
+        if (!this.selectedGenreId && genres.length) {
+          this.onGenreChange(genres[0].idGenre);
+        }
+      },
+      error: () => {
+        this.genres = [];
+      },
+    });
+  }
+
+  onGenreChange(id: number | null) {
+    this.selectedGenreId = id;
+  }
+
+  private uploadAudioFile(file: File) {
+    this.isAudioUploading = true;
+    this.uploadError = null;
+    this.cloudinaryService.uploadFile(file, 'auto').subscribe({
+      next: (response) => {
+        this.audioUrl = response.secure_url;
+        this.audioDuration = response.duration;
+        this.isAudioUploading = false;
+      },
+      error: () => {
+        this.uploadError = 'No se pudo subir el archivo. Inténtalo de nuevo.';
+        this.isAudioUploading = false;
+      },
+    });
+  }
+
+  private uploadCoverFile(file: File) {
+    this.isCoverUploading = true;
+    this.coverError = null;
+    this.cloudinaryService.uploadFile(file, 'image').subscribe({
+      next: (response) => {
+        this.coverUrl = response.secure_url;
+        this.isCoverUploading = false;
+      },
+      error: () => {
+        this.coverError = 'No se pudo subir la portada. Inténtalo de nuevo.';
+        this.isCoverUploading = false;
+      },
+    });
+  }
+
+  private submitSong() {
+    if (!this.audioUrl || !this.coverUrl || !this.selectedGenreId) {
+      this.submitError = 'Asegúrate de subir audio, portada y seleccionar un género.';
+      return;
+    }
+
+    this.isSubmitting = true;
+    this.submitError = null;
+
+    const payload = {
+      title: this.formState.title || this.summaryData.fileName,
+      description: this.formState.description,
+      coverURL: this.coverUrl,
+      fileURL: this.audioUrl,
+      visibility: this.mapVisibility(this.formState.visibility),
+      idgenre: this.selectedGenreId,
+      duration: this.audioDuration,
+    };
+
+    this.songService.createSong(payload).subscribe({
+      next: () => {
+        this.isSubmitting = false;
+        this.activeStep = 'progress';
+      },
+      error: (error) => {
+        this.submitError =
+          error?.error?.message || 'Ocurrió un error al registrar tu canción. Intenta nuevamente.';
+        this.isSubmitting = false;
+      },
+    });
+  }
+
+  private mapVisibility(value: UploadFormState['visibility']): 'public' | 'private' | 'unlisted' {
+    switch (value) {
+      case 'Privado':
+        return 'private';
+      case 'Solo seguidores':
+        return 'unlisted';
+      default:
+        return 'public';
+    }
+  }
+
+  get selectedGenreName(): string {
+    return this.genres.find((genre) => genre.idGenre === this.selectedGenreId)?.name ?? 'Sin genero';
+  }
+
+  private formatDuration(seconds?: number): string {
+    if (!seconds || Number.isNaN(seconds)) {
+      return '--:--';
+    }
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60)
+      .toString()
+      .padStart(2, '0');
+    return `${mins}:${secs}`;
   }
 }
+
