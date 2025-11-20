@@ -103,7 +103,11 @@ export class RegisterComponent {
       next: (response) => {
         console.log('Registro exitoso', response);
         const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
-        const destination = this.getDashboardRoute(response.type ?? registerData.type);
+        const resolvedType = (response.type ?? registerData.type) as 'ARTIST' | 'LISTENER' | undefined;
+        if (resolvedType) {
+          this.authService.setUserType(resolvedType);
+        }
+        const destination = this.getDashboardRoute(resolvedType);
         this.router.navigate([returnUrl || destination]);
       },
       error: (error) => {

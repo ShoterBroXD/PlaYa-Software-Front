@@ -4,28 +4,28 @@
 
         <!-- Mensaje de bienvenida -->
         <section class="welcome-section">
-            <h1>¡Bienvenido a PlaYa, {{ userName }}! 🎉</h1>
+            <h1>�Bienvenido a PlaYa, {{ userName }}! ??</h1>
             <p class="user-type-badge" [class.artist]="userType === 'ARTIST'">
                 <i [class]="userType === 'ARTIST' ? 'fas fa-microphone' : 'fas fa-headphones'"></i>
-                {{ userType === 'ARTIST' ? 'Artista' : 'Oyente' }}
+                {{ displayUserType }}
             </p>
         </section>
 
-        <!-- Info de sesión -->
+        <!-- Info de sesi�n -->
         <section class="session-info">
             <div class="info-card">
-                <h3>📧 Email</h3>
+                <h3>?? Email</h3>
                 <p>{{ userEmail }}</p>
             </div>
 
             <div class="info-card">
-                <h3>👤 Tipo de cuenta</h3>
-                <p>{{ userType }}</p>
+                <h3>?? Tipo de cuenta</h3>
+                <p>{{ displayUserType }}</p>
             </div>
 
             <div class="info-card">
-                <h3>🔐 Estado</h3>
-                <p class="status-active">✓ Sesión activa</p>
+                <h3>?? Estado</h3>
+                <p class="status-active">? Sesi�n activa</p>
             </div>
         </section>
 
@@ -34,33 +34,33 @@
             <div class="alert-info">
                 <i class="fas fa-info-circle"></i>
                 <div>
-                    <h3>Dashboard en construcción</h3>
+                    <h3>Dashboard en construcci�n</h3>
                     <p>
                         Este es un componente temporal. En la <strong>Fase 2</strong>,
                         implementaremos el dashboard completo con todas las funcionalidades:
                     </p>
                     <ul>
                         <li *ngIf="userType === 'LISTENER'">
-                            ✓ Géneros musicales en tendencia
+                            ? G�neros musicales en tendencia
                         </li>
                         <li *ngIf="userType === 'LISTENER'">
-                            ✓ Comunidades destacadas
+                            ? Comunidades destacadas
                         </li>
                         <li *ngIf="userType === 'LISTENER'">
-                            ✓ Recomendaciones personalizadas
+                            ? Recomendaciones personalizadas
                         </li>
                         <li *ngIf="userType === 'ARTIST'">
-                            ✓ Sidebar de navegación
+                            ? Sidebar de navegaci�n
                         </li>
                         <li *ngIf="userType === 'ARTIST'">
-                            ✓ Subir canciones
+                            ? Subir canciones
                         </li>
                         <li *ngIf="userType === 'ARTIST'">
-                            ✓ Estadísticas y ganancias
+                            ? Estad�sticas y ganancias
                         </li>
-                        <li>✓ Navbar con notificaciones</li>
-                        <li>✓ Búsqueda avanzada</li>
-                        <li>✓ Reproductor de música</li>
+                        <li>? Navbar con notificaciones</li>
+                        <li>? B�squeda avanzada</li>
+                        <li>? Reproductor de m�sica</li>
                     </ul>
                 </div>
             </div>
@@ -68,8 +68,8 @@
 
         <!-- Demo del reproductor -->
         <section class="player-demo">
-            <h2>🎵 Prueba el Reproductor</h2>
-            <p>Haz clic en una canción para empezar a reproducir:</p>
+            <h2>?? Prueba el Reproductor</h2>
+            <p>Haz clic en una canci�n para empezar a reproducir:</p>
             <div class="demo-tracks">
                 <div 
                     *ngFor="let track of mockTracks; let i = index"
@@ -89,35 +89,35 @@
             <div class="demo-instructions">
                 <p><strong>Funcionalidades disponibles:</strong></p>
                 <ul>
-                    <li>▶️ Play/Pause, siguiente, anterior</li>
-                    <li>🔀 Reproducción aleatoria y repetición</li>
-                    <li>🔊 Control de volumen</li>
-                    <li>🖼️ Click en la portada para expandir</li>
-                    <li>📋 Ver cola de reproducción</li>
-                    <li>💬 Ver comentarios de la canción</li>
-                    <li>❤️ Like y agregar a playlist</li>
+                    <li>?? Play/Pause, siguiente, anterior</li>
+                    <li>?? Reproducci�n aleatoria y repetici�n</li>
+                    <li>?? Control de volumen</li>
+                    <li>??? Click en la portada para expandir</li>
+                    <li>?? Ver cola de reproducci�n</li>
+                    <li>?? Ver comentarios de la canci�n</li>
+                    <li>?? Like y agregar a playlist</li>
                 </ul>
             </div>
         </section>
 
-        <!-- Acciones rápidas -->
+        <!-- Acciones r�pidas -->
         <section class="quick-actions" *ngIf="userType === 'ARTIST'">
-            <h2>Acciones rápidas</h2>
+            <h2>Acciones r�pidas</h2>
             <div class="actions-grid">
                 <button class="action-card" disabled>
                     <i class="fas fa-upload"></i>
-                    <span>Subir Canción</span>
-                    <small>(Próximamente)</small>
+                    <span>Subir Canci�n</span>
+                    <small>(Pr�ximamente)</small>
                 </button>
                 <button class="action-card" disabled>
                     <i class="fas fa-chart-line"></i>
-                    <span>Ver Estadísticas</span>
-                    <small>(Próximamente)</small>
+                    <span>Ver Estad�sticas</span>
+                    <small>(Pr�ximamente)</small>
                 </button>
                 <button class="action-card" disabled>
                     <i class="fas fa-users"></i>
                     <span>Mis Seguidores</span>
-                    <small>(Próximamente)</small>
+                    <small>(Pr�ximamente)</small>
                 </button>
             </div>
         </section>
@@ -127,18 +127,18 @@
             <div class="actions-grid">
                 <button class="action-card" disabled>
                     <i class="fas fa-search"></i>
-                    <span>Buscar Música</span>
-                    <small>(Próximamente)</small>
+                    <span>Buscar M�sica</span>
+                    <small>(Pr�ximamente)</small>
                 </button>
                 <button class="action-card" disabled>
                     <i class="fas fa-list"></i>
                     <span>Mis Playlists</span>
-                    <small>(Próximamente)</small>
+                    <small>(Pr�ximamente)</small>
                 </button>
                 <button class="action-card" disabled>
                     <i class="fas fa-heart"></i>
                     <span>Favoritos</span>
-                    <small>(Próximamente)</small>
+                    <small>(Pr�ximamente)</small>
                 </button>
             </div>
         </section>
@@ -147,6 +147,6 @@
 
     <!-- Footer temporal -->
     <footer class="home-footer">
-        <p>© 2025 PlaYa - Fase 1 Completa ✓</p>
+        <p>� 2025 PlaYa - Fase 1 Completa ?</p>
     </footer>
 </div>

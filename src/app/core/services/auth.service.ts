@@ -140,6 +140,46 @@ export class AuthService {
     return localStorage.getItem('userType') as 'ARTIST' | 'LISTENER' | null;
   }
 
+  setUserType(type: 'ARTIST' | 'LISTENER' | null | undefined): void {
+    if (!type) {
+      return;
+    }
+
+    localStorage.setItem('userType', type);
+    const current = this.currentUserSubject.value;
+
+    if (current && current.type !== type) {
+      this.currentUserSubject.next({ ...current, type });
+    }
+  }
+
+  resolveUserType(): 'ARTIST' | 'LISTENER' | null {
+    const storedType = this.getUserType();
+    if (storedType) {
+      return storedType;
+    }
+
+    const currentType = this.currentUserSubject.value?.type;
+    if (currentType === 'ARTIST' || currentType === 'LISTENER') {
+      return currentType;
+    }
+
+    const storedUserStr = localStorage.getItem('currentUser');
+    if (storedUserStr) {
+      try {
+        const storedUser = JSON.parse(storedUserStr);
+        const type = storedUser?.type;
+        if (type === 'ARTIST' || type === 'LISTENER') {
+          return type;
+        }
+      } catch (error) {
+        console.error('Error parsing stored currentUser for type', error);
+      }
+    }
+
+    return null;
+  }
+
   // Agregar método para obtener ID de usuario
   getUserId(): number | null {
     const id = localStorage.getItem('userId');
