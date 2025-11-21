@@ -130,8 +130,21 @@ export const routes: Routes = [
         ]
       },
       {
-        path: 'premium',
-        loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent), // Placeholder
+        path: 'playlists',
+        children: [
+          {
+            path: 'my',
+            loadComponent: () => import('./features/playlists/my-playlists/my-playlists.component').then(m => m.MyPlaylistsComponent),
+          },
+          {
+            path: 'create',
+            loadComponent: () => import('./features/playlists/create-playlist/create-playlist.component').then(m => m.CreatePlaylistComponent),
+          },
+          {
+            path: ':id',
+            loadComponent: () => import('./features/playlists/view-playlist/view-playlist.component').then(m => m.ViewPlaylistComponent),
+          },
+        ]
       },
       {
         path: 'upload',
