@@ -57,32 +57,39 @@ export class ChangePasswordComponent {
 
   cambiarContrasena() {
     if (!this.isValid()) return;
-
     this.loading.set(true);
     this.errorMessage.set('');
     this.successMessage.set('');
 
     const request = {
-      currentPassword: this.currentPassword,
-      newPassword: this.newPassword,
-      confirmNewPassword: this.confirmPassword
+      currentPassword: this.currentPassword.trim(),
+      newPassword: this.newPassword.trim(),
+      confirmNewPassword: this.confirmPassword.trim(),
     };
+
+    console.log('Request enviado:', request);
+    console.log('Current:', `"${request.currentPassword}"`);
+    console.log('New:', `"${request.newPassword}"`);
+    console.log('Confirm:', `"${request.confirmNewPassword}"`);
 
     this.passwordService.changePassword(request).subscribe({
       next: (response) => {
+        console.log('Respuesta exitosa:', response);
         this.successMessage.set('Contraseña cambiada exitosamente');
         this.loading.set(false);
-        
-        // Cerrar modal después de 2 segundos
+
         setTimeout(() => {
           this.success.emit();
           this.close.emit();
         }, 2000);
       },
       error: (error) => {
-        this.errorMessage.set(error.error || 'Error al cambiar la contraseña. Verifica tu contraseña actual.');
+        console.log('Error en servicio:', error);
+        this.errorMessage.set(
+          error.error || 'Error al cambiar la contraseña. Verifica tu contraseña actual.'
+        );
         this.loading.set(false);
-      }
+      },
     });
   }
 }
