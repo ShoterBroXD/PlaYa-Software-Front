@@ -1,0 +1,77 @@
+<div class="profile-container">
+    <div class="profile-layout">
+        <!-- Contenido principal -->
+        <section class="main-content">
+            <!-- Header con foto y datos básicos -->
+            <div class="artist-header">
+                <div class="artist-avatar-large">
+                    {{ artist.emoji }}
+                </div>
+                <div class="artist-header-info">
+                    <h1>{{ artist.name }}</h1>
+                    <p class="stats">
+                        <strong>{{ artist.followers }}</strong> seguidores • 
+                        <strong>{{ artist.following }}</strong> seguidos
+                    </p>
+                    <div class="action-buttons">
+                        <button class="btn-follow" [class.following]="isFollowing" (click)="toggleFollow()">
+                            {{ isFollowing ? 'Siguiendo' : 'Seguir' }}
+                        </button>
+                        <button class="btn-share">Compartir perfil</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Canciones populares -->
+            <h2>Canciones populares</h2>
+            <ul class="songs-list">
+                <li *ngFor="let song of popularSongs" class="song-item">
+                    <div class="song-info">
+                        <strong>{{ song.title }}</strong> 
+                        <small>- {{ song.year }}</small>
+                        <p>{{ song.album }}</p>
+                    </div>
+                    <button class="btn-play" (click)="playSong(song.id)">Reproducir</button>
+                </li>
+            </ul>
+
+            <!-- Biografía -->
+            <h2>Biografía</h2>
+            <p class="bio">{{ artist.bio }}</p>
+
+            <!-- Enlace a comunidad -->
+            <h2>Enlace a Comunidad</h2>
+            <a href="#" class="community-link">
+                Comunidad de Fans <span>💬</span>
+            </a>
+        </section>
+
+        <!-- Sidebar lateral -->
+        <aside class="sidebar">
+            <section class="quick-info">
+                <h3>Información rápida</h3>
+                <ul>
+                    <li><strong>Género:</strong> {{ artist.genre }}</li>
+                    <li><strong>Años activo:</strong> {{ artist.yearsActive }}</li>
+                    <li><strong>País:</strong> {{ artist.country }}</li>
+                    <li><strong>Discográfica:</strong> {{ artist.label }}</li>
+                </ul>
+            </section>
+
+            <section class="suggested">
+                <h3>Artistas sugeridos</h3>
+                <div class="suggested-list">
+                    <div *ngFor="let suggested of suggestedArtists" 
+                         class="suggested-item" 
+                         [routerLink]="['/artists/profile', suggested.id]">
+                        <div class="suggested-avatar">{{ suggested.emoji }}</div>
+                        <div class="suggested-info">
+                            <div class="suggested-name">{{ suggested.name }}</div>
+                            <div class="suggested-genre">{{ suggested.genre }}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </aside>
+    </div>
+</div>

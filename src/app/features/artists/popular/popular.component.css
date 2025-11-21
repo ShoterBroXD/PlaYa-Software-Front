@@ -1,0 +1,110 @@
+.popular-container {
+    max-width: 900px;
+    margin: 0 auto;
+    color: #0b2239;
+}
+
+h2 {
+    font-weight: 700;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+.artists-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.artist-card {
+    background: #f0f3f5;
+    border-radius: 12px;
+    padding: 15px;
+    width: calc(33.333% - 10px);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.artist-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(11, 134, 154, 0.15);
+}
+
+.artist-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    cursor: pointer;
+}
+
+.artist-avatar {
+    width: 48px;
+    height: 48px;
+    background: #c7d1db;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.artist-avatar span {
+    font-size: 22px;
+    color: #6a7a91;
+}
+
+.artist-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.artist-name {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 2px;
+}
+
+.artist-followers {
+    font-size: 12px;
+    color: #707c91;
+    margin-bottom: 2px;
+}
+
+.artist-description {
+    font-size: 11px;
+    color: #8a93a1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+}
+
+.btn-follow {
+    background: #0b869a;
+    border: none;
+    border-radius: 20px;
+    color: white;
+    padding: 6px 16px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-follow:hover {
+    background: #096d7d;
+}
+
+@media (max-width: 768px) {
+    .artist-card {
+        width: 100%;
+    }
+    
+    .artist-description {
+        max-width: none;
+    }
+}

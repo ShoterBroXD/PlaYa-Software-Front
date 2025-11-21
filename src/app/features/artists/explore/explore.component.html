@@ -1,0 +1,21 @@
+<div class="explore-container">
+    <h2>Explorar Artistas</h2>
+    <p class="subtitle">Descubre nuevos artistas por géneros, popularidad y tendencias.</p>
+
+    <div class="filter-section">
+        <label for="filtro">Filtrar por género:</label>
+        <select id="filtro" [(ngModel)]="selectedGenre">
+            <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+        </select>
+    </div>
+
+    <div class="artists-grid">
+        <div *ngFor="let artist of filteredArtists" class="artist-card" [routerLink]="['/artists/profile', artist.id]">
+            <div class="artist-avatar">
+                <span>{{ artist.emoji }}</span>
+            </div>
+            <div class="artist-name">{{ artist.name }}</div>
+            <div class="artist-info">{{ artist.genre }} • {{ artist.followers }} seguidores</div>
+        </div>
+    </div>
+</div>

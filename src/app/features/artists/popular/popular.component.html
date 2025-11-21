@@ -1,0 +1,19 @@
+<div class="popular-container">
+    <h2>Artistas más populares</h2>
+
+    <div class="artists-list">
+        <div *ngFor="let artist of popularArtists" class="artist-card">
+            <div class="artist-info" [routerLink]="['/artists/profile', artist.id]">
+                <div class="artist-avatar">
+                    <span>{{ artist.emoji }}</span>
+                </div>
+                <div class="artist-details">
+                    <div class="artist-name">{{ artist.name }}</div>
+                    <div class="artist-followers">{{ artist.followers }} seguidores</div>
+                    <div class="artist-description">{{ artist.description }}</div>
+                </div>
+            </div>
+            <button class="btn-follow">Seguir</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,268 @@
+.profile-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    color: #0b2239;
+}
+
+.profile-layout {
+    display: flex;
+    gap: 25px;
+}
+
+.main-content {
+    flex: 3;
+    padding-right: 25px;
+    border-right: 1px solid #ddd;
+}
+
+/* Header */
+.artist-header {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 30px;
+}
+
+.artist-avatar-large {
+    width: 140px;
+    height: 140px;
+    background: linear-gradient(135deg, #5a9cea, #144e8f);
+    border-radius: 50%;
+    box-shadow: 0 0 15px rgba(11, 134, 154, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 72px;
+    user-select: none;
+    flex-shrink: 0;
+}
+
+.artist-header-info h1 {
+    margin: 0;
+    font-weight: 700;
+    font-size: 28px;
+}
+
+.stats {
+    margin: 4px 0 12px;
+    font-size: 14px;
+    color: #535353;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.btn-follow {
+    background: #0b869a;
+    border: none;
+    border-radius: 25px;
+    padding: 8px 22px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-follow:hover {
+    background: #096d7d;
+}
+
+.btn-follow.following {
+    background: #6c757d;
+}
+
+.btn-share {
+    background: transparent;
+    border: 1px solid #0b869a;
+    border-radius: 25px;
+    padding: 8px 18px;
+    color: #0b869a;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-share:hover {
+    background: #0b869a;
+    color: white;
+}
+
+/* Canciones */
+h2 {
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 20px;
+    margin-top: 30px;
+}
+
+h2:first-of-type {
+    margin-top: 0;
+}
+
+.songs-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0 0 40px 0;
+}
+
+.song-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s ease;
+}
+
+.song-item:hover {
+    background: #f9f9f9;
+    padding-left: 8px;
+}
+
+.song-info strong {
+    font-size: 14px;
+}
+
+.song-info small {
+    color: #777;
+    font-size: 13px;
+}
+
+.song-info p {
+    margin: 2px 0 0 0;
+    font-size: 12px;
+    color: #555;
+}
+
+.btn-play {
+    background: #0b869a;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 20px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.btn-play:hover {
+    background: #096d7d;
+}
+
+/* Biografía */
+.bio {
+    line-height: 1.5;
+    color: #444;
+    font-size: 14px;
+}
+
+/* Comunidad */
+.community-link {
+    color: #0b869a;
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    transition: color 0.2s ease;
+}
+
+.community-link:hover {
+    color: #096d7d;
+}
+
+/* Sidebar */
+.sidebar {
+    flex: 1;
+    padding-left: 25px;
+}
+
+.quick-info, .suggested {
+    margin-bottom: 30px;
+}
+
+h3 {
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+.quick-info ul {
+    list-style: none;
+    padding-left: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.quick-info ul li {
+    margin-bottom: 6px;
+}
+
+/* Artistas sugeridos */
+.suggested-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.suggested-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.suggested-item:hover {
+    transform: translateX(4px);
+}
+
+.suggested-avatar {
+    width: 48px;
+    height: 48px;
+    background: #c7d1db;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 22px;
+    color: #6a7a91;
+    flex-shrink: 0;
+}
+
+.suggested-name {
+    font-weight: 600;
+    color: #0b2239;
+    font-size: 14px;
+}
+
+.suggested-genre {
+    font-size: 12px;
+    color: #777;
+}
+
+@media (max-width: 768px) {
+    .profile-layout {
+        flex-direction: column;
+    }
+
+    .main-content {
+        border-right: none;
+        border-bottom: 1px solid #ddd;
+        padding-right: 0;
+        padding-bottom: 20px;
+    }
+
+    .sidebar {
+        padding-left: 0;
+    }
+
+    .artist-header {
+        flex-direction: column;
+        text-align: center;
+    }
+}
