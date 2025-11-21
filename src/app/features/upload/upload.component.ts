@@ -172,7 +172,7 @@ export class UploadComponent implements OnInit {
     this.coverError = null;
     this.submitError = null;
     this.isSubmitting = false;
-    this.selectedGenreId = this.genres.length ? this.genres[0].idGenre : null;
+    this.selectedGenreId = this.genres.length ? this.genres[0].id : null;
   }
 
   private loadGenres() {
@@ -182,7 +182,7 @@ export class UploadComponent implements OnInit {
       next: (genres) => {
         this.genres = genres;
         if (!this.selectedGenreId && genres.length) {
-          this.onGenreChange(genres[0].idGenre);
+          this.onGenreChange(genres[0].id);
         }
         this.isGenresLoading = false;
         this.cdr.detectChanges();
@@ -197,7 +197,8 @@ export class UploadComponent implements OnInit {
   }
 
   onGenreChange(id: number | null) {
-    this.selectedGenreId = id;
+    this.selectedGenreId = typeof id === 'string' ? Number(id) : id;
+    this.submitError = null;
   }
 
   private uploadAudioFile(file: File) {
@@ -237,8 +238,13 @@ export class UploadComponent implements OnInit {
   }
 
   private submitSong() {
-    if (!this.audioUrl || !this.coverUrl || !this.selectedGenreId) {
-      this.submitError = 'Asegúrate de subir audio, portada y seleccionar un género.';
+    const missing: string[] = [];
+    if (!this.audioUrl) missing.push('archivo de audio');
+    if (!this.coverUrl) missing.push('portada');
+    if (this.selectedGenreId === null) missing.push('género');
+
+    if (missing.length) {
+      this.submitError = `Falta ${missing.join(', ')}.`;
       return;
     }
 
@@ -248,10 +254,10 @@ export class UploadComponent implements OnInit {
     const payload = {
       title: this.formState.title || this.summaryData.fileName,
       description: this.formState.description,
-      coverURL: this.coverUrl,
-      fileURL: this.audioUrl,
+      coverURL: this.coverUrl ?? '',
+      fileURL: this.audioUrl ?? '',
       visibility: this.mapVisibility(this.formState.visibility),
-      idgenre: this.selectedGenreId,
+      idgenre: this.selectedGenreId ?? 0,
       duration: this.audioDuration,
     };
 
@@ -261,6 +267,7 @@ export class UploadComponent implements OnInit {
         this.activeStep = 'progress';
       },
       error: (error) => {
+        console.error('Song upload error', error);
         this.submitError =
           error?.error?.message || 'Ocurrió un error al registrar tu canción. Intenta nuevamente.';
         this.isSubmitting = false;
@@ -280,7 +287,7 @@ export class UploadComponent implements OnInit {
   }
 
   get selectedGenreName(): string {
-    return this.genres.find((genre) => genre.idGenre === this.selectedGenreId)?.name ?? 'Sin genero';
+    return this.genres.find((genre) => genre.id === this.selectedGenreId)?.name ?? 'Sin genero';
   }
 
   private formatDuration(seconds?: number): string {
