@@ -23,7 +23,8 @@
 .tabs {
     display: flex;
     justify-content: center;
-    margin-left: 5rem; 
+    margin-left: auto; 
+    margin-right: auto;
     /* gap: 1rem;  */
     margin-bottom: 1.5rem;
     background-color: #f4f4f4; 
@@ -35,7 +36,7 @@
 
 .tab-btn {
     padding: 0.75rem 2rem;
-     background-color: #f2f2f2ad;/* f2f2f2 */
+     background-color: transparent;/* f2f2f2 */
     color: #333;
     border: none;
     cursor: pointer;
@@ -47,14 +48,14 @@
 
 .tab-btn.active {
     background-color: #ffffff;
-    color: black;
-    transform: scale(1);
+    color: #084f6a;
+    font-weight: 600;
+    transform: scale(1.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .tab-btn:hover {
-    background-color: #084f6a;
-    color: white;
-    transform: scale(1);
+    color: #084f6a;
 }
 
 /* Formulario */

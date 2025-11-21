@@ -56,6 +56,7 @@
     background-color: #f4f4f4;
     /* padding: 1rem; */
     border-radius: 8px;
+    border: solid 2px #f2f2f2ad;
     width: fit-content;
     margin-left: auto;
     margin-right: auto;
@@ -83,14 +84,14 @@
 }
 
 .user-type-btn:hover {
-    color: #0a6e99;
+    color: #084f6a;
 }
 
 .user-type-btn.active {
     background-color: #ffffff;
     color: #0a6e99;
     font-weight: 600;
-    transform: scale(1.05);
+    transform: scale(1.1);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
