@@ -228,6 +228,11 @@
       "releases": "Release reminders",
       "recommendations": "Personalized recommendations"
     },
+    "musicPreferences": {
+      "title": "Music Preferences",
+      "description": "Adjust your favorite genres to receive better recommendations",
+      "button": "Adjust Preferences"
+    },
     "account": {
       "title": "Account",
       "type": "Account type",
@@ -283,5 +288,14 @@
     "loading": "Loading...",
     "error": "Error",
     "success": "Success"
+  },
+  "preferences": {
+    "title": "Adjust Music Preferences",
+    "description": "Select your favorite genres to receive personalized recommendations",
+    "limitInfo": "You can select up to {{max}} genres",
+    "save": "Save Preferences",
+    "saving": "Saving...",
+    "reset": "Reset Preferences",
+    "noGenres": "No genres available"
   }
 }

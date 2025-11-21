@@ -228,6 +228,11 @@
       "releases": "Recordatorio de lanzamientos",
       "recommendations": "Recomendaciones personalizadas"
     },
+    "musicPreferences": {
+      "title": "Preferencias Musicales",
+      "description": "Ajusta tus géneros favoritos para recibir mejores recomendaciones",
+      "button": "Ajustar Preferencias"
+    },
     "account": {
       "title": "Cuenta",
       "type": "Tipo de cuenta",
@@ -283,5 +288,14 @@
     "loading": "Cargando...",
     "error": "Error",
     "success": "Éxito"
+  },
+  "preferences": {
+    "title": "Ajustar Preferencias Musicales",
+    "description": "Selecciona tus géneros favoritos para recibir recomendaciones personalizadas",
+    "limitInfo": "Puedes seleccionar hasta {{max}} géneros",
+    "save": "Guardar Preferencias",
+    "saving": "Guardando...",
+    "reset": "Resetear Preferencias",
+    "noGenres": "No hay géneros disponibles"
   }
 }

@@ -2,6 +2,7 @@ import { Component, signal, computed, effect, inject, OnInit } from '@angular/co
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { MusicPreferencesComponent } from './components/music-preferences/music-preferences.component';
 import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
 import { UserConfiguration } from '../../core/models/configuration.model';
@@ -11,7 +12,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-configuration',
   standalone: true,
-  imports: [CommonModule, FormsModule, ChangePasswordComponent, TranslateModule],
+  imports: [CommonModule, FormsModule, ChangePasswordComponent, MusicPreferencesComponent, TranslateModule],
   templateUrl: './configuration.component.html',
   styleUrls: ['./configuration.component.css'],
 })
@@ -49,6 +50,7 @@ export class ConfigurationComponent implements OnInit {
 
   // Control de estado
   showPasswordOverlay = signal(false);
+  showPreferencesOverlay = signal(false);
   isSaving = signal(false);
   saveMessage = signal<{ type: 'success' | 'error' | 'info', text: string } | null>(null);
   hasUnsavedChanges = signal(false);
@@ -284,5 +286,29 @@ export class ConfigurationComponent implements OnInit {
   onPasswordChangeSuccess(): void {
     console.log('Contraseña cambiada exitosamente');
     this.showMessage('success', 'Contraseña actualizada correctamente');
+  }
+
+  /**
+   * Abrir overlay de preferencias musicales
+   */
+  openMusicPreferences(): void {
+    console.log('🎵 Opening music preferences modal...');
+    this.showPreferencesOverlay.set(true);
+    console.log('Modal state:', this.showPreferencesOverlay());
+  }
+
+  /**
+   * Cerrar overlay de preferencias musicales
+   */
+  closeMusicPreferences(): void {
+    this.showPreferencesOverlay.set(false);
+  }
+
+  /**
+   * Callback cuando se actualizan las preferencias musicales
+   */
+  onPreferencesUpdated(): void {
+    console.log('Preferencias musicales actualizadas');
+    this.showMessage('success', 'Preferencias musicales actualizadas exitosamente');
   }
 }
