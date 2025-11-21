@@ -163,6 +163,79 @@
   color: #0a6e99;
 }
 
+.share-wrapper {
+  position: relative;
+}
+
+.share-menu {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  padding: 0.75rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  width: 220px;
+  z-index: 20;
+}
+
+.share-menu-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: #05255a;
+}
+
+.share-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.share-option {
+  border: none;
+  border-radius: 999px;
+  padding: 0.4rem 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  cursor: pointer;
+  background: #f4f6f8;
+  color: #05255a;
+  transition: background 0.2s;
+}
+
+.share-option i {
+  width: 18px;
+  text-align: center;
+}
+
+.share-option:hover {
+  background: #e6f0f6;
+}
+
+.share-option:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.share-loading,
+.share-error {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8rem;
+  margin: 0.5rem 0 0;
+  text-align: center;
+}
+
+.share-error {
+  color: #c0392b;
+}
+
 /* Sección 2: Controles de reproducción */
 .player-controls {
   display: flex;

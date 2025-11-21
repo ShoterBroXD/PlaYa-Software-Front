@@ -28,10 +28,29 @@
           <span class="track-artist">{{ playerService.currentTrack()!.artist }}</span>
         </div>
       </div>
-      <!-- Botón de compartir (placeholder) -->
-      <button class="btn-share" aria-label="Compartir">
-        <i class="fas fa-share-alt"></i>
-      </button>
+      <!-- Botón de compartir -->
+      <div class="share-wrapper">
+        <button class="btn-share" aria-label="Compartir" (click)="toggleShareMenu($event)">
+          <i class="fas fa-share-alt"></i>
+        </button>
+        <div class="share-menu" *ngIf="shareMenuOpen()">
+          <p class="share-menu-title">Compartir en</p>
+          <div class="share-options">
+            <button
+              type="button"
+              class="share-option"
+              *ngFor="let option of socialOptions"
+              (click)="shareSong($event, option.id)"
+              [disabled]="shareLoading()"
+            >
+              <i [class]="option.icon"></i>
+              <span>{{ option.label }}</span>
+            </button>
+          </div>
+          <p class="share-loading" *ngIf="shareLoading()">Generando enlace...</p>
+          <p class="share-error" *ngIf="shareError()">{{ shareError() }}</p>
+        </div>
+      </div>
     </section>
 
     <!-- Sección 2: Controles de reproducción -->
