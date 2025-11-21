@@ -1,0 +1,239 @@
+<section class="upload-page">
+  <div class="upload-hero" *ngIf="userType() === 'ARTIST'; else listenerNotice">
+    <h1>¿Listo para subir tu música?</h1>
+    <p>Da clic en el botón de abajo para comenzar.</p>
+    <button class="primary" (click)="openModal()">Subir música</button>
+  </div>
+
+  <ng-template #listenerNotice>
+    <div class="upload-hero listener">
+      <h1>Activa tu perfil de artista para subir música</h1>
+      <p>
+        Actualmente estás usando una cuenta de oyente. Para compartir tus canciones, actualiza a un
+        perfil de artista desde tu configuración o ponte en contacto con nuestro equipo.
+      </p>
+      <button class="primary" routerLink="/premium">Conocer planes</button>
+    </div>
+  </ng-template>
+</section>
+
+<ng-container *ngIf="userType() === 'ARTIST'">
+
+<div class="modal-backdrop" *ngIf="showModal">
+  <div class="upload-modal">
+    <button class="close-button" aria-label="Cerrar" (click)="closeModal()">×</button>
+
+    <!-- Step indicator -->
+    <div class="modal-header">
+      <div class="modal-title">
+        <img src="/assets/img/images/logo-playa.png" alt="PlaYa" />
+        <span>
+          {{
+            activeStep === 'upload'
+              ? 'Sube tus archivos'
+              : activeStep === 'details'
+              ? 'Información de la canción'
+              : activeStep === 'privacy'
+              ? 'Visibilidad y privacidad'
+              : activeStep === 'summary'
+              ? 'Resumen'
+              : 'Procesando subida'
+          }}
+        </span>
+      </div>
+      <div class="step-indicator">
+        <span [class.active]="activeStep === 'upload'">1</span>
+        <span [class.active]="activeStep === 'details'">2</span>
+        <span [class.active]="activeStep === 'privacy'">3</span>
+        <span [class.active]="activeStep === 'summary'">4</span>
+      </div>
+    </div>
+
+    <!-- STEP 1 -->
+    <ng-container *ngIf="activeStep === 'upload'">
+      <p class="modal-subtitle">Sube tus archivos de audio</p>
+      <p class="modal-description">
+        Para obtener la mejor calidad, utiliza WAV, FLAC, AIFF o ALAC. Tamaño máximo 6GB.
+      </p>
+      <div class="drop-zone" (click)="null">
+        <div>
+          <img src="/assets/img/icons/cloud-upload.png" alt="upload" />
+          <p>Arrastra y suelta tus archivos de audio para empezar</p>
+          <label class="primary ghost">
+            Elegir archivos
+            <input type="file" hidden (change)="handleFiles($event.target.files)" multiple />
+          </label>
+        </div>
+      </div>
+      <ul class="file-list" *ngIf="uploadedFiles.length">
+        <li *ngFor="let file of uploadedFiles">{{ file.name }}</li>
+      </ul>
+      <div class="modal-actions">
+        <button class="secondary" (click)="closeModal()">Cancelar</button>
+        <button class="primary" [disabled]="!uploadedFiles.length" (click)="nextStep()">Continuar</button>
+      </div>
+    </ng-container>
+
+    <!-- STEP 2 -->
+    <ng-container *ngIf="activeStep === 'details'">
+      <div class="details-grid">
+        <div class="form-fields">
+          <label>
+            Título
+            <input type="text" [(ngModel)]="formState.title" placeholder="Título de la canción" />
+          </label>
+          <div class="two-columns">
+            <label>
+              Artista
+              <input type="text" [(ngModel)]="formState.artist" placeholder="Tu nombre artístico" />
+            </label>
+            <label>
+              Álbum
+              <input type="text" [(ngModel)]="formState.album" placeholder="Nombre del álbum" />
+            </label>
+          </div>
+          <label>
+            Descripción
+            <textarea rows="3" [(ngModel)]="formState.description" placeholder="Describe tu canción"></textarea>
+          </label>
+          <div class="two-columns">
+            <label>
+              Etiqueta
+              <input type="text" [(ngModel)]="formState.tag" placeholder="Ej: #summer" />
+            </label>
+            <label>
+              Género
+              <select [(ngModel)]="formState.genre">
+                <option>Rock</option>
+                <option>Pop</option>
+                <option>Hip-Hop</option>
+                <option>Electrónica</option>
+                <option>Reggaetón</option>
+              </select>
+            </label>
+          </div>
+          <div class="drop-zone cover">
+            <p>Arrastra y suelta tu portada</p>
+            <label class="primary ghost">
+              Portada
+              <input type="file" hidden accept="image/*" (change)="handleCover($event)" />
+            </label>
+          </div>
+        </div>
+        <div class="details-illustration">
+          <img src="/assets/img/images/man-singing.png" alt="Ilustración" />
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="secondary" (click)="prevStep()">Volver</button>
+        <button class="primary" (click)="nextStep()">Siguiente</button>
+      </div>
+    </ng-container>
+
+    <!-- STEP 3 -->
+    <ng-container *ngIf="activeStep === 'privacy'">
+      <div class="privacy-grid">
+        <div class="privacy-settings">
+          <label>
+            Visibilidad
+            <select [(ngModel)]="formState.visibility">
+              <option>Publico</option>
+              <option>Privado</option>
+              <option>Solo seguidores</option>
+            </select>
+          </label>
+          <label>
+            Permitir Comentarios
+            <select [(ngModel)]="formState.comments">
+              <option>Todos</option>
+              <option>Solo seguidores</option>
+              <option>Nadie</option>
+            </select>
+          </label>
+
+          <div class="toggle-row">
+            <label>
+              <input type="checkbox" [(ngModel)]="formState.schedule" />
+              Programar publicación
+            </label>
+            <input
+              type="datetime-local"
+              [disabled]="!formState.schedule"
+              [(ngModel)]="formState.scheduleDate"
+            />
+          </div>
+
+          <div class="toggle-row">
+            <label>
+              <input type="checkbox" [(ngModel)]="formState.allowDownload" />
+              Permitir descargas
+            </label>
+          </div>
+
+          <div class="toggle-row">
+            <label>
+              <input type="checkbox" [(ngModel)]="formState.includeInLists" />
+              Incluir en listas
+            </label>
+          </div>
+        </div>
+        <div class="details-illustration">
+          <img src="/assets/img/images/dj-girl.png" alt="Ilustración DJ" />
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="secondary" (click)="prevStep()">Volver</button>
+        <button class="primary" (click)="nextStep()">Siguiente</button>
+      </div>
+    </ng-container>
+
+    <!-- STEP 4 -->
+    <ng-container *ngIf="activeStep === 'summary'">
+      <div class="summary-layout">
+        <div class="summary-panel">
+          <h3>Resumen</h3>
+          <ul>
+            <li><strong>Archivo:</strong> {{ summaryData.fileName }}</li>
+            <li><strong>Duración:</strong> {{ summaryData.duration }}</li>
+            <li><strong>Título:</strong> {{ summaryData.title || 'Sin título' }}</li>
+            <li><strong>Artista:</strong> {{ summaryData.artist || 'Sin definir' }}</li>
+            <li><strong>Género:</strong> {{ summaryData.genre }}</li>
+          </ul>
+
+          <h3>Programado</h3>
+          <ul>
+            <li><strong>Visibilidad:</strong> {{ summaryData.visibility }}</li>
+            <li><strong>Comentarios:</strong> {{ summaryData.comments }}</li>
+            <li><strong>Descargas:</strong> {{ summaryData.allowDownload ? 'ON' : 'OFF' }}</li>
+            <li><strong>Listas:</strong> {{ summaryData.includeInLists ? 'ON' : 'OFF' }}</li>
+          </ul>
+        </div>
+        <div class="summary-preview">
+          <div class="cover-preview" [class.empty]="!coverPreview">
+            <img *ngIf="coverPreview" [src]="coverPreview" alt="Cover preview" />
+            <span *ngIf="!coverPreview">Previsualización de portada</span>
+          </div>
+          <div class="summary-actions">
+            <button class="secondary" (click)="prevStep()">Editar información</button>
+            <button class="primary" (click)="nextStep()">Subir ahora</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- STEP 5 -->
+    <ng-container *ngIf="activeStep === 'progress'">
+      <div class="progress-panel">
+        <p class="modal-subtitle">Visibilidad y Privacidad</p>
+        <div class="progress-bar">
+          <div class="progress" style="width: 75%"></div>
+        </div>
+        <p>75% • Procesando metadatos... ¡Subida exitosa!</p>
+        <div class="modal-actions">
+          <button class="secondary" (click)="closeModal(); resetWizard()">Ver canción</button>
+          <button class="primary" (click)="closeModal(); resetWizard()">Volver a biblioteca</button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

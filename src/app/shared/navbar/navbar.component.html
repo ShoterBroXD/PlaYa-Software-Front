@@ -2,7 +2,7 @@
   <div class="nav-left">
     <img src="/assets/img/images/logo-playa.png" alt="PlaYA Logo" class="logo" (click)="goHome()" />
     <ul class="nav-links">
-      <li><a [routerLink]="'/home'" routerLinkActive="active">Inicio</a></li>
+      <li><a [routerLink]="getHomeRoute()" routerLinkActive="active">Inicio</a></li>
       <li><a [routerLink]="'/categories'" routerLinkActive="active">Categorías</a></li>
       <li><a [routerLink]="'/library'" routerLinkActive="active">Biblioteca</a></li>
       <li><a [routerLink]="'/communities'" routerLinkActive="active">Comunidades</a></li>
@@ -28,7 +28,7 @@
     <app-notifications />
     
     <img src="assets/img/icons/logo-usuario.png" alt="Perfil" class="avatar" />
-    <button class="icon-btn" aria-label="Configuración">
+    <button class="icon-btn" [routerLink]="'/configuration'" aria-label="Configuración">
       <img src="assets/img/icons/icon-config.png" alt="Configuración" />
     </button>
   </div>

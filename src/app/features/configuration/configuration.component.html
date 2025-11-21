@@ -1,0 +1,114 @@
+<div class="config-layout">
+    <!---<nav class="sidebar">
+        <ul>
+            <li><span>Perfil principal</span></li>
+            <li><span>Eventos</span></li>
+            <li><span>Comunidades</span></li>
+            <li><span>Estadísticas</span></li>
+            <li class="active"><span>Configuración ⚙️</span></li>
+            <li><span>Cerrar Sesión</span></li>
+        </ul>
+    </nav>-->
+
+    <main class="main-content">
+        <h1>Configuración</h1>
+        <section class="perfil">
+            <div class="avatar"></div>
+            <div class="datos-perfil">
+                <input type="text" placeholder="Nombre de usuario" [(ngModel)]="usuario" />
+                <input type="email" placeholder="Correo de Usuario" [(ngModel)]="correo" />
+                <button class="btn btn-password" (click)="cambiarPassword()">Cambiar Contraseña</button>
+            </div>
+            <textarea placeholder="Biografía" [(ngModel)]="biografia"></textarea>
+        </section>
+
+        <section class="settings">
+            <div class="preferences">
+                <h3>Preferencia de Reproducción</h3>
+                <label>
+                    Calidad de Audio
+                    <select [(ngModel)]="calidadAudio">
+                        <option>Baja</option>
+                        <option>Media</option>
+                        <option>Alta</option>
+                    </select>
+                </label>
+                <label>
+                    Descargar con WiFi
+                    <input type="checkbox" [(ngModel)]="descargarWiFi" />
+                </label>
+                <label>
+                    Modo de Ahorro de Datos
+                    <input type="checkbox" [(ngModel)]="ahorroDatos" />
+                </label>
+
+                <h3>Notificaciones</h3>
+                <label>
+                    Nuevas canciones de artistas seguidos
+                    <input type="checkbox" [(ngModel)]="notifNuevasCanciones" />
+                </label>
+                <label>
+                    Mensajes / Comentarios
+                    <input type="checkbox" [(ngModel)]="notifMensajes" />
+                </label>
+                <label>
+                    Recordatorio de lanzamientos
+                    <input type="checkbox" [(ngModel)]="notifRecordatorios" />
+                </label>
+                <label>
+                    Recomendaciones personalizadas
+                    <input type="checkbox" [(ngModel)]="notifRecomendaciones" />
+                </label>
+            </div>
+
+            <div class="account">
+                <h3>Cuenta</h3>
+                <label>
+                    Tipo de cuenta
+                    <select [(ngModel)]="tipoCuenta">
+                        <option>Oyente</option>
+                        <option>Artista</option>
+                    </select>
+                </label>
+                <button class="btn">Vincular redes sociales</button>
+                <button class="btn">Gestionar dispositivos</button>
+
+                <h3>Extra</h3>
+                <label>
+                    Idioma de la App
+                    <select [(ngModel)]="idiomaApp">
+                        <option>Español</option>
+                        <option>Inglés</option>
+                    </select>
+                </label>
+                <label>
+                    Color de la App
+                    <select [(ngModel)]="colorApp">
+                        <option>Claro</option>
+                        <option>Oscuro</option>
+                    </select>
+                </label>
+
+                <h3>Privacidad y Seguridad</h3>
+                <label>
+                    Perfil visible
+                    <input type="checkbox" [(ngModel)]="perfilVisible" />
+                </label>
+                <label>
+                    Playlist Visibles
+                    <input type="checkbox" [(ngModel)]="playlistVisible" />
+                </label>
+            </div>
+        </section>
+    </main>
+</div>
+
+<!-- Overlay de cambio de contraseña -->
+<div class="overlay" *ngIf="showPasswordOverlay()" (click)="closePasswordOverlay()">
+    <div class="overlay-content" (click)="$event.stopPropagation()">
+        <app-change-password 
+            (close)="closePasswordOverlay()"
+            (success)="onPasswordChangeSuccess()">
+        </app-change-password>
+    </div>
+</div>

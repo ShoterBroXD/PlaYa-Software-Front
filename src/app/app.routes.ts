@@ -46,6 +46,20 @@ export const routes: Routes = [
         loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent),
       },
       {
+        path: 'dashboard-usuario',
+        loadComponent: () =>
+          import('./features/dashboards/listener-dashboard/listener-dashboard.component').then(
+            (m) => m.ListenerDashboardComponent
+          ),
+      },
+      {
+        path: 'dashboard-artista',
+        loadComponent: () =>
+          import('./features/dashboards/artist-dashboard/artist-dashboard.component').then(
+            (m) => m.ArtistDashboardComponent
+          ),
+      },
+      {
         path: 'categories',
         component: CategoriesLayoutComponent,
         children: [
@@ -121,7 +135,8 @@ export const routes: Routes = [
       },
       {
         path: 'upload',
-        loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent), // Placeholder
+        loadComponent: () =>
+          import('./features/upload/upload.component').then((m) => m.UploadComponent),
       },
       {
         path: 'search',
@@ -130,6 +145,10 @@ export const routes: Routes = [
       {
         path: 'messages',
         loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent), // Placeholder
+      },
+      {
+        path: 'configuration',
+        loadComponent: () => import('./features/configuration/configuration.component').then((m) => m.ConfigurationComponent),
       },
     ]
   },

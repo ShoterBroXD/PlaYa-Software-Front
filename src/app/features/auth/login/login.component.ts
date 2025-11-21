@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
@@ -22,7 +22,12 @@ export class LoginComponent {
   loading = false;
   errorMessage = '';
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     // Formulario Usuario (LISTENER)
     this.usuarioForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
@@ -79,7 +84,13 @@ export class LoginComponent {
     this.authService.login(form.value).subscribe({
       next: (response) => {
         console.log('Login exitoso', response);
-        this.router.navigate(['/home']);
+        const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+        const resolvedType = (response.type ?? form.value.type) as 'ARTIST' | 'LISTENER' | undefined;
+        if (resolvedType) {
+          this.authService.setUserType(resolvedType);
+        }
+        const destination = this.getDashboardRoute(resolvedType);
+        this.router.navigate([returnUrl || destination]);
       },
       error: (error) => {
         console.error('Error en login', error);
@@ -97,5 +108,17 @@ export class LoginComponent {
    */
   onCancel(): void {
     this.router.navigate(['/landing']);
+  }
+
+  private getDashboardRoute(
+    type: 'ARTIST' | 'LISTENER' | string | null | undefined
+  ): string {
+    if (type === 'ARTIST') {
+      return '/dashboard-artista';
+    }
+    if (type === 'LISTENER') {
+      return '/dashboard-usuario';
+    }
+    return '/home';
   }
 }
