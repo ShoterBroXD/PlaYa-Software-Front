@@ -1,7 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { NotificationService } from '../../core/services/notification.service';
+import { NotificationPreferences } from '../../core/models/notification.model';
 
 @Component({
   selector: 'app-configuration',
@@ -10,7 +12,7 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
   templateUrl: './configuration.component.html',
   styleUrls: ['./configuration.component.css'],
 })
-export class ConfigurationComponent {
+export class ConfigurationComponent implements OnInit {
   usuario = 'NombreUsuario';
   correo = 'usuario@example.com';
   biografia = '';
@@ -19,10 +21,10 @@ export class ConfigurationComponent {
   descargarWiFi = true;
   ahorroDatos = true;
 
-  notifNuevasCanciones = true;
-  notifMensajes = true;
-  notifRecordatorios = true;
-  notifRecomendaciones = true;
+  enableNewReleases = false;
+  enableComments = false;
+  enableSystems = false;
+  enableFollowers = false;
 
   tipoCuenta = 'Oyente';
   idiomaApp = 'Español';
@@ -31,8 +33,31 @@ export class ConfigurationComponent {
   perfilVisible = false;
   playlistVisible = true;
 
-  // Control del overlay de cambio de contraseña
   showPasswordOverlay = signal(false);
+  loadingPreferences = false;
+
+  constructor(private notificationService: NotificationService) {}
+
+  ngOnInit() {
+    this.loadPreferences();
+  }
+
+  loadPreferences() {
+    this.loadingPreferences = true;
+    this.notificationService.getPreferences().subscribe({
+      next: (prefs) => {
+        this.enableComments = prefs.enableComments;
+        this.enableSystems = prefs.enableSystems;
+        this.enableNewReleases = prefs.enableNewReleases;
+        this.enableFollowers = prefs.enableFollowers;
+        this.loadingPreferences = false;
+      },
+      error: (error: unknown) => {
+        console.error('Error cargando preferencias', error);
+        this.loadingPreferences = false;
+      }
+    });
+  }
 
   cambiarPassword() {
     this.showPasswordOverlay.set(true);
@@ -44,6 +69,43 @@ export class ConfigurationComponent {
 
   onPasswordChangeSuccess() {
     console.log('Contraseña cambiada exitosamente');
-    // Aquí podrías mostrar una notificación global si tienes un servicio de notificaciones
+  }
+
+  private getPreferencesPayload(): NotificationPreferences {
+    return {
+      enableComments: this.enableComments,
+      enableSystems: this.enableSystems,
+      enableNewReleases: this.enableNewReleases,
+      enableFollowers: this.enableFollowers
+    };
+  }
+
+  savePreferences() {
+    const payload = this.getPreferencesPayload();
+    this.notificationService.updatePreferences(payload).subscribe({
+      next: () => {
+        console.log('Preferencias guardadas exitosamente');
+        alert('Preferencias guardadas correctamente');
+      },
+      error: (error: unknown) => {
+        console.error('Error guardando preferencias', error);
+        alert('Error al guardar preferencias');
+      }
+    });
+  }
+
+  togglePreferences() {
+    this.notificationService.toggleNotifications().subscribe({
+      next: () => {
+        // Recargar preferencias desde el servidor para reflejar el estado real
+        this.loadPreferences();
+      },
+      error: (error: unknown) => console.error('Error al alternar preferencias', error)
+    });
+  }
+
+  get allNotificationsDisabled(): boolean {
+    return !this.enableComments && !this.enableSystems && 
+           !this.enableNewReleases && !this.enableFollowers;
   }
 }
