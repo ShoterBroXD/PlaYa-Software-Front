@@ -265,6 +265,11 @@ export class UploadComponent implements OnInit {
       next: () => {
         this.isSubmitting = false;
         this.activeStep = 'progress';
+        // Close modal automatically a short time after showing the progress step
+        setTimeout(() => {
+          this.closeModal();
+          this.resetWizard();
+        }, 1800);
       },
       error: (error) => {
         console.error('Song upload error', error);

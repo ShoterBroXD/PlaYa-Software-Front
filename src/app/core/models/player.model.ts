@@ -20,6 +20,7 @@ export interface Comment {
   timestamp: Date;
   likes: number;
   isLiked?: boolean;
+  parentId?: number | null;
   replies?: Comment[];
 }
 

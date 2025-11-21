@@ -33,12 +33,37 @@
   margin-bottom: 3rem;
 }
 
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
 .section-subtitle {
   font-family: 'Raleway', sans-serif;
   font-size: 1.3rem;
   font-weight: 600;
   color: #333;
   margin: 0 0 1rem 0;
+}
+
+.section-link {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #0a6e99;
+  text-decoration: none;
+  border: 1px solid #0a6e99;
+  border-radius: 999px;
+  padding: 0.35rem 1rem;
+  transition: all 0.3s ease;
+}
+
+.section-link:hover {
+  background-color: #0a6e99;
+  color: #fff;
 }
 
 /* Grid de tarjetas */
@@ -99,6 +124,17 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.state-message {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0;
+}
+
+.state-message.error {
+  color: #c0392b;
 }
 
 /* Estado vacío */

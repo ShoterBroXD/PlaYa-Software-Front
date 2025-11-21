@@ -3,6 +3,33 @@
     <h1 class="library-title">Tu Biblioteca</h1>
   </div>
 
+  <!-- Tu música -->
+  <section class="library-section" *ngIf="showArtistSection">
+    <div class="section-header">
+      <h2 class="section-subtitle">Tu musica</h2>
+    </div>
+    <ng-container *ngIf="!loadingMySongs; else loadingState">
+      <div *ngIf="mySongs.length; else emptyMySongs" class="library-grid">
+        <div class="card-library" *ngFor="let song of mySongs" (click)="playSong(song, mySongs)">
+          <img [src]="song.image" [alt]="song.title" class="card-img" />
+          <div class="card-info">
+            <p class="song-title">{{ song.title }}</p>
+            <p class="song-details">{{ song.artist }} · {{ song.year }}</p>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #loadingState>
+      <p class="state-message">Cargando tu musica...</p>
+    </ng-template>
+    <ng-template #emptyMySongs>
+      <p class="state-message" *ngIf="!mySongsError">
+        Aun no tienes canciones publicadas. Usa el boton "Subir musica" para compartirlas.
+      </p>
+      <p class="state-message error" *ngIf="mySongsError">{{ mySongsError }}</p>
+    </ng-template>
+  </section>
+
   <!-- Escuchado recientemente -->
   <section class="library-section">
     <h2 class="section-subtitle">Escuchado recientemente</h2>
