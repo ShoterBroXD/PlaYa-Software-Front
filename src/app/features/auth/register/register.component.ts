@@ -112,7 +112,13 @@ export class RegisterComponent {
       },
       error: (error) => {
         console.error('Error en registro', error);
-        this.errorMessage = error.message || 'Error al registrarse. Intenta nuevamente.';
+        if (error.status === 409) {
+          this.errorMessage = 'El email ya está registrado. Usa otro email.';
+        } else if (error.status === 400) {
+          this.errorMessage = 'Datos inválidos. Revisa los campos.';
+        } else {
+          this.errorMessage = error.message || 'Error al registrarse. Intenta nuevamente.';
+        }
         this.loading = false;
       },
       complete: () => {

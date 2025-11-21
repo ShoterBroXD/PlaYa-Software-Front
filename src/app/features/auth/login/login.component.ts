@@ -94,7 +94,13 @@ export class LoginComponent {
       },
       error: (error) => {
         console.error('Error en login', error);
-        this.errorMessage = error.message || 'Error al iniciar sesión. Verifica tus credenciales.';
+        if (error.status === 401) {
+          this.errorMessage = 'Credenciales inválidas. Verifica tu email y contraseña.';
+        } else if (error.status === 400) {
+          this.errorMessage = 'Datos inválidos. Revisa los campos.';
+        } else {
+          this.errorMessage = error.message || 'Error al iniciar sesión. Intenta nuevamente.';
+        }
         this.loading = false;
       },
       complete: () => {
