@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
 import { AuthService } from '../../core/services/auth.service';
 import { PlayerService } from '../../core/services/player.service';
 import { Track } from '../../core/models/player.model';
@@ -8,7 +9,7 @@ import { Track } from '../../core/models/player.model';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslateModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css'],
 })
@@ -58,7 +59,7 @@ export class HomeComponent implements OnInit {
   ];
 
   constructor(
-    private authService: AuthService, 
+    private authService: AuthService,
     private router: Router,
     public playerService: PlayerService
   ) {}

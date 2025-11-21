@@ -1,0 +1,287 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "categories": "Categorías",
+    "library": "Biblioteca",
+    "communities": "Comunidades",
+    "artists": "Artistas",
+    "premium": "Premium",
+    "upload": "Subir",
+    "search": "Buscar...",
+    "config": "Configuración",
+    "logout": "Cerrar sesión"
+  },
+  "sidebar": {
+    "mainPage": "Página principal",
+    "liked": "Me gusta",
+    "following": "Siguiendo",
+    "history": "Historial",
+    "yourCommunities": "Tus Comunidades",
+    "recommended": "Recomendados",
+    "explore": "Explorar",
+    "tracks": "Pistas",
+    "playlists": "Listas",
+    "albums": "Álbumes"
+  },
+  "auth": {
+    "login": {
+      "title": "Inicia sesión en PlaYA!",
+      "listener": "Usuario",
+      "artist": "Artista",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "Coloque su correo...",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Coloque su contraseña...",
+      "emailRequired": "El correo es requerido",
+      "invalidEmail": "Correo inválido",
+      "passwordRequired": "La contraseña es requerida",
+      "minChars": "Mínimo 6 caracteres",
+      "cancel": "Cancelar",
+      "loginButton": "Iniciar Sesión",
+      "loggingIn": "Iniciando...",
+      "noAccount": "¿Aún no tienes una cuenta?",
+      "registerLink": "Regístrate en PlaYa!",
+      "forgotPassword": "¿Olvidaste tu contraseña?"
+    },
+    "register": {
+      "title": "Regístrate gratis",
+      "listener": "Oyente",
+      "artist": "Artista",
+      "fullName": "Nombre completo",
+      "namePlaceholder": "Tu nombre",
+      "nameRequired": "El nombre es requerido",
+      "minChars": "Mínimo 3 caracteres",
+      "email": "Correo electrónico",
+      "emailPlaceholder": "nombre@ejemplo.com",
+      "emailRequired": "El correo es requerido",
+      "invalidEmail": "Correo inválido",
+      "password": "Contraseña",
+      "passwordPlaceholder": "Contraseña",
+      "passwordRequired": "La contraseña es requerida",
+      "minPassword": "Mínimo 6 caracteres",
+      "terms": "Al hacer clic en \"Registrarse\", aceptas los",
+      "termsLink": "Términos y condiciones",
+      "registerButton": "Registrarse",
+      "registering": "Registrando...",
+      "artistName": "Nombre artístico",
+      "country": "País",
+      "countryPlaceholder": "Tu país",
+      "countryRequired": "El país es requerido",
+      "registerAsArtist": "Registrarse como artista",
+      "or": "o",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "loginLink": "Inicia sesión",
+      "backHome": "Volver al inicio"
+    },
+    "getToken": {
+      "title": "Recuperar contraseña",
+      "description": "Ingrese su correo electrónico para generar el código de verificación.",
+      "email": "Correo electrónico",
+      "cancel": "Cancelar",
+      "generateButton": "Generar código",
+      "generating": "Generando...",
+      "codeGenerated": "Código generado:",
+      "copyCode": "Copia este código y úsalo en la siguiente página para restablecer tu contraseña.",
+      "goToReset": "Ir a restablecer contraseña"
+    },
+    "resetPassword": {
+      "title": "Restablecer contraseña",
+      "description": "Ingrese el código recibido y su nueva contraseña.",
+      "code": "Código recibido",
+      "newPassword": "Nueva Contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "minLength": "✓ Longitud mínima (ej. 8 caracteres).",
+      "mustMatch": "✓ Debe coincidir con la confirmación.",
+      "uppercase": "✓ Mayúsculas.",
+      "lowercase": "✓ Minúsculas.",
+      "numbers": "✓ Números.",
+      "special": "✓ Especiales (#,$,%,..).",
+      "cancel": "Cancelar",
+      "resetButton": "Restablecer",
+      "resetting": "Restableciendo..."
+    }
+  },
+  "landing": {
+    "hero": {
+      "search": "Buscar..",
+      "searchButton": "Buscar",
+      "login": "Iniciar Sesión",
+      "createAccount": "Crear cuenta",
+      "headline": "Escucha la mejor música independiente y descubre nuevos talentos!",
+      "subheadline": "Una plataforma para artistas emergentes donde compartir, descubrir y conectar",
+      "listenNow": "Escuchar ahora",
+      "learnMore": "Aprender más"
+    },
+    "features": {
+      "title": "¿Por qué PlaYa?",
+      "indie": {
+        "title": "Música independiente",
+        "description": "Descubre artistas emergentes y apoya el talento independiente."
+      },
+      "communities": {
+        "title": "Comunidades",
+        "description": "Únete a comunidades y descubre música con otros fans."
+      },
+      "playlists": {
+        "title": "Playlists personalizadas",
+        "description": "Crea y comparte tus propias listas de reproducción."
+      },
+      "forArtists": {
+        "title": "Para artistas",
+        "description": "Sube tu música y conecta directamente con tu audiencia."
+      },
+      "follow": {
+        "title": "Sigue a tus artistas",
+        "description": "Mantente al día con los últimos lanzamientos de tus favoritos."
+      },
+      "premium": {
+        "title": "Premium",
+        "description": "Disfruta de funciones exclusivas con PlaYa Premium."
+      }
+    },
+    "cta": {
+      "title": "¿Listo para comenzar tu viaje musical?",
+      "button": "Registrarse Gratis"
+    },
+    "footer": {
+      "about": "Acerca de",
+      "jobs": "Empleos",
+      "press": "Prensa",
+      "communities": "Comunidades",
+      "forArtists": "Para artistas",
+      "developers": "Desarrolladores",
+      "advertising": "Publicidad",
+      "legal": "Legal",
+      "privacy": "Privacidad",
+      "terms": "Términos",
+      "cookies": "Cookies",
+      "copyright": "© 2025 PlaYa. Todos los derechos reservados."
+    }
+  },
+  "home": {
+    "welcome": "¡Bienvenido a PlaYa,",
+    "email": "Email",
+    "accountType": "Tipo de cuenta",
+    "status": "Estado",
+    "activeSession": "Sesión activa",
+    "underConstruction": "Dashboard en construcción",
+    "tempComponent": "Este es un componente temporal. En la",
+    "phase2": "Fase 2",
+    "willImplement": "implementaremos el dashboard completo con todas las funcionalidades:",
+    "features": {
+      "trendingGenres": "Géneros musicales en tendencia",
+      "featuredCommunities": "Comunidades destacadas",
+      "personalizedRecommendations": "Recomendaciones personalizadas",
+      "navigationSidebar": "Sidebar de navegación",
+      "uploadSongs": "Subir canciones",
+      "statsAndEarnings": "Estadísticas y ganancias",
+      "navbarNotifications": "Navbar con notificaciones",
+      "advancedSearch": "Búsqueda avanzada",
+      "musicPlayer": "Reproductor de música"
+    },
+    "player": {
+      "testPlayer": "Prueba el Reproductor",
+      "clickSong": "Haz clic en una canción para empezar a reproducir:",
+      "availableFeatures": "Funcionalidades disponibles:",
+      "playPause": "Play/Pause, siguiente, anterior",
+      "shuffle": "Reproducción aleatoria y repetición",
+      "volume": "Control de volumen",
+      "clickCover": "Click en la portada para expandir",
+      "viewQueue": "Ver cola de reproducción",
+      "viewComments": "Ver comentarios de la canción",
+      "likeAdd": "Like y agregar a playlist"
+    },
+    "quickActions": {
+      "title": "Acciones rápidas",
+      "uploadSong": "Subir Canción",
+      "comingSoon": "(Próximamente)",
+      "viewStats": "Ver Estadísticas",
+      "myFollowers": "Mis Seguidores",
+      "explore": "Explora",
+      "searchMusic": "Buscar Música",
+      "myPlaylists": "Mis Playlists",
+      "favorites": "Favoritos"
+    },
+    "footer": "© 2025 PlaYa - Fase 1 Completa"
+  },
+  "config": {
+    "title": "Configuración",
+    "profile": {
+      "username": "Nombre de usuario",
+      "email": "Correo de Usuario",
+      "changePassword": "Cambiar Contraseña",
+      "bio": "Biografía"
+    },
+    "playback": {
+      "title": "Preferencia de Reproducción",
+      "audioQuality": "Calidad de Audio",
+      "low": "Baja",
+      "medium": "Media",
+      "high": "Alta",
+      "wifiDownload": "Descargar con WiFi",
+      "dataSaver": "Modo de Ahorro de Datos"
+    },
+    "notifications": {
+      "title": "Notificaciones",
+      "newSongs": "Nuevas canciones de artistas seguidos",
+      "messages": "Mensajes / Comentarios",
+      "releases": "Recordatorio de lanzamientos",
+      "recommendations": "Recomendaciones personalizadas"
+    },
+    "account": {
+      "title": "Cuenta",
+      "type": "Tipo de cuenta",
+      "listener": "Oyente",
+      "artist": "Artista",
+      "linkSocial": "Vincular redes sociales",
+      "manageDevices": "Gestionar dispositivos"
+    },
+    "extra": {
+      "title": "Extra",
+      "language": "Idioma de la App",
+      "spanish": "Español",
+      "english": "Inglés",
+      "portuguese": "Portugués",
+      "theme": "Color de la App",
+      "light": "Claro",
+      "dark": "Oscuro"
+    },
+    "privacy": {
+      "title": "Privacidad y Seguridad",
+      "visibleProfile": "Perfil visible",
+      "visiblePlaylists": "Playlist Visibles",
+      "visibleHistory": "Historial de reproducción visible"
+    },
+    "actions": {
+      "save": "Guardar Cambios",
+      "saving": "Guardando..."
+    },
+    "changePassword": {
+      "title": "Cambio de contraseña",
+      "currentPassword": "Contraseña Actual",
+      "currentPlaceholder": "Ingresa tu contraseña actual",
+      "hidePassword": "Ocultar contraseña",
+      "showPassword": "Mostrar contraseña",
+      "newPassword": "Nueva Contraseña",
+      "newPlaceholder": "Ingresa tu nueva contraseña",
+      "confirmPassword": "Confirmar Contraseña",
+      "confirmPlaceholder": "Confirma tu nueva contraseña",
+      "minLength": "✓ Longitud mínima (ej: 8 caracteres).",
+      "mustMatch": "✓ Debe coincidir con la confirmación.",
+      "uppercase": "✓ Mayúsculas.",
+      "lowercase": "✓ Minúsculas.",
+      "numbers": "✓ Números.",
+      "special": "✓ Especiales (#,$,%,..).",
+      "cancel": "Cancelar",
+      "changeButton": "Cambiar",
+      "changing": "Cambiando..."
+    }
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito"
+  }
+}
