@@ -1,0 +1,301 @@
+{
+  "nav": {
+    "home": "Início",
+    "categories": "Categorias",
+    "library": "Biblioteca",
+    "communities": "Comunidades",
+    "artists": "Artistas",
+    "premium": "Premium",
+    "upload": "Carregar",
+    "search": "Pesquisar...",
+    "config": "Configurações",
+    "logout": "Sair"
+  },
+  "sidebar": {
+    "mainPage": "Página principal",
+    "liked": "Curtidas",
+    "following": "Seguindo",
+    "history": "Histórico",
+    "yourCommunities": "Suas Comunidades",
+    "recommended": "Recomendados",
+    "explore": "Explorar",
+    "tracks": "Faixas",
+    "playlists": "Playlists",
+    "albums": "Álbuns"
+  },
+  "auth": {
+    "login": {
+      "title": "Entre no PlaYA!",
+      "listener": "Usuário",
+      "artist": "Artista",
+      "email": "Email",
+      "emailPlaceholder": "Digite seu email...",
+      "password": "Senha",
+      "passwordPlaceholder": "Digite sua senha...",
+      "emailRequired": "O email é obrigatório",
+      "invalidEmail": "Email inválido",
+      "passwordRequired": "A senha é obrigatória",
+      "minChars": "Mínimo de 6 caracteres",
+      "cancel": "Cancelar",
+      "loginButton": "Entrar",
+      "loggingIn": "Entrando...",
+      "noAccount": "Ainda não tem uma conta?",
+      "registerLink": "Cadastre-se no PlaYa!",
+      "forgotPassword": "Esqueceu sua senha?"
+    },
+    "register": {
+      "title": "Cadastre-se grátis",
+      "listener": "Ouvinte",
+      "artist": "Artista",
+      "fullName": "Nome completo",
+      "namePlaceholder": "Seu nome",
+      "nameRequired": "O nome é obrigatório",
+      "minChars": "Mínimo de 3 caracteres",
+      "email": "Email",
+      "emailPlaceholder": "nome@exemplo.com",
+      "emailRequired": "O email é obrigatório",
+      "invalidEmail": "Email inválido",
+      "password": "Senha",
+      "passwordPlaceholder": "Senha",
+      "passwordRequired": "A senha é obrigatória",
+      "minPassword": "Mínimo de 6 caracteres",
+      "terms": "Ao clicar em \"Cadastrar\", você aceita os",
+      "termsLink": "Termos e Condições",
+      "registerButton": "Cadastrar",
+      "registering": "Cadastrando...",
+      "artistName": "Nome artístico",
+      "country": "País",
+      "countryPlaceholder": "Seu país",
+      "countryRequired": "O país é obrigatório",
+      "registerAsArtist": "Cadastrar como artista",
+      "or": "ou",
+      "hasAccount": "Já tem uma conta?",
+      "loginLink": "Entre",
+      "backHome": "Voltar ao início"
+    },
+    "getToken": {
+      "title": "Recuperar senha",
+      "description": "Digite seu email para gerar o código de verificação.",
+      "email": "Email",
+      "cancel": "Cancelar",
+      "generateButton": "Gerar código",
+      "generating": "Gerando...",
+      "codeGenerated": "Código gerado:",
+      "copyCode": "Copie este código e use-o na próxima página para redefinir sua senha.",
+      "goToReset": "Ir para redefinir senha"
+    },
+    "resetPassword": {
+      "title": "Redefinir senha",
+      "description": "Digite o código recebido e sua nova senha.",
+      "code": "Código recebido",
+      "newPassword": "Nova Senha",
+      "confirmPassword": "Confirmar Senha",
+      "minLength": "✓ Comprimento mínimo (ex: 8 caracteres).",
+      "mustMatch": "✓ Deve coincidir com a confirmação.",
+      "uppercase": "✓ Letras maiúsculas.",
+      "lowercase": "✓ Letras minúsculas.",
+      "numbers": "✓ Números.",
+      "special": "✓ Caracteres especiais (#,$,%,..).",
+      "cancel": "Cancelar",
+      "resetButton": "Redefinir",
+      "resetting": "Redefinindo..."
+    }
+  },
+  "landing": {
+    "hero": {
+      "search": "Pesquisar..",
+      "searchButton": "Pesquisar",
+      "login": "Entrar",
+      "createAccount": "Criar conta",
+      "headline": "Ouça a melhor música independente e descubra novos talentos!",
+      "subheadline": "Uma plataforma para artistas emergentes compartilharem, descobrirem e conectarem",
+      "listenNow": "Ouvir agora",
+      "learnMore": "Saiba mais"
+    },
+    "features": {
+      "title": "Por que PlaYa?",
+      "indie": {
+        "title": "Música independente",
+        "description": "Descubra artistas emergentes e apoie talentos independentes."
+      },
+      "communities": {
+        "title": "Comunidades",
+        "description": "Junte-se a comunidades e descubra músicas com outros fãs."
+      },
+      "playlists": {
+        "title": "Playlists personalizadas",
+        "description": "Crie e compartilhe suas próprias playlists."
+      },
+      "forArtists": {
+        "title": "Para artistas",
+        "description": "Carregue sua música e conecte-se diretamente com seu público."
+      },
+      "follow": {
+        "title": "Siga seus artistas",
+        "description": "Mantenha-se atualizado com os últimos lançamentos de seus favoritos."
+      },
+      "premium": {
+        "title": "Premium",
+        "description": "Aproveite recursos exclusivos com PlaYa Premium."
+      }
+    },
+    "cta": {
+      "title": "Pronto para começar sua jornada musical?",
+      "button": "Cadastre-se Grátis"
+    },
+    "footer": {
+      "about": "Sobre",
+      "jobs": "Empregos",
+      "press": "Imprensa",
+      "communities": "Comunidades",
+      "forArtists": "Para artistas",
+      "developers": "Desenvolvedores",
+      "advertising": "Publicidade",
+      "legal": "Legal",
+      "privacy": "Privacidade",
+      "terms": "Termos",
+      "cookies": "Cookies",
+      "copyright": "© 2025 PlaYa. Todos os direitos reservados."
+    }
+  },
+  "home": {
+    "welcome": "Bem-vindo ao PlaYa,",
+    "email": "Email",
+    "accountType": "Tipo de conta",
+    "status": "Status",
+    "activeSession": "Sessão ativa",
+    "underConstruction": "Dashboard em construção",
+    "tempComponent": "Este é um componente temporário. Na",
+    "phase2": "Fase 2",
+    "willImplement": "implementaremos o dashboard completo com todas as funcionalidades:",
+    "features": {
+      "trendingGenres": "Gêneros musicais em tendência",
+      "featuredCommunities": "Comunidades em destaque",
+      "personalizedRecommendations": "Recomendações personalizadas",
+      "navigationSidebar": "Barra lateral de navegação",
+      "uploadSongs": "Carregar músicas",
+      "statsAndEarnings": "Estatísticas e ganhos",
+      "navbarNotifications": "Barra de navegação com notificações",
+      "advancedSearch": "Pesquisa avançada",
+      "musicPlayer": "Reprodutor de música"
+    },
+    "player": {
+      "testPlayer": "Teste o Reprodutor",
+      "clickSong": "Clique em uma música para começar a reproduzir:",
+      "availableFeatures": "Funcionalidades disponíveis:",
+      "playPause": "Play/Pause, próximo, anterior",
+      "shuffle": "Reprodução aleatória e repetição",
+      "volume": "Controle de volume",
+      "clickCover": "Clique na capa para expandir",
+      "viewQueue": "Ver fila de reprodução",
+      "viewComments": "Ver comentários da música",
+      "likeAdd": "Curtir e adicionar à playlist"
+    },
+    "quickActions": {
+      "title": "Ações rápidas",
+      "uploadSong": "Carregar Música",
+      "comingSoon": "(Em breve)",
+      "viewStats": "Ver Estatísticas",
+      "myFollowers": "Meus Seguidores",
+      "explore": "Explorar",
+      "searchMusic": "Pesquisar Música",
+      "myPlaylists": "Minhas Playlists",
+      "favorites": "Favoritos"
+    },
+    "footer": "© 2025 PlaYa - Fase 1 Completa"
+  },
+  "config": {
+    "title": "Configurações",
+    "profile": {
+      "username": "Nome de usuário",
+      "email": "Email do Usuário",
+      "changePassword": "Alterar Senha",
+      "bio": "Biografia"
+    },
+    "playback": {
+      "title": "Preferências de Reprodução",
+      "audioQuality": "Qualidade de Áudio",
+      "low": "Baixa",
+      "medium": "Média",
+      "high": "Alta",
+      "wifiDownload": "Baixar com WiFi",
+      "dataSaver": "Modo de Economia de Dados"
+    },
+    "notifications": {
+      "title": "Notificações",
+      "newSongs": "Novas músicas de artistas seguidos",
+      "messages": "Mensagens / Comentários",
+      "releases": "Lembretes de lançamentos",
+      "recommendations": "Recomendações personalizadas"
+    },
+    "musicPreferences": {
+      "title": "Preferências Musicais",
+      "description": "Ajuste seus gêneros favoritos para receber melhores recomendações",
+      "button": "Ajustar Preferências"
+    },
+    "account": {
+      "title": "Conta",
+      "type": "Tipo de conta",
+      "listener": "Ouvinte",
+      "artist": "Artista",
+      "linkSocial": "Vincular redes sociais",
+      "manageDevices": "Gerenciar dispositivos"
+    },
+    "extra": {
+      "title": "Extra",
+      "language": "Idioma do App",
+      "spanish": "Espanhol",
+      "english": "Inglês",
+      "portuguese": "Português",
+      "theme": "Tema do App",
+      "light": "Claro",
+      "dark": "Escuro"
+    },
+    "privacy": {
+      "title": "Privacidade e Segurança",
+      "visibleProfile": "Perfil visível",
+      "visiblePlaylists": "Playlists visíveis",
+      "visibleHistory": "Histórico de reprodução visível"
+    },
+    "actions": {
+      "save": "Salvar Alterações",
+      "saving": "Salvando..."
+    },
+    "changePassword": {
+      "title": "Alterar senha",
+      "currentPassword": "Senha Atual",
+      "currentPlaceholder": "Digite sua senha atual",
+      "hidePassword": "Ocultar senha",
+      "showPassword": "Mostrar senha",
+      "newPassword": "Nova Senha",
+      "newPlaceholder": "Digite sua nova senha",
+      "confirmPassword": "Confirmar Senha",
+      "confirmPlaceholder": "Confirme sua nova senha",
+      "minLength": "✓ Comprimento mínimo (ex: 8 caracteres).",
+      "mustMatch": "✓ Deve coincidir com a confirmação.",
+      "uppercase": "✓ Letras maiúsculas.",
+      "lowercase": "✓ Letras minúsculas.",
+      "numbers": "✓ Números.",
+      "special": "✓ Caracteres especiais (#,$,%,..).",
+      "cancel": "Cancelar",
+      "changeButton": "Alterar",
+      "changing": "Alterando..."
+    }
+  },
+  "common": {
+    "cancel": "Cancelar",
+    "save": "Salvar",
+    "loading": "Carregando...",
+    "error": "Erro",
+    "success": "Sucesso"
+  },
+  "preferences": {
+    "title": "Ajustar Preferências Musicais",
+    "description": "Selecione seus gêneros favoritos para receber recomendações personalizadas",
+    "limitInfo": "Você pode selecionar até {{max}} gêneros",
+    "save": "Salvar Preferências",
+    "saving": "Salvando...",
+    "reset": "Redefinir Preferências",
+    "noGenres": "Nenhum gênero disponível"
+  }
+}

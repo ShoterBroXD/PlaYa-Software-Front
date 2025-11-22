@@ -2,34 +2,34 @@
   <div class="nav-left">
     <img src="/assets/img/images/logo-playa.png" alt="PlaYA Logo" class="logo" (click)="goHome()" />
     <ul class="nav-links">
-      <li><a [routerLink]="getHomeRoute()" routerLinkActive="active">Inicio</a></li>
-      <li><a [routerLink]="'/categories'" routerLinkActive="active">Categorías</a></li>
-      <li><a [routerLink]="'/library'" routerLinkActive="active">Biblioteca</a></li>
-      <li><a [routerLink]="'/communities'" routerLinkActive="active">Comunidades</a></li>
-      <li><a [routerLink]="'/artists'" routerLinkActive="active">Artistas</a></li>
+      <li><a [routerLink]="getHomeRoute()" routerLinkActive="active">{{ 'nav.home' | translate }}</a></li>
+      <li><a [routerLink]="'/categories'" routerLinkActive="active">{{ 'nav.categories' | translate }}</a></li>
+      <li><a [routerLink]="'/library'" routerLinkActive="active">{{ 'nav.library' | translate }}</a></li>
+      <li><a [routerLink]="'/communities'" routerLinkActive="active">{{ 'nav.communities' | translate }}</a></li>
+      <li><a [routerLink]="'/artists'" routerLinkActive="active">{{ 'nav.artists' | translate }}</a></li>
     </ul>
   </div>
 
   <div class="nav-center">
     <div class="search-wrapper">
-      <input type="text" placeholder="Buscar..." class="search-input" [value]="query()" (input)="query.set($any($event.target).value)" />
-      <button class="search-button" (click)="search()" aria-label="Buscar">
-        <img src="/assets/img/icons/search.svg" alt="Buscar" />
+      <input type="text" [placeholder]="'nav.search' | translate" class="search-input" [value]="query()" (input)="query.set($any($event.target).value)" />
+      <button class="search-button" (click)="search()" [attr.aria-label]="'nav.search' | translate">
+        <img src="/assets/img/icons/search.svg" [alt]="'nav.search' | translate" />
       </button>
     </div>
   </div>
 
   <div class="nav-right">
     <ul class="nav-links">
-      <a [routerLink]="'/premium'" class="premium-link" routerLinkActive="active">Premium</a>
-      <a [routerLink]="'/upload'" class="upload-link" routerLinkActive="active">Subir</a>
+      <a [routerLink]="'/premium'" class="premium-link" routerLinkActive="active">{{ 'nav.premium' | translate }}</a>
+      <a [routerLink]="'/upload'" class="upload-link" routerLinkActive="active">{{ 'nav.upload' | translate }}</a>
     </ul>
     <!-- Componente de notificaciones -->
     <app-notifications />
-    
+
     <img src="assets/img/icons/logo-usuario.png" alt="Perfil" class="avatar" />
-    <button class="icon-btn" [routerLink]="'/configuration'" aria-label="Configuración">
-      <img src="assets/img/icons/icon-config.png" alt="Configuración" />
+    <button class="icon-btn" [routerLink]="'/configuration'" [attr.aria-label]="'nav.config' | translate">
+      <img src="assets/img/icons/icon-config.png" [alt]="'nav.config' | translate" />
     </button>
   </div>
 </nav>

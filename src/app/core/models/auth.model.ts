@@ -15,6 +15,8 @@ export interface AuthResponse {
   name: string;
   type?: 'ARTIST' | 'LISTENER'; // ← Agregar este campo
   idUser?: number; // ← Opcional pero útil
+  language?: string;
+  historyVisible?: boolean;
 }
 
 export interface UserRole {

@@ -18,7 +18,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.error instanceof ErrorEvent) {
         // Error del cliente (red, etc)
         errorMessage = `Error: ${error.error.message}`;
-       
+
       } else {
         const errorResponse = error.error as ErrorResponse;
         const backendMessage = errorResponse?.message || error.statusText || 'Error desconocido';
@@ -28,7 +28,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           authService.logout();
           router.navigate(['/login']);
         }
-
       }
 
       //console.error(errorMessage);

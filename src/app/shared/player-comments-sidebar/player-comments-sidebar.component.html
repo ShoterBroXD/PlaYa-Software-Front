@@ -76,9 +76,17 @@
       </div>
 
       <div class="comment-options">
-        <button class="btn-more-options">
-          <i class="fas fa-ellipsis-v"></i>
-        </button>
+        <div class="dropdown-menu">
+          <button class="btn-more-options" (click)="toggleDropdown(comment.id)">
+            <i class="fas fa-ellipsis-v"></i>
+          </button>
+          <div class="dropdown-content" [class.show]="isDropdownOpen(comment.id)">
+            <button class="dropdown-item report-btn" (click)="openReportModal(comment.id)">
+              <i class="fas fa-flag"></i>
+              Reportar comentario
+            </button>
+          </div>
+        </div>
         <button 
           class="btn-like-comment" 
           [class.liked]="comment.isLiked"
@@ -91,3 +99,12 @@
     </div>
   </div>
 </aside>
+
+<!-- Report Modal -->
+<app-report-modal
+  *ngIf="showReportModal() && selectedCommentId()"
+  [contentType]="'COMMENT'"
+  [contentId]="selectedCommentId()!"
+  (close)="closeReportModal()"
+  (submitted)="onReportSubmitted()"
+></app-report-modal>

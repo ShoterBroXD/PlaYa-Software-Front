@@ -1,17 +1,105 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { SongService } from '../../../core/services/song.service';
+import { SongResponseDto } from '../../../core/models/song.model';
+import { SongRatingComponent } from '../../../shared/components/song-rating/song-rating.component';
+import { Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReportModalComponent } from '../../../shared/components/report-modal/report-modal.component';
 
 @Component({
   selector: 'app-categories-tracks',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SongRatingComponent],
+  templateUrl: './tracks.component.html',
+  styleUrls: ['./tracks.component.css']
+})
+export class CategoriesTracksComponent implements OnInit {
+  songs: SongResponseDto[] = [];
+  isLoading = true;
+  error: string | null = null;
+
+  constructor(private songService: SongService) {}
+
+  ngOnInit() {
+    this.loadPublicSongs();
+  }
+
+  loadPublicSongs() {
+    this.isLoading = true;
+    this.error = null;
+
+    // TEMPORAL: Usar solo datos de ejemplo mientras el backend no esté disponible
+    // Para conectar al backend, descomenta el bloque siguiente y comenta loadMockData() 
+  }
+
+  
+
+  onRatingChanged(songId: number, event: { rating: number; averageRating: number }) {
+    console.log(`Canción ${songId} calificada con ${event.rating} estrellas`);
+    console.log(`Nuevo promedio: ${event.averageRating}`);
+    
+    // Actualizar la canción en el array local
+    const song = this.songs.find(s => s.idSong === songId);
+    if (song) {
+      song.averageRating = event.averageRating;
+      song.ratingCount = (song.ratingCount || 0) + 1;
+    }
+  }
+
+  formatDuration(seconds: number): string {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${minutes}:${secs.toString().padStart(2, '0')}`;
+  }
+
+  formatDate(date: Date): string {
+    return new Date(date).toLocaleDateString('es-ES', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    });
+  imports: [CommonModule, ReportModalComponent],
   templateUrl: './tracks.component.html',
   styleUrls: ['./tracks.component.css']
 })
 export class CategoriesTracksComponent {
   tracks = [
-    { artist: 'Messi', title: 'Mundial (track)', duration: '1:23', image: '/assets/img/icons/pop.png' },
-    { artist: 'Otro-artista', title: 'Otra-pista', duration: '2:34', image: '/assets/img/icons/rap.jpg' },
-    { artist: 'Tercer-artista', title: 'Tercera-pista', duration: '3:45', image: '/assets/img/icons/rock.jpeg' }
+    { id: 1, artist: 'Messi', title: 'Mundial (track)', duration: '1:23', image: '/assets/img/icons/pop.png' },
+    { id: 2, artist: 'Otro-artista', title: 'Otra-pista', duration: '2:34', image: '/assets/img/icons/rap.jpg' },
+    { id: 3, artist: 'Tercer-artista', title: 'Tercera-pista', duration: '3:45', image: '/assets/img/icons/rock.jpeg' }
   ];
+
+  showReportModal = signal(false);
+  selectedTrackId = signal<number | null>(null);
+  openDropdowns = signal<Set<number>>(new Set());
+
+  toggleDropdown(trackId: number) {
+    const open = this.openDropdowns();
+    if (open.has(trackId)) {
+      open.delete(trackId);
+    } else {
+      open.add(trackId);
+    }
+    this.openDropdowns.set(new Set(open));
+  }
+
+  isDropdownOpen(trackId: number): boolean {
+    return this.openDropdowns().has(trackId);
+  }
+
+  openReportModal(trackId: number) {
+    this.selectedTrackId.set(trackId);
+    this.showReportModal.set(true);
+  }
+
+  closeReportModal() {
+    this.showReportModal.set(false);
+    this.selectedTrackId.set(null);
+  }
+
+  onReportSubmitted() {
+    this.closeReportModal();
+    // TODO: Mostrar mensaje de éxito
+  }
 }
