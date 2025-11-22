@@ -2,7 +2,7 @@
   <div class="nav-left">
     <img src="/assets/img/images/logo-playa.png" alt="PlaYA Logo" class="logo" (click)="goHome()" />
     <ul class="nav-links">
-      <li><a [routerLink]="'/home'" routerLinkActive="active">Inicio</a></li>
+      <li><a [routerLink]="getHomeRoute()" routerLinkActive="active">Inicio</a></li>
       <li><a [routerLink]="'/categories'" routerLinkActive="active">Categorías</a></li>
       <li><a [routerLink]="'/library'" routerLinkActive="active">Biblioteca</a></li>
       <li><a [routerLink]="'/communities'" routerLinkActive="active">Comunidades</a></li>

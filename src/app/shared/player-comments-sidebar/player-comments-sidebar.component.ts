@@ -3,17 +3,22 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PlayerService } from '../../core/services/player.service';
 import { Comment } from '../../core/models/player.model';
+import { ReportModalComponent } from '../components/report-modal/report-modal.component';
 
 @Component({
   selector: 'app-player-comments-sidebar',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ReportModalComponent],
   templateUrl: './player-comments-sidebar.component.html',
   styleUrls: ['./player-comments-sidebar.component.css']
 })
 export class PlayerCommentsSidebarComponent {
   newComment = signal('');
   sortBy = signal<'recent' | 'popular'>('recent');
+  showReportModal = signal(false);
+  selectedCommentId = signal<number | null>(null);
+  expandedReplies = signal<Set<number>>(new Set());
+  openDropdowns = signal<Set<number>>(new Set());
   
   // Mock data - esto debería venir de un servicio
   comments = signal<Comment[]>([
@@ -51,8 +56,6 @@ export class PlayerCommentsSidebarComponent {
       replies: []
     }
   ]);
-
-  expandedReplies = signal<Set<number>>(new Set());
 
   constructor(public playerService: PlayerService) {}
 
@@ -110,5 +113,34 @@ export class PlayerCommentsSidebarComponent {
     
     const diffDays = Math.floor(diffHours / 24);
     return `Hace ${diffDays} día${diffDays !== 1 ? 's' : ''}`;
+  }
+
+  openReportModal(commentId: number) {
+    this.selectedCommentId.set(commentId);
+    this.showReportModal.set(true);
+  }
+
+  closeReportModal() {
+    this.showReportModal.set(false);
+    this.selectedCommentId.set(null);
+  }
+
+  onReportSubmitted() {
+    this.closeReportModal();
+    // TODO: Mostrar mensaje de éxito
+  }
+
+  toggleDropdown(commentId: number) {
+    const open = this.openDropdowns();
+    if (open.has(commentId)) {
+      open.delete(commentId);
+    } else {
+      open.add(commentId);
+    }
+    this.openDropdowns.set(new Set(open));
+  }
+
+  isDropdownOpen(commentId: number): boolean {
+    return this.openDropdowns().has(commentId);
   }
 }

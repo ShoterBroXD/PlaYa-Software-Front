@@ -1,6 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { NotificationsComponent } from '../components/notifications/notifications.component';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,7 +13,8 @@ import { NotificationsComponent } from '../components/notifications/notification
 export class NavbarComponent {
   query = signal('');
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {
+  }
 
   search() {
     const q = this.query();
@@ -21,6 +23,18 @@ export class NavbarComponent {
   }
 
   goHome() {
-    this.router.navigate(['/home']);
+    this.router.navigate([this.getHomeRoute()]);
+  }
+
+  getHomeRoute(): string {
+    const type = this.authService.resolveUserType();
+
+    if (type === 'LISTENER') {
+      return '/dashboard-usuario';
+    } else if (type === 'ARTIST') {
+      return '/dashboard-artista';
+    }
+
+    return '/home';
   }
 }

@@ -1,0 +1,52 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>Reportar contenido</h2>
+      <button class="close-btn" (click)="closeModal()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+
+    <form class="report-form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="reason">Motivo del reporte *</label>
+        <select
+          id="reason"
+          [(ngModel)]="reportData.reason"
+          name="reason"
+          class="form-select"
+          required>
+          <option value="">Selecciona un motivo</option>
+          <option *ngFor="let reason of reasons" [value]="reason">{{ reason }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descripción adicional (opcional)</label>
+        <textarea
+          id="description"
+          [(ngModel)]="reportData.description"
+          name="description"
+          class="form-textarea"
+          placeholder="Proporciona más detalles sobre el problema..."
+          rows="4"></textarea>
+      </div>
+
+      <div class="alert alert-error" *ngIf="errorMessage()">
+        <i class="fas fa-exclamation-triangle"></i>
+        {{ errorMessage() }}
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">
+          Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary" [disabled]="isSubmitting()">
+          <i class="fas fa-paper-plane" *ngIf="!isSubmitting()"></i>
+          <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting()"></i>
+          {{ isSubmitting() ? 'Enviando...' : 'Enviar reporte' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

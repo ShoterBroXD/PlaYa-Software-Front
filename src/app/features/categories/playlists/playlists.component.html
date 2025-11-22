@@ -2,6 +2,7 @@
   <div class="header">
     <div class="title-row">
       <h1 class="page-title">Listas</h1>
+      <a routerLink="/playlists/my" class="btn btn-primary">Mis Playlists</a>
     </div>
     <div class="filter-buttons">
       <a routerLink="/categories" class="filter-button">Todos</a>
@@ -12,11 +13,13 @@
   </div>
 
   <div class="categories-grid">
-    <div class="category-card" *ngFor="let p of playlists">
-      <img [src]="p.image" [alt]="p.title" class="category-icon" />
+    <div *ngIf="loading" class="loading">Cargando...</div>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div class="category-card" *ngFor="let p of playlists" [routerLink]="['/playlists', p.id]">
+      <img [src]="p.songs && p.songs[0]?.coverURL || '/assets/img/images/img-placeholder.svg'" [alt]="p.name" class="category-icon" />
       <div class="category-info">
-        <h3 class="category-title">{{ p.title }}</h3>
-        <p class="category-count">{{ p.count }} pistas</p>
+        <h3 class="category-title">{{ p.name }}</h3>
+        <p class="category-count">{{ p.songs?.length || 0 }} pistas</p>
       </div>
     </div>
   </div>

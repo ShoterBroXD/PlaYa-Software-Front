@@ -69,12 +69,37 @@ export class HomeComponent implements OnInit {
       if (user) {
         this.userName = user.name;
         this.userEmail = user.email;
-        this.userType = user.type || null;
+        this.userType = (user.type as 'ARTIST' | 'LISTENER' | null) || this.authService.resolveUserType();
+        this.redirectIfNeeded();
+      } else {
+        // Si no hay usuario, revisar tipo guardado en storage (bypass local)
+        this.userType = this.authService.resolveUserType();
+        this.redirectIfNeeded();
       }
     });
   }
 
   playTrack(track: Track, index: number) {
     this.playerService.playTrack(track, this.mockTracks, index);
+  }
+
+  private redirectIfNeeded() {
+    const type = this.userType || this.authService.resolveUserType();
+
+    if (type === 'ARTIST') {
+      this.router.navigate(['/dashboard-artista']);
+    } else if (type === 'LISTENER') {
+      this.router.navigate(['/dashboard-usuario']);
+    }
+  }
+
+  get displayUserType(): string {
+    if (this.userType === 'ARTIST') {
+      return 'Artista';
+    }
+    if (this.userType === 'LISTENER') {
+      return 'Oyente';
+    }
+    return 'No definido';
   }
 }

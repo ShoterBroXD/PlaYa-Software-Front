@@ -85,12 +85,22 @@ export class LoginComponent {
       next: (response) => {
         console.log('Login exitoso', response);
         const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
-        const destination = this.getDashboardRoute(response.type ?? form.value.type);
+        const resolvedType = (response.type ?? form.value.type) as 'ARTIST' | 'LISTENER' | undefined;
+        if (resolvedType) {
+          this.authService.setUserType(resolvedType);
+        }
+        const destination = this.getDashboardRoute(resolvedType);
         this.router.navigate([returnUrl || destination]);
       },
       error: (error) => {
         console.error('Error en login', error);
-        this.errorMessage = error.message || 'Error al iniciar sesión. Verifica tus credenciales.';
+        if (error.status === 401) {
+          this.errorMessage = 'Credenciales inválidas. Verifica tu email y contraseña.';
+        } else if (error.status === 400) {
+          this.errorMessage = 'Datos inválidos. Revisa los campos.';
+        } else {
+          this.errorMessage = error.message || 'Error al iniciar sesión. Intenta nuevamente.';
+        }
         this.loading = false;
       },
       complete: () => {

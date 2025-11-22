@@ -18,8 +18,41 @@ export class AuthInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${token}`,
         },
       });
+
+      // Extraer userId del token para rutas específicas
+      const payload = this.decodeToken(token);
+      if (payload && (request.url.includes('/notifications') || request.url.includes('/playlists'))) {
+        const userId = payload.userId;
+        if (userId) {
+          request = request.clone({
+            setHeaders: {
+              ...request.headers,
+              idUser: userId.toString()
+            }
+          });
+        }
+      }
     }
 
     return next.handle(request);
+  }
+
+  private decodeToken(token: string): any {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(
+        atob(base64)
+          .split('')
+          .map((c) => {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+          })
+          .join('')
+      );
+      return JSON.parse(jsonPayload);
+    } catch (e) {
+      console.error('Error decoding token', e);
+      return null;
+    }
   }
 }
