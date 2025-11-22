@@ -1,5 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, interval } from 'rxjs';
 import { tap, switchMap, startWith } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
@@ -33,19 +33,6 @@ export class NotificationService {
   constructor(private http: HttpClient) {}
 
   /**
-   * Obtener headers con el userId del token
-   */
-  private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
-    const userId = this.getUserIdFromToken(token);
-    
-    return new HttpHeaders({
-      'Authorization': `Bearer ${token}`,
-      'idUser': userId?.toString() || ''
-    });
-  }
-
-  /**
    * Extraer userId del token JWT
    */
   private getUserIdFromToken(token: string | null): number | null {
@@ -72,7 +59,6 @@ export class NotificationService {
     }
     
     return this.http.get<Notification[]>(this.apiUrl, {
-      headers: this.getHeaders(),
       params
     }).pipe(
       tap(notifications => {
@@ -106,8 +92,7 @@ export class NotificationService {
   markAsRead(notificationId: number): Observable<void> {
     return this.http.put<void>(
       `${this.apiUrl}/${notificationId}/read`,
-      {},
-      { headers: this.getHeaders() }
+      {}
     ).pipe(
       tap(() => {
         // Actualizar el estado local
@@ -167,8 +152,7 @@ export class NotificationService {
   updatePreferences(preferences: NotificationPreferences): Observable<void> {
     return this.http.put<void>(
       `${this.apiUrl}/preferences/edit`,
-      preferences,
-      { headers: this.getHeaders() }
+      preferences
     );
   }
 
@@ -178,8 +162,7 @@ export class NotificationService {
   toggleNotifications(): Observable<void> {
     return this.http.put<void>(
       `${this.apiUrl}/preferences`,
-      {},
-      { headers: this.getHeaders() }
+      {}
     );
   }
 

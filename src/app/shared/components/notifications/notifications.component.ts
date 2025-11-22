@@ -65,7 +65,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
    */
   loadNotifications(): void {
     this.notificationService.getUserNotifications().subscribe({
-      error: (err) => console.error('Error al cargar notificaciones:', err)
+      error: (err) => {
+        // Solo mostrar error si no es 403 (Forbidden), ya que las notificaciones no son críticas
+        if (err.status !== 403) {
+          console.error('Error al cargar notificaciones:', err);
+        }
+      }
     });
   }
 
@@ -76,7 +81,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.pollingSubscription = this.notificationService
       .startPolling(30000) // Cada 30 segundos
       .subscribe({
-        error: (err) => console.error('Error en polling:', err)
+        error: (err) => {
+          // Solo mostrar error si no es 403 (Forbidden)
+          if (err.status !== 403) {
+            console.error('Error en polling:', err);
+          }
+        }
       });
   }
 

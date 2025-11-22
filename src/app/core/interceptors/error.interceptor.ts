@@ -1,53 +1,53 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-  HttpErrorResponse,
-} from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { NotificationService } from '../services/notification.service';
+import { ErrorResponse } from '../models/error.model';
 
-@Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router, private authService: AuthService) {}
+export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  const router = inject(Router);
+  const authService = inject(AuthService);
+  const notificationService = inject(NotificationService);
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(request).pipe(
-      catchError((error: HttpErrorResponse) => {
-        let errorMessage = 'Ocurrió un error desconocido';
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      let errorMessage = 'Ocurrió un error';
 
-        if (error.error instanceof ErrorEvent) {
-          // Error del lado del cliente
-          errorMessage = `Error: ${error.error.message}`;
-        } else {
-          // Error del lado del servidor
-          switch (error.status) {
-            case 401:
-              errorMessage = 'No autorizado. Por favor inicia sesión.';
-              this.authService.logout();
-              break;
-            case 403:
-              errorMessage = 'No tienes permisos para realizar esta acción.';
-              break;
-            case 404:
-              errorMessage = 'Recurso no encontrado.';
-              break;
-            case 500:
-              errorMessage = 'Error del servidor. Intenta más tarde.';
-              break;
-            default:
-              errorMessage = error.error?.message || errorMessage;
-          }
+      if (error.error instanceof ErrorEvent) {
+        // Error del cliente (red, etc)
+        errorMessage = `Error: ${error.error.message}`;
+
+      } else {
+        // Error del servidor - extraer mensaje del formato ErrorResponse del backend
+        // El backend devuelve: { message: string, status: number, timestamp: string }
+        const errorResponse = error.error as ErrorResponse;
+        const backendMessage = errorResponse?.message || error.statusText || 'Error desconocido';
+        errorMessage = `Error ${error.status}: ${backendMessage}`;
+
+        // Mostrar notificación toast amigable
+        //notificationService.showHttpError(error.status, backendMessage);
+
+        // Si el error es 401 (Unauthorized) y NO es una ruta de autenticación, hacer logout
+        if (error.status === 401 && !req.url.includes('/auth/')) {
+          authService.logout();
+          router.navigate(['/auth/login']);
         }
 
-        console.error('Error HTTP:', errorMessage);
+        // Si el error es 403 (Forbidden) en rutas de notificaciones, no hacer nada (silenciar)
+        if (error.status === 403 && req.url.includes('/notifications')) {
+          return throwError(() => null); // No throw error, just complete silently
+        }
 
-        return throwError(() => new Error(errorMessage));
-      })
-    );
-  }
-}
+        // Si el error es 403 (Forbidden), redirigir
+        // if (error.status === 403) {
+        //   router.navigate(['/']);
+        // }
+      }
+
+      //console.error(errorMessage);
+      return throwError(() => new Error(errorMessage));
+    })
+  );
+};
