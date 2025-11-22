@@ -3,17 +3,17 @@
     <h2 class="login-title">Inicia sesión en PlaYA!</h2>
 
     <!-- Tabs Usuario/Artista -->
-    <div class="tabs">
+    <!-- <div class="tabs">
         <button class="tab-btn" [class.active]="activeTab === 'usuario'" (click)="toggleTab('usuario')">
             Usuario
         </button>
         <button class="tab-btn" [class.active]="activeTab === 'artista'" (click)="toggleTab('artista')">
             Artista
         </button>
-    </div>
+    </div> -->
 
     <!-- Formulario Usuario -->
-    <form *ngIf="activeTab === 'usuario'" [formGroup]="usuarioForm" (ngSubmit)="onSubmit()" class="login-form">
+    <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()" class="login-form">
         <label for="usuarioEmail">Correo electrónico</label>
         <input id="usuarioEmail" type="email" formControlName="email" placeholder="Coloque su correo..."
             class="form-control" [class.error]="usuarioEmail?.invalid && usuarioEmail?.touched">
@@ -49,8 +49,8 @@
             </button>
         </div>
     </form>
-
-    <!-- Formulario Artista -->
+<!-- 
+     Formulario Artista 
     <form *ngIf="activeTab === 'artista'" [formGroup]="artistaForm" (ngSubmit)="onSubmit()" class="login-form">
         <label for="artistaEmail">Correo electrónico</label>
         <input id="artistaEmail" type="email" formControlName="email" placeholder="Coloque su correo..."
@@ -68,13 +68,13 @@
             <span *ngIf="artistaPassword?.errors?.['minlength']">Mínimo 6 caracteres</span>
         </div>
 
-        <!-- Error general -->
+         Error general 
         <div class="alert-error" *ngIf="errorMessage">
             <i class="fas fa-exclamation-circle"></i>
             {{ errorMessage }}
         </div>
 
-        <!-- Botones -->
+         Botones 
         <div class="button-container">
             <button type="button" class="btn cancel secondary" (click)="onCancel()">
                 Cancelar
@@ -86,7 +86,7 @@
                 </span>
             </button>
         </div>
-    </form>
+    </form> -->
 
     <!-- Link a registro y recuperación -->
     <p class="auth-footer">
