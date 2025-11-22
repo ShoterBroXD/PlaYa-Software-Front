@@ -123,36 +123,65 @@ export class SongService {
       catchError(this.handleError)
     );
   }
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { AuthService } from './auth.service';
 
-  /**
-   * Manejo centralizado de errores
-   */
-  private handleError(error: HttpErrorResponse): Observable<never> {
-    let errorMessage = 'Ha ocurrido un error desconocido';
+export interface Genre {
+  id: number;
+  name: string;
+}
 
-    if (error.status === 0) {
-      // Error de conexión - backend no disponible
-      errorMessage = '⚠️ No se puede conectar al servidor backend en http://localhost:8080\n\nVerifica que:\n1. El servidor Spring Boot esté corriendo\n2. La API esté disponible en /api/v1/songs\n3. No haya problemas de CORS';
-      console.warn('⚠️ Backend no disponible - la interfaz usará datos de ejemplo');
-    } else if (error.error instanceof ErrorEvent) {
-      // Error del lado del cliente
-      errorMessage = `Error: ${error.error.message}`;
-    } else {
-      // Error del lado del servidor
-      if (error.status === 404) {
-        errorMessage = 'Canción no encontrada';
-      } else if (error.status === 400) {
-        errorMessage = error.error || 'Datos inválidos';
-      } else if (error.status === 403) {
-        errorMessage = 'No tienes permisos para realizar esta acción';
-      } else if (error.status === 500) {
-        errorMessage = 'Error interno del servidor';
-      } else {
-        errorMessage = `Error ${error.status}: ${error.error?.message || error.message}`;
+export interface SongRequestPayload {
+  title: string;
+  description?: string;
+  coverURL: string;
+  fileURL: string;
+  visibility: 'public' | 'private' | 'unlisted';
+  idgenre: number;
+  duration?: number;
+}
+
+export interface SongResponse {
+  idSong: number;
+  title: string;
+  coverURL: string;
+  fileURL: string;
+  visibility: string;
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class SongService {
+  constructor(private http: HttpClient, private authService: AuthService) {}
+
+  getGenres(): Observable<Genre[]> {
+    const headers = this.buildHeaders();
+    return this.http.get<Genre[]>(`${environment.apiUrl}/genres`, { headers });
+  }
+
+  createSong(payload: SongRequestPayload): Observable<SongResponse> {
+    const headers = this.buildHeaders(true);
+    return this.http.post<SongResponse>(`${environment.apiUrl}/songs`, payload, { headers });
+  }
+
+  private buildHeaders(includeUserId = false): HttpHeaders {
+    let headers = new HttpHeaders();
+
+    const token = this.authService.getToken();
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    if (includeUserId) {
+      const userId = this.authService.getUserId();
+      if (userId) {
+        headers = headers.set('iduser', userId.toString());
       }
     }
 
-    console.error('Error en SongService:', errorMessage);
-    return throwError(() => new Error(errorMessage));
+    return headers;
   }
 }

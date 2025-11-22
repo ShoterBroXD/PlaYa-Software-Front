@@ -18,7 +18,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       if (error.error instanceof ErrorEvent) {
         // Error del cliente (red, etc)
         errorMessage = `Error: ${error.error.message}`;
-       
+
       } else {
         // Error del servidor - extraer mensaje del formato ErrorResponse del backend
         // El backend devuelve: { message: string, status: number, timestamp: string }
@@ -33,11 +33,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         if (error.status === 401) {
           authService.logout();
           router.navigate(['/login']);
-        }
-
-        // Si el error es 403 (Forbidden), redirigir
-        if (error.status === 403) {
-          router.navigate(['/']);
         }
       }
 

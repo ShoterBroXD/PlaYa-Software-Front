@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { SongService } from '../../../core/services/song.service';
 import { SongResponseDto } from '../../../core/models/song.model';
 import { SongRatingComponent } from '../../../shared/components/song-rating/song-rating.component';
+import { Component, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReportModalComponent } from '../../../shared/components/report-modal/report-modal.component';
 
 @Component({
   selector: 'app-categories-tracks',
@@ -27,89 +30,10 @@ export class CategoriesTracksComponent implements OnInit {
     this.error = null;
 
     // TEMPORAL: Usar solo datos de ejemplo mientras el backend no esté disponible
-    // Para conectar al backend, descomenta el bloque siguiente y comenta loadMockData()
-    
-    this.loadMockData();
-    
-    /*
-    this.songService.getPublicSongs().subscribe({
-      next: (songs) => {
-        this.songs = songs;
-        this.isLoading = false;
-        console.log('Canciones públicas cargadas:', songs.length);
-      },
-      error: (error) => {
-        console.error('Error cargando canciones:', error);
-        
-        // Cargar datos de ejemplo si el backend no está disponible
-        this.loadMockData();
-        this.error = null; // No mostrar error ya que tenemos datos de ejemplo
-      }
-    });
-    */
+    // Para conectar al backend, descomenta el bloque siguiente y comenta loadMockData() 
   }
 
-  loadMockData() {
-    // Datos de ejemplo para demostración
-    this.songs = [
-      {
-        idSong: 1,
-        idUser: 1,
-        title: 'Bohemian Rhapsody',
-        description: 'Una obra maestra del rock',
-        coverURL: '/assets/img/icons/rock.jpeg',
-        fileURL: '/assets/music/sample.mp3',
-        visibility: 'public',
-        duration: 354,
-        uploadDate: new Date('2024-01-15'),
-        artist: {
-          idUser: 1,
-          name: 'Queen',
-          biography: 'Banda legendaria de rock'
-        },
-        averageRating: 4.8,
-        ratingCount: 1250
-      },
-      {
-        idSong: 2,
-        idUser: 2,
-        title: 'Billie Jean',
-        description: 'El Rey del Pop en su mejor momento',
-        coverURL: '/assets/img/icons/pop.png',
-        fileURL: '/assets/music/sample2.mp3',
-        visibility: 'public',
-        duration: 294,
-        uploadDate: new Date('2024-02-20'),
-        artist: {
-          idUser: 2,
-          name: 'Michael Jackson',
-          biography: 'El Rey del Pop'
-        },
-        averageRating: 4.9,
-        ratingCount: 2100
-      },
-      {
-        idSong: 3,
-        idUser: 3,
-        title: 'Lose Yourself',
-        description: 'Hip hop de alto nivel',
-        coverURL: '/assets/img/icons/rap.jpg',
-        fileURL: '/assets/music/sample3.mp3',
-        visibility: 'public',
-        duration: 326,
-        uploadDate: new Date('2024-03-10'),
-        artist: {
-          idUser: 3,
-          name: 'Eminem',
-          biography: 'Rap God'
-        },
-        averageRating: 4.7,
-        ratingCount: 980
-      }
-    ];
-    this.isLoading = false;
-    console.log('Cargados datos de ejemplo');
-  }
+  
 
   onRatingChanged(songId: number, event: { rating: number; averageRating: number }) {
     console.log(`Canción ${songId} calificada con ${event.rating} estrellas`);
@@ -135,5 +59,47 @@ export class CategoriesTracksComponent implements OnInit {
       month: 'short',
       day: 'numeric'
     });
+  imports: [CommonModule, ReportModalComponent],
+  templateUrl: './tracks.component.html',
+  styleUrls: ['./tracks.component.css']
+})
+export class CategoriesTracksComponent {
+  tracks = [
+    { id: 1, artist: 'Messi', title: 'Mundial (track)', duration: '1:23', image: '/assets/img/icons/pop.png' },
+    { id: 2, artist: 'Otro-artista', title: 'Otra-pista', duration: '2:34', image: '/assets/img/icons/rap.jpg' },
+    { id: 3, artist: 'Tercer-artista', title: 'Tercera-pista', duration: '3:45', image: '/assets/img/icons/rock.jpeg' }
+  ];
+
+  showReportModal = signal(false);
+  selectedTrackId = signal<number | null>(null);
+  openDropdowns = signal<Set<number>>(new Set());
+
+  toggleDropdown(trackId: number) {
+    const open = this.openDropdowns();
+    if (open.has(trackId)) {
+      open.delete(trackId);
+    } else {
+      open.add(trackId);
+    }
+    this.openDropdowns.set(new Set(open));
+  }
+
+  isDropdownOpen(trackId: number): boolean {
+    return this.openDropdowns().has(trackId);
+  }
+
+  openReportModal(trackId: number) {
+    this.selectedTrackId.set(trackId);
+    this.showReportModal.set(true);
+  }
+
+  closeReportModal() {
+    this.showReportModal.set(false);
+    this.selectedTrackId.set(null);
+  }
+
+  onReportSubmitted() {
+    this.closeReportModal();
+    // TODO: Mostrar mensaje de éxito
   }
 }
