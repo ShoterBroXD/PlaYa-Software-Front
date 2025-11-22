@@ -2,6 +2,7 @@ export interface PlaylistRequestDto {
   idUser: number;
   name: string;
   description?: string;
+  visible?: boolean;
 }
 
 export interface PlaylistResponseDto {

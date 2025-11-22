@@ -160,16 +160,7 @@ export const routes: Routes = [
       },
       {
         path: 'premium',
-        children: [
-          {
-            path: '',
-            loadComponent: () => import('./features/premium/plans/premium-plans.component').then(m => m.PremiumPlansComponent),
-          },
-          {
-            path: 'payment',
-            loadComponent: () => import('./features/premium/payment/premium-payment.component').then(m => m.PremiumPaymentComponent),
-          },
-        ]
+        loadComponent: () => import('./features/premium/premium-subscription/premium-subscription').then(m => m.PremiumSubscriptionComponent),
       },
     ]
   },

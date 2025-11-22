@@ -27,6 +27,7 @@ export class CreatePlaylistComponent {
     this.playlistForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       description: [''],
+      visible: [true], // Por defecto pública
     });
   }
 
@@ -36,6 +37,10 @@ export class CreatePlaylistComponent {
 
   get description() {
     return this.playlistForm.get('description');
+  }
+
+  get visible() {
+    return this.playlistForm.get('visible');
   }
 
   onSubmit(): void {
