@@ -75,6 +75,7 @@ export class SongService {
       const userId = this.authService.getUserId();
       if (userId) {
         headers = headers.set('iduser', userId.toString());
+        headers = headers.set('idUser', userId.toString());
       }
     }
 

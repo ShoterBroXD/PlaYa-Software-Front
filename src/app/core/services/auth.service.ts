@@ -125,11 +125,15 @@ export class AuthService {
     // Guardar tipo de usuario separado para fácil acceso
     if (response.type) {
       localStorage.setItem('userType', response.type);
+    } else {
+      localStorage.removeItem('userType');
     }
 
     // Guardar ID de usuario si viene en la respuesta
-    if (response.idUser) {
+    if (response.idUser !== undefined && response.idUser !== null) {
       localStorage.setItem('userId', response.idUser.toString());
+    } else {
+      localStorage.removeItem('userId');
     }
 
     this.currentUserSubject.next(response);
@@ -184,10 +188,7 @@ export class AuthService {
   getUserId(): number | null {
     const storedId = localStorage.getItem('userId');
     if (storedId) {
-      const parsed = parseInt(storedId, 10);
-      if (!Number.isNaN(parsed)) {
-        return parsed;
-      }
+      return parseInt(storedId, 10);
     }
 
     const token = this.getToken();
@@ -196,17 +197,16 @@ export class AuthService {
     }
 
     const payload = this.decodeToken(token);
-    const possibleId = payload?.userId ?? payload?.idUser ?? payload?.sub;
-    if (possibleId == null) {
-      return null;
+    const candidate = payload?.idUser ?? payload?.iduser ?? payload?.sub;
+
+    if (candidate !== undefined && candidate !== null) {
+      const numeric = Number(candidate);
+      if (!Number.isNaN(numeric)) {
+        localStorage.setItem('userId', numeric.toString());
+        return numeric;
+      }
     }
 
-    const parsed = Number(possibleId);
-    if (Number.isNaN(parsed)) {
-      return null;
-    }
-
-    localStorage.setItem('userId', parsed.toString());
-    return parsed;
+    return null;
   }
 }

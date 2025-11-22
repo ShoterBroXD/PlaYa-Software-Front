@@ -11,8 +11,17 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
   const authService = inject(AuthService);
   const token = authService.getToken();
 
+  const skipAuthHeader = [
+    '/auth/login',
+    '/auth/register',
+    '/users/password/request',
+    '/users/password/reset'
+  ];
+
+  const shouldSkip = skipAuthHeader.some((endpoint) => req.url.includes(endpoint));
+
   // Si hay token, agregar Authorization header
-  if (token) {
+  if (token && !shouldSkip) {
     const clonedRequest = req.clone({
       setHeaders: {
         Authorization: `Bearer ${token}`,
