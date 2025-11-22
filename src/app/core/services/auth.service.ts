@@ -127,9 +127,11 @@ export class AuthService {
       localStorage.setItem('userType', response.type);
     }
 
-    // Guardar ID de usuario si viene en la respuesta
-    if (response.idUser) {
-      localStorage.setItem('userId', response.idUser.toString());
+    // Extraer y guardar ID de usuario del token JWT
+    const payload = this.decodeToken(response.token);
+    if (payload && payload.userId) {
+      response.idUser = payload.userId;
+      localStorage.setItem('userId', payload.userId.toString());
     }
 
     this.currentUserSubject.next(response);
