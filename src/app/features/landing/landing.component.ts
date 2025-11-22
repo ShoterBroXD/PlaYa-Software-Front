@@ -1,0 +1,32 @@
+import { Component } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+@Component({
+  selector: 'app-landing',
+  standalone: true,
+  imports: [CommonModule, RouterModule, FormsModule],
+  templateUrl: './landing.component.html',
+  styleUrls: ['./landing.component.css'],
+})
+export class LandingComponent {
+  searchQuery: string = '';
+
+  constructor(private router: Router) {}
+
+  navigateToLogin(): void {
+    this.router.navigate(['/auth/login']);
+  }
+
+  navigateToRegister(): void {
+    this.router.navigate(['/auth/register']);
+  }
+
+  onSearch(): void {
+    // Por ahora solo muestra el término de búsqueda
+    // Más adelante redirigirá a página de búsqueda
+    console.log('Buscando:', this.searchQuery);
+    // this.router.navigate(['/search'], { queryParams: { q: this.searchQuery } });
+  }
+}

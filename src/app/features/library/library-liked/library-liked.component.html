@@ -1,0 +1,16 @@
+<div class="library-page">
+  <div class="library-header">
+    <h1 class="library-title">Tu Biblioteca</h1>
+    <p class="library-subtitle">Me gusta</p>
+  </div>
+
+  <div class="library-grid">
+    <div class="card-library" *ngFor="let song of likedSongs" (click)="playSong(song)">
+      <img [src]="song.image" [alt]="song.title" class="card-img">
+      <div class="card-info">
+        <p class="song-title">{{ song.title }}</p>
+        <p class="song-details">{{ song.artist }} · {{ song.year }}</p>
+      </div>
+    </div>
+  </div>
+</div>

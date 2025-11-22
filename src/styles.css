@@ -1,0 +1,95 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    color: #05255a;
+    background-color: #ffffff;
+}
+
+body {
+    margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+}
+
+p,
+span,
+a,
+li,
+button {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 400;
+}
+
+.hidden {
+    display: none !important;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.btn {
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn.primary {
+    background-color: #0a6e99;
+    color: white;
+}
+
+.btn.primary:hover {
+    background-color: #084f6a;
+}
+
+.btn.secondary {
+    background-color: white;
+    border: 1px solid #ccc;
+    color: #333;
+}
+
+.btn.secondary:hover {
+    background-color: #f0f0f0;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

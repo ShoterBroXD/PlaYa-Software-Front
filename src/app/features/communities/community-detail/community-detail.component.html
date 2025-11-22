@@ -1,0 +1,109 @@
+<div class="community-detail-page">
+  <!-- Header -->
+  <section class="community-header">
+    <div class="community-hero">
+      <img [src]="community.image" [alt]="community.name" class="community-hero-image">
+      <div class="community-hero-info">
+        <h1 class="community-hero-title">{{ community.name }}</h1>
+        <p class="community-hero-followers">{{ community.followers }} seguidores</p>
+        <p class="community-hero-description">{{ community.description }}</p>
+        <div class="community-actions">
+          <button class="btn-primary">Unirse</button>
+          <button class="btn-secondary">Seguir</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabs -->
+  <section class="community-nav">
+    <div class="community-tabs">
+      <button class="tab-button" [class.active]="activeTab() === 'posts'" (click)="switchTab('posts')">Publicaciones</button>
+      <button class="tab-button" [class.active]="activeTab() === 'members'" (click)="switchTab('members')">Miembros</button>
+      <button class="tab-button" [class.active]="activeTab() === 'about'" (click)="switchTab('about')">Acerca de</button>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <section class="community-content">
+    <!-- Posts -->
+    <div *ngIf="activeTab() === 'posts'" class="tab-content">
+      <div class="posts-container">
+        <div class="post-card" *ngFor="let post of posts">
+          <div class="post-header">
+            <img [src]="post.avatar" [alt]="post.author" class="post-author-image">
+            <div class="post-author-info">
+              <p class="post-author-name">{{ post.author }}</p>
+              <p class="post-time">{{ post.time }}</p>
+            </div>
+          </div>
+          <div class="post-content">
+            <p>{{ post.content }}</p>
+            <div *ngIf="post.hasSong" class="post-media">
+              <div class="song-preview">
+                <img src="/assets/img/images/perfil-comunidades.png" alt="Canción" class="song-image">
+                <div class="song-info">
+                  <p class="song-title">Billie Jean</p>
+                  <p class="song-artist">Michael Jackson</p>
+                </div>
+                <button class="play-btn">▶️</button>
+              </div>
+            </div>
+          </div>
+          <div class="post-actions">
+            <button class="post-action-btn">❤️ {{ post.likes }}</button>
+            <button class="post-action-btn">💬 {{ post.comments }}</button>
+            <button class="post-action-btn">📤 Compartir</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Members -->
+    <div *ngIf="activeTab() === 'members'" class="tab-content">
+      <div class="members-container">
+        <div class="member-card" *ngFor="let member of members">
+          <img [src]="member.avatar" [alt]="member.name" class="member-image">
+          <div class="member-info">
+            <p class="member-name">{{ member.name }}</p>
+            <p class="member-role">{{ member.role }}</p>
+          </div>
+          <button class="btn-secondary">Seguir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div *ngIf="activeTab() === 'about'" class="tab-content">
+      <div class="about-container">
+        <h3>Acerca de esta comunidad</h3>
+        <p>Esta es una comunidad dedicada a los fans de {{ community.name }}, el Rey del Pop. Aquí puedes compartir tus canciones favoritas, discutir sobre su música, y conectar con otros fans alrededor del mundo.</p>
+        
+        <div class="community-stats">
+          <div class="stat-item">
+            <h4>{{ community.followers }}</h4>
+            <p>Seguidores</p>
+          </div>
+          <div class="stat-item">
+            <h4>{{ community.postsCount }}</h4>
+            <p>Publicaciones</p>
+          </div>
+          <div class="stat-item">
+            <h4>{{ community.createdYear }}</h4>
+            <p>Creada en</p>
+          </div>
+        </div>
+
+        <div class="community-rules">
+          <h4>Reglas de la comunidad</h4>
+          <ul>
+            <li>Mantén el respeto hacia todos los miembros</li>
+            <li>Solo contenido relacionado con {{ community.name }}</li>
+            <li>No spam o contenido promocional</li>
+            <li>Reporta contenido inapropiado</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

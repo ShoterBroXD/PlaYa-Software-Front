@@ -1,0 +1,26 @@
+<div class="categories-page">
+  <div class="header">
+    <div class="title-row">
+      <h1 class="page-title">Categorías musicales</h1>
+      <img class="volume-up-icon" src="/assets/img/icons/volume-up.svg" alt="Ícono volumen" />
+    </div>
+    <p class="subtitle">Explora música por géneros y estilos. Encuentra lo que te inspira.</p>
+
+    <div class="filter-buttons">
+      <a routerLink="/categories" class="filter-button active">Todos</a>
+      <a routerLink="/categories/tracks" class="filter-button">Pistas</a>
+      <a routerLink="/categories/playlists" class="filter-button">Listas</a>
+      <a routerLink="/categories/albums" class="filter-button">Álbumes</a>
+    </div>
+  </div>
+
+  <section class="categories-grid">
+    <div class="category-card" *ngFor="let c of categories">
+      <img [src]="c.image" [alt]="c.title" class="category-icon" />
+      <div class="category-info">
+        <h3 class="category-title">{{ c.title }}</h3>
+        <p class="category-count">{{ c.count }} canciones</p>
+      </div>
+    </div>
+  </section>
+</div>

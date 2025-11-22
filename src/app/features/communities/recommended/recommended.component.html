@@ -1,0 +1,22 @@
+<div class="communities-page">
+  <section class="content-section">
+    <div class="section-header">
+      <p class="section-title">Según tus preferencias</p>
+    </div>
+    <div class="communities-row">
+      <div class="community-wrapper" *ngFor="let c of recommended">
+        <div class="community-card">
+          <div class="card-content">
+            <img [src]="c.image" [alt]="c.name" class="community-icon">
+            <div class="community-text">
+              <p class="community-title">{{ c.name }}</p>
+              <p class="community-details">{{ c.followers }} seguidores</p>
+              <p class="community-description">{{ c.description }}</p>
+            </div>
+          </div>
+          <button class="btn-join" [routerLink]="['/communities', c.id]">Unirse</button>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

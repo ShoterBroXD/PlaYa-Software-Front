@@ -1,0 +1,33 @@
+<div class="library-page">
+  <div class="library-header">
+    <h1 class="library-title">Tu Biblioteca</h1>
+  </div>
+
+  <!-- Escuchado recientemente -->
+  <section class="library-section">
+    <h2 class="section-subtitle">Escuchado recientemente</h2>
+    <div class="library-grid">
+      <div class="card-library" *ngFor="let song of recentlyPlayed" (click)="playSong(song, recentlyPlayed)">
+        <img [src]="song.image" [alt]="song.title" class="card-img">
+        <div class="card-info">
+          <p class="song-title">{{ song.title }}</p>
+          <p class="song-details">{{ song.artist }} · {{ song.year }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Me gusta -->
+  <section class="library-section">
+    <h2 class="section-subtitle">Me gusta</h2>
+    <div class="library-grid">
+      <div class="card-library" *ngFor="let song of likedSongs" (click)="playSong(song, likedSongs)">
+        <img [src]="song.image" [alt]="song.title" class="card-img">
+        <div class="card-info">
+          <p class="song-title">{{ song.title }}</p>
+          <p class="song-details">{{ song.artist }} · {{ song.year }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

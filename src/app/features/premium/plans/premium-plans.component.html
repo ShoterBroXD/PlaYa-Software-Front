@@ -1,0 +1,26 @@
+<div class="premium-plans-container">
+  <h1>Planes de Suscripción</h1>
+  <p>Elige el plan que mejor se adapte a tus necesidades musicales.</p>
+
+  <div class="plans-grid">
+    <div
+      class="plan-card"
+      *ngFor="let plan of plans"
+      [class.premium]="plan.type === 'PREMIUM'"
+    >
+      <h2>{{ plan.name }}</h2>
+      <div class="price">{{ plan.price }}</div>
+      <ul class="benefits">
+        <li *ngFor="let benefit of plan.benefits">{{ benefit }}</li>
+      </ul>
+      <button
+        class="btn"
+        [class.btn-primary]="plan.type === 'PREMIUM'"
+        [class.btn-secondary]="plan.type === 'FREE'"
+        (click)="selectPlan(plan)"
+      >
+        {{ plan.type === 'PREMIUM' ? 'Seleccionar Premium' : 'Plan Actual' }}
+      </button>
+    </div>
+  </div>
+</div>

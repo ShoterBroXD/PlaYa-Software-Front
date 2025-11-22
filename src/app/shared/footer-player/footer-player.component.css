@@ -1,0 +1,383 @@
+/* Footer Player */
+.player-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
+  height: 65px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+}
+
+/* Barra de progreso */
+.song-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 5px;
+  -webkit-appearance: none;
+  appearance: none;
+  background: #ddd;
+  border-radius: 0;
+  margin: 0;
+  cursor: pointer;
+  z-index: 10;
+}
+
+.song-progress:hover {
+  background: #F9F3F3;
+}
+
+.song-progress::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 5px;
+  height: 5px;
+  background: #0a6e99;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.song-progress::-webkit-slider-thumb:hover {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.song-progress::-webkit-slider-runnable-track {
+  background: linear-gradient(to right, #0a6e99 var(--progress, 0%), #ddd var(--progress, 0%));
+}
+
+.song-progress::-moz-range-thumb {
+  width: 5px;
+  height: 5px;
+  background: #0a6e99;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+}
+
+.song-progress::-moz-range-thumb:hover {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+/* Container principal */
+.footer-components {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 2rem;
+  height: 60px;
+  margin-top: 5px;
+  gap: 2rem;
+}
+
+/* Sección 1: Info de la canción */
+.song-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 280px;
+  flex-shrink: 0;
+}
+
+.cover-thumbnail {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  transition: transform 0.2s;
+}
+
+.cover-thumbnail:hover {
+  transform: scale(1.05);
+}
+
+.cover-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.track-details {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex: 1;
+}
+
+.track-title {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #05255a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.track-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.8rem;
+  color: #0a6e99;
+  font-weight: 600;
+}
+
+.track-album {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.track-artist {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-share {
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: color 0.2s;
+}
+
+.btn-share:hover {
+  color: #0a6e99;
+}
+
+/* Sección 2: Controles de reproducción */
+.player-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex: 1;
+  max-width: 600px;
+}
+
+.control-btn {
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.control-btn:hover {
+  color: #0a6e99;
+  transform: scale(1.1);
+}
+
+.control-btn-primary {
+  background: #0a6e99;
+  color: #fff;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1rem;
+}
+
+.control-btn-primary:hover {
+  background: #084f6a;
+  transform: scale(1.15);
+}
+
+.control-btn.active {
+  color: #0a6e99;
+}
+
+.repeat-badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  font-size: 0.6rem;
+  font-weight: 700;
+}
+
+.volume-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100px;
+  height: 4px;
+  background: #ddd;
+  border-radius: 2px;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: #0a6e99;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+  background: #084f6a;
+}
+
+.volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: #0a6e99;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Sección 3: Reacciones */
+.player-reactions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 280px;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.reaction-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  background: #0a1128;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.reaction-btn:hover {
+  background: #0a6e99;
+  transform: translateY(-1px);
+}
+
+.reaction-btn.active {
+  background: #0a6e99;
+  border: 2px solid #084f6a;
+}
+
+.reaction-btn.liked {
+  color: #ff6b6b;
+}
+
+.reaction-btn-outline {
+  background: transparent;
+  color: #0a1128;
+  border: 2px solid #d0d0d0;
+}
+
+.reaction-btn-outline:hover {
+  background: #0a1128;
+  color: #fff;
+  border-color: #0a1128;
+}
+
+.reaction-btn-outline.active {
+  background: #0a1128;
+  color: #fff;
+  border-color: #0a1128;
+}
+
+.reaction-btn i {
+  font-size: 0.9rem;
+}
+
+.time-current,
+.time-duration {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.time-current {
+  color: #0a6e99;
+}
+
+.time-duration {
+  color: #333;
+}
+
+.time-divider {
+  color: #999;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .footer-components {
+    gap: 1rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .song-info,
+  .player-reactions {
+    width: 200px;
+  }
+
+  .volume-slider {
+    width: 60px;
+  }
+}
+
+@media (max-width: 768px) {
+  .player-footer {
+    height: auto;
+  }
+
+  .footer-components {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .song-info {
+    width: 100%;
+    order: 1;
+  }
+
+  .player-controls {
+    width: 100%;
+    order: 3;
+    max-width: none;
+  }
+
+  .player-reactions {
+    width: 100%;
+    order: 2;
+    justify-content: center;
+  }
+
+  .btn-share {
+    display: none;
+  }
+}

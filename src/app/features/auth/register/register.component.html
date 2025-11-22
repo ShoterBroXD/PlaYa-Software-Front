@@ -1,0 +1,164 @@
+<div class="auth-container">
+    <div class="auth-card">
+
+        <!-- LOGO -->
+        <div class="auth-logo">
+            <i class="fas fa-music fa-3x"></i>
+            <h1>PlaYa</h1>
+        </div>
+
+        <h2 class="auth-title">Regístrate gratis</h2>
+
+        <!-- TABS -->
+        <div class="user-type-selector">
+            <button type="button" class="user-type-btn" [class.active]="activeTab === 'usuario'"
+                (click)="toggleTab('usuario')">
+                <i class="fas fa-headphones"></i>
+                <span>Oyente</span>
+            </button>
+
+            <button type="button" class="user-type-btn" [class.active]="activeTab === 'artista'"
+                (click)="toggleTab('artista')">
+                <i class="fas fa-microphone"></i>
+                <span>Artista</span>
+            </button>
+        </div>
+
+        <!-- FORMULARIO USUARIO -->
+        <form *ngIf="activeTab === 'usuario'" [formGroup]="usuarioForm" (ngSubmit)="onSubmit()" class="auth-form">
+
+            <!-- Nombre -->
+            <div class="form-group">
+                <label for="usuarioName">Nombre completo</label>
+                <input id="usuarioName" type="text" formControlName="name" placeholder="Tu nombre" class="form-control"
+                    [class.error]="usuarioName?.invalid && usuarioName?.touched">
+                <div class="error-message" *ngIf="usuarioName?.invalid && usuarioName?.touched">
+                    <span *ngIf="usuarioName?.errors?.['required']">El nombre es requerido</span>
+                    <span *ngIf="usuarioName?.errors?.['minlength']">Mínimo 3 caracteres</span>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="usuarioEmail">Correo electrónico</label>
+                <input id="usuarioEmail" type="email" formControlName="email" placeholder="nombre@ejemplo.com"
+                    class="form-control" [class.error]="usuarioEmail?.invalid && usuarioEmail?.touched">
+                <div class="error-message" *ngIf="usuarioEmail?.invalid && usuarioEmail?.touched">
+                    <span *ngIf="usuarioEmail?.errors?.['required']">El correo es requerido</span>
+                    <span *ngIf="usuarioEmail?.errors?.['email']">Correo inválido</span>
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="usuarioPassword">Contraseña</label>
+                <input id="usuarioPassword" type="password" formControlName="password" placeholder="Contraseña"
+                    class="form-control" [class.error]="usuarioPassword?.invalid && usuarioPassword?.touched">
+                <div class="error-message" *ngIf="usuarioPassword?.invalid && usuarioPassword?.touched">
+                    <span *ngIf="usuarioPassword?.errors?.['required']">La contraseña es requerida</span>
+                    <span *ngIf="usuarioPassword?.errors?.['minlength']">Mínimo 6 caracteres</span>
+                </div>
+            </div>
+
+            <!-- Errores -->
+            <div class="alert-error" *ngIf="errorMessage">
+                <i class="fas fa-exclamation-circle"></i>
+                {{ errorMessage }}
+            </div>
+
+            <!-- Términos -->
+            <p class="terms">
+                Al hacer clic en "Registrarse", aceptas los
+                <a href="#">Términos y condiciones</a> de PlaYa.
+            </p>
+
+            <!-- Botón Submit -->
+            <button type="submit" class="btn-primary btn-block" [disabled]="loading || usuarioForm.invalid">
+                <span *ngIf="!loading">Registrarse</span>
+                <span *ngIf="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Registrando...
+                </span>
+            </button>
+        </form>
+
+
+        <!-- FORMULARIO ARTISTA -->
+        <form *ngIf="activeTab === 'artista'" [formGroup]="artistaForm" (ngSubmit)="onSubmit()" class="auth-form">
+
+            <!-- Nombre -->
+            <div class="form-group">
+                <label for="artistaName">Nombre artístico</label>
+                <input id="artistaName" type="text" formControlName="name" placeholder="Nombre artístico"
+                    class="form-control" [class.error]="artistaName?.invalid && artistaName?.touched">
+                <div class="error-message" *ngIf="artistaName?.invalid && artistaName?.touched">
+                    <span *ngIf="artistaName?.errors?.['required']">El nombre es requerido</span>
+                    <span *ngIf="artistaName?.errors?.['minlength']">Mínimo 3 caracteres</span>
+                </div>
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="artistaEmail">Correo electrónico</label>
+                <input id="artistaEmail" type="email" formControlName="email" placeholder="correo@ejemplo.com"
+                    class="form-control" [class.error]="artistaEmail?.invalid && artistaEmail?.touched">
+                <div class="error-message" *ngIf="artistaEmail?.invalid && artistaEmail?.touched">
+                    <span *ngIf="artistaEmail?.errors?.['required']">El correo es requerido</span>
+                    <span *ngIf="artistaEmail?.errors?.['email']">Correo inválido</span>
+                </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+                <label for="artistaPassword">Contraseña</label>
+                <input id="artistaPassword" type="password" formControlName="password" placeholder="Contraseña"
+                    class="form-control" [class.error]="artistaPassword?.invalid && artistaPassword?.touched">
+                <div class="error-message" *ngIf="artistaPassword?.invalid && artistaPassword?.touched">
+                    <span *ngIf="artistaPassword?.errors?.['required']">La contraseña es requerida</span>
+                    <span *ngIf="artistaPassword?.errors?.['minlength']">Mínimo 6 caracteres</span>
+                </div>
+            </div>
+
+            <!-- Country -->
+            <div class="form-group">
+                <label for="artistaCountry">País</label>
+                <input id="artistaCountry" type="text" formControlName="country" placeholder="Tu país"
+                    class="form-control" [class.error]="artistaCountry?.invalid && artistaCountry?.touched">
+                <div class="error-message" *ngIf="artistaCountry?.invalid && artistaCountry?.touched">
+                    <span *ngIf="artistaCountry?.errors?.['required']">El país es requerido</span>
+                </div>
+            </div>
+
+            <!-- Error general -->
+            <div class="alert-error" *ngIf="errorMessage">
+                <i class="fas fa-exclamation-circle"></i>
+                {{ errorMessage }}
+            </div>
+
+            <!-- Botón Submit -->
+            <button type="submit" class="btn-primary btn-block" [disabled]="loading || artistaForm.invalid">
+                <span *ngIf="!loading">Registrarse como artista</span>
+                <span *ngIf="loading">
+                    <i class="fas fa-spinner fa-spin"></i> Registrando...
+                </span>
+            </button>
+        </form>
+
+        <div class="divider">
+            <span>o</span>
+        </div>
+
+        <!-- Login -->
+        <div class="auth-footer">
+            <p>¿Ya tienes cuenta?
+                <a routerLink="/auth/login" class="link-primary">Inicia sesión</a>
+            </p>
+        </div>
+
+        <div class="back-home">
+            <a routerLink="/" class="link">
+                <i class="fas fa-arrow-left"></i> Volver al inicio
+            </a>
+        </div>
+
+    </div>
+</div>

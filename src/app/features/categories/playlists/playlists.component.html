@@ -1,0 +1,26 @@
+<div class="categories-page">
+  <div class="header">
+    <div class="title-row">
+      <h1 class="page-title">Listas</h1>
+      <a routerLink="/playlists/my" class="btn btn-primary">Mis Playlists</a>
+    </div>
+    <div class="filter-buttons">
+      <a routerLink="/categories" class="filter-button">Todos</a>
+      <a routerLink="/categories/tracks" class="filter-button">Pistas</a>
+      <a routerLink="/categories/playlists" class="filter-button active">Listas</a>
+      <a routerLink="/categories/albums" class="filter-button">Álbumes</a>
+    </div>
+  </div>
+
+  <div class="categories-grid">
+    <div *ngIf="loading" class="loading">Cargando...</div>
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <div class="category-card" *ngFor="let p of playlists" [routerLink]="['/playlists', p.id]">
+      <img [src]="p.songs && p.songs[0]?.coverURL || '/assets/img/images/img-placeholder.svg'" [alt]="p.name" class="category-icon" />
+      <div class="category-info">
+        <h3 class="category-title">{{ p.name }}</h3>
+        <p class="category-count">{{ p.songs?.length || 0 }} pistas</p>
+      </div>
+    </div>
+  </div>
+</div>

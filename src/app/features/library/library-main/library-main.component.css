@@ -1,0 +1,219 @@
+/* Estilos compartidos para páginas de biblioteca */
+
+/* Contenedor principal */
+.library-page {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Header */
+.library-header {
+  margin-bottom: 2rem;
+}
+
+.library-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #05255a;
+  margin: 0 0 0.5rem 0;
+}
+
+.library-subtitle {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin: 1.5rem 0 1rem 0;
+}
+
+/* Sección */
+.library-section {
+  margin-bottom: 3rem;
+}
+
+.section-subtitle {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 1rem 0;
+}
+
+/* Grid de tarjetas */
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Tarjeta de canción */
+.card-library {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e0e0e0;
+}
+
+.card-library:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(10, 110, 153, 0.15);
+  border-color: #0a6e99;
+}
+
+.card-img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 0.75rem;
+  background-color: #f0f0f0;
+}
+
+.card-info {
+  padding: 0;
+}
+
+.song-title {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 0.25rem 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.song-details {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: #666;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Estado vacío */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  color: #ccc;
+  margin-bottom: 1.5rem;
+}
+
+.empty-text {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #666;
+  margin: 0 0 1.5rem 0;
+}
+
+.btn-explore {
+  background-color: #0a6e99;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 0.75rem 2rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-explore:hover {
+  background-color: #084f6a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Botón borrar historial */
+.clear-history-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+.clear-history-btn {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.625rem 1.25rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.clear-history-btn:hover {
+  background-color: #c0392b;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.clear-history-btn i {
+  font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .library-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .library-title {
+    font-size: 2rem;
+  }
+
+  .library-subtitle {
+    font-size: 1.25rem;
+  }
+
+  .library-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 1rem;
+  }
+
+  .card-library {
+    padding: 0.75rem;
+  }
+
+  .song-title {
+    font-size: 0.875rem;
+  }
+
+  .song-details {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .library-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

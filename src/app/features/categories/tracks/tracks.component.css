@@ -1,0 +1,15 @@
+/* Reutilizamos estilos base de categorías */
+@import '../categories-index/categories-index.component.css';
+
+.track-list { display: flex; flex-direction: column; gap: 16px; }
+.track-item { display: flex; align-items: center; background: #fff; padding: 16px; border-radius: 16px; border: 1px solid #e0e0e0; box-shadow: 0 1px 3px rgba(0,0,0,.05); }
+.track-image { width: 120px; height: 100px; border-radius: 8px; overflow: hidden; background: #ccc; margin-right: 16px; }
+.track-image img { width: 100%; height: 100%; object-fit: cover; }
+.track-info { flex: 1; display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto auto; gap: 8px; }
+.artist { grid-column: 1 / -1; font-family: 'Raleway', sans-serif; font-size: 1.25rem; color: #034078; }
+.title { grid-column: 1 / -1; font-family: 'Montserrat', sans-serif; font-size: 1rem; margin-top: -4px; }
+.actions { grid-column: 1 / 2; display: flex; gap: 8px; }
+.controls { grid-column: 2 / 3; display: flex; gap: 8px; justify-content: flex-end; }
+.icon { background: none; border: none; color: #0a6e99; font-size: 1rem; cursor: pointer; }
+.pill { background: #000; color: #fff; border: none; border-radius: 8px; padding: 6px 10px; cursor: pointer; font-size: .85rem; }
+.duration { color: #034078; font-weight: 700; margin-left: 12px; }

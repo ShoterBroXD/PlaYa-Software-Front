@@ -1,0 +1,23 @@
+<div class="categories-page">
+  <div class="header">
+    <div class="title-row">
+      <h1 class="page-title">Álbumes</h1>
+    </div>
+    <div class="filter-buttons">
+      <a routerLink="/categories" class="filter-button">Todos</a>
+      <a routerLink="/categories/tracks" class="filter-button">Pistas</a>
+      <a routerLink="/categories/playlists" class="filter-button">Listas</a>
+      <a routerLink="/categories/albums" class="filter-button active">Álbumes</a>
+    </div>
+  </div>
+
+  <div class="categories-grid">
+    <div class="category-card" *ngFor="let a of albums">
+      <img [src]="a.image" [alt]="a.title" class="category-icon" />
+      <div class="category-info">
+        <h3 class="category-title">{{ a.title }}</h3>
+        <p class="category-count">{{ a.tracks }} pistas</p>
+      </div>
+    </div>
+  </div>
+</div>

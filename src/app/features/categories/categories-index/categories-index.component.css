@@ -1,0 +1,25 @@
+/* Página de categorías - estilos limpios, sin posiciones absolutas */
+.categories-page { max-width: 1400px; margin: 0 auto; }
+
+.title-row { display: flex; align-items: center; gap: 12px; }
+.page-title { font-family: 'Raleway', sans-serif; font-size: 2.5rem; font-weight: 700; color: #05255a; margin: 0; }
+.subtitle { font-family: 'Montserrat', sans-serif; color: #333; margin: 8px 0 16px; }
+.volume-up-icon { width: 28px; height: 28px; }
+
+.filter-buttons { display: flex; gap: 12px; margin: 12px 0 24px; flex-wrap: wrap; }
+.filter-button { background-color: #0a6e99; color: #fff; border: none; border-radius: 25px; padding: 8px 16px; font-family: 'Montserrat', sans-serif; font-weight: 600; text-decoration: none; transition: all .2s; }
+.filter-button:hover { background-color: #084f6a; }
+.filter-button.active { background-color: #084f6a; }
+
+.categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 24px; padding: 8px 0; }
+.category-card { background-color: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 6px rgba(0,0,0,.06); transition: transform .2s, box-shadow .2s; border: 1px solid #e0e0e0; }
+.category-card:hover { transform: translateY(-4px); box-shadow: 0 10px 16px rgba(10,110,153,.15); }
+.category-icon { width: 100%; height: 140px; object-fit: cover; display: block; }
+.category-info { padding: 12px; }
+.category-title { margin: 0; font-family: 'Raleway', sans-serif; font-weight: 600; }
+.category-count { margin: 4px 0 0; font-family: 'Montserrat', sans-serif; color: #666; font-size: .9rem; }
+
+@media (max-width: 768px) {
+  .page-title { font-size: 2rem; }
+  .categories-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+}
