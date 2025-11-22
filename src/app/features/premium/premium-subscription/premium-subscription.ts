@@ -73,11 +73,27 @@ export class PremiumSubscriptionComponent implements OnInit {
   private loadPremiumData() {
     this.premiumService.getBenefits().subscribe({
       next: (data) => {
-        this.benefits.set(data.benefits || []);
+        this.benefits.set(data.benefits || [
+          'Música sin anuncios',
+          'Descargas ilimitadas',
+          'Calidad de audio HD',
+          'Acceso a contenido exclusivo',
+          'Soporte prioritario',
+          'Personalización avanzada'
+        ]);
         this.pricing.set(data.pricing || {});
       },
       error: (error) => {
         console.error('Error loading premium benefits:', error);
+        // Establecer beneficios por defecto si falla
+        this.benefits.set([
+          'Música sin anuncios',
+          'Descargas ilimitadas',
+          'Calidad de audio HD',
+          'Acceso a contenido exclusivo',
+          'Soporte prioritario',
+          'Personalización avanzada'
+        ]);
       }
     });
   }
@@ -85,14 +101,26 @@ export class PremiumSubscriptionComponent implements OnInit {
   private checkCurrentStatus() {
     const user = this.authService.getCurrentUser();
     if (user?.idUser) {
+      this.errorMessage.set(''); // Limpiar mensaje de error si hay usuario
       this.premiumService.getStatus(user.idUser).subscribe({
         next: (status) => {
           this.premiumStatus.set(status);
         },
         error: (error) => {
           console.error('Error checking premium status:', error);
+          // Establecer estado por defecto si falla
+          this.premiumStatus.set({
+            userId: user.idUser!,
+            isPremium: false,
+            planType: 'FREE',
+            status: 'INACTIVE'
+          });
         }
       });
+    } else {
+      console.warn('No hay usuario autenticado');
+      // No mostrar este error aquí, solo si intenta suscribirse
+      this.premiumStatus.set(null);
     }
   }
 

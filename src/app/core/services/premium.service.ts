@@ -22,6 +22,9 @@ export class PremiumService {
 
   subscribe(request: SubscriptionRequest): Observable<SubscriptionResponse> {
     const userId = this.getCurrentUserId();
+    if (!userId) {
+      throw new Error('Usuario no autenticado');
+    }
     const headers = this.getHeaders().set('idUser', userId.toString());
     return this.http.post<SubscriptionResponse>(`${this.API_URL}/premium/subscribe`, request, { headers });
   }

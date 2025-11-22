@@ -161,10 +161,6 @@ export const routes: Routes = [
         ]
       },
       {
-        path: 'premium',
-        loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent), // Placeholder
-       },
-      { 
         path: 'playlists',
         children: [
           {
@@ -198,7 +194,7 @@ export const routes: Routes = [
         path: 'configuration',
         loadComponent: () => import('./features/configuration/configuration.component').then((m) => m.ConfigurationComponent),
        },
-       { 
+       {
         path: 'premium',
         loadComponent: () => import('./features/premium/premium-subscription/premium-subscription').then(m => m.PremiumSubscriptionComponent),
       },
