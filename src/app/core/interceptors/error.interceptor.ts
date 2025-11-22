@@ -31,7 +31,12 @@ export class ErrorInterceptor implements HttpInterceptor {
               this.authService.logout();
               break;
             case 403:
-              errorMessage = 'No tienes permisos para realizar esta acción.';
+              if (error.url?.includes('/notifications')) {
+                console.error('Error 403 en notifications, ignorando');
+                return throwError(() => new Error(''));
+              } else {
+                errorMessage = 'No tienes permisos para realizar esta acción.';
+              }
               break;
             case 404:
               errorMessage = 'Recurso no encontrado.';
