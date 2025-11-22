@@ -34,26 +34,26 @@
 .tabs {
     display: flex;
     justify-content: center;
-    gap: var(--spacing-md);
-    margin-bottom: var(--spacing-lg);
-    background-color: var(--gray-50);
-    padding: var(--spacing-md);
-    border-radius: var(--border-radius-lg);
-    width: fit-content;
-    margin-left: auto;
+    margin-left: auto; 
     margin-right: auto;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* gap: 1rem;  */
+    margin-bottom: 1.5rem;
+    background-color: #f4f4f4; 
+    /* padding: 1rem; */
+    border-radius: 8px; 
+    width: fit-content;
+    border: solid 2px #f2f2f2ad;
 }
 
 .tab-btn {
-    padding: var(--spacing-sm) var(--spacing-lg);
-    background-color: var(--white);
-    color: var(--gray-600);
-    border: 2px solid var(--gray-200);
+    padding: 0.75rem 2rem;
+     background-color: transparent;/* f2f2f2 */
+    color: #333;
+    border: none;
     cursor: pointer;
-    border-radius: var(--border-radius-md);
-    transition: all var(--transition-normal);
-    font-family: var(--font-primary);
+    border-radius: 8px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    font-family: 'Montserrat', sans-serif;
     font-weight: 500;
     position: relative;
     overflow: hidden;
@@ -75,18 +75,15 @@
 }
 
 .tab-btn.active {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
-    color: var(--white);
-    border-color: var(--primary-color);
-    transform: scale(1.05);
-    box-shadow: var(--shadow-md);
+    background-color: #ffffff;
+    color: #084f6a;
+    font-weight: 600;
+    transform: scale(1.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .tab-btn:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
+    color: #084f6a;
 }
 
 /* Formulario */
