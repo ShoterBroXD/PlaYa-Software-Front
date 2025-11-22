@@ -59,7 +59,7 @@ export const ARTISTS_SIDEBAR_CONFIG: SidebarConfig = {
     { label: 'Artistas destacados', icon: 'collection', route: '/artists' },
     { label: 'Explorar Artistas', icon: 'history', route: '/artists/explore' },
     { label: 'Más populares', icon: 'music', route: '/artists/popular' },
-    { label: 'Por categoría', icon: 'grid', route: '/artists/featured' }
+    { label: 'Artistas nuevos', icon: 'grid', route: '/artists/featured' }
   ],
   bottomItems: [
     { label: 'Configuración', icon: 'cog', route: '/configuration' },

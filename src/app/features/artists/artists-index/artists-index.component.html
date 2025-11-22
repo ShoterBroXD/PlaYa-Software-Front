@@ -1,23 +1,28 @@
 <div class="artists-index-container">
     <h2>Tus Artistas Destacados</h2>
 
-    <div class="featured-scroll">
-        <div *ngFor="let artist of featuredArtists" class="artist-card-featured" [routerLink]="['/artists/profile', artist.id]">
+    <div class="loading" *ngIf="loading">Cargando artistas...</div>
+
+    <div class="featured-scroll" *ngIf="!loading">
+        <div *ngFor="let artist of featuredArtists" class="artist-card-featured" [routerLink]="['/artists/profile', artist.idUser]">
             <div class="artist-avatar">
-                <span>{{ artist.emoji }}</span>
+                <span>🎤</span>
             </div>
             <div class="artist-name">{{ artist.name }}</div>
-            <div class="artist-genre">{{ artist.genre }}</div>
+            <div class="artist-genre">{{ getArtistGenre(artist) }}</div>
         </div>
     </div>
 
     <h3 class="section-title">Artistas Seguidos</h3>
     <div class="followed-scroll">
-        <div *ngFor="let artist of followedArtists" class="artist-card-followed" [routerLink]="['/artists/profile', artist.id]">
+        <div *ngFor="let artist of followedArtists" class="artist-card-followed" [routerLink]="['/artists/profile', artist.idUser]">
             <div class="artist-avatar-small">
-                <span>{{ artist.emoji }}</span>
+                <span>🎶</span>
             </div>
             <div class="artist-name-small">{{ artist.name }}</div>
+        </div>
+        <div *ngIf="followedArtists.length === 0" class="no-data">
+            No sigues a ningún artista aún
         </div>
     </div>
 </div>

@@ -99,6 +99,15 @@ h2 {
     background: #096d7d;
 }
 
+.btn-follow.following {
+    background: #c7d1db;
+    color: #0b2239;
+}
+
+.btn-follow.following:hover {
+    background: #b0bac7;
+}
+
 @media (max-width: 768px) {
     .artist-card {
         width: 100%;

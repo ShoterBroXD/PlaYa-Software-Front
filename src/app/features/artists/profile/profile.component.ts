@@ -1,54 +1,126 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { ArtistService } from '../../../core/services/artist.service';
+import { FollowService } from '../../../core/services/follow.service';
+import { SongService } from '../../../core/services/song.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { Artist } from '../../../core/models/artist.model';
+import { Song } from '../../../core/models/song.model';
 
 @Component({
   selector: 'app-artist-profile',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
+
 export class ProfileComponent implements OnInit {
   artistId: string | null = null;
+  artist: Artist | null = null;
+  songs: Song[] = [];
+  followersCount = 0;
+  followingCount = 0;
+  loading = false;
   isFollowing = false;
+  currentUserId: number | null = null;
 
-  artist = {
-    name: 'Nombre del Artista',
-    emoji: '🎤',
-    followers: '1.200.000',
-    following: '350',
-    bio: 'Breve biografía del artista, su trayectoria, logros destacados y curiosidades.',
-    genre: 'Pop, Rock',
-    yearsActive: '2010 - Presente',
-    country: 'Estados Unidos',
-    label: 'XYZ Music'
-  };
-
-  popularSongs = [
-    { id: 1, title: 'Música 01', year: '2023', album: 'Álbum del artista' },
-    { id: 2, title: 'Música 02', year: '2022', album: 'Álbum del artista' },
-    { id: 3, title: 'Música 03', year: '2021', album: 'Álbum del artista' }
-  ];
-
-  suggestedArtists = [
-    { id: 1, name: 'Artista Sugerido 01', genre: 'Pop', emoji: '🎤' },
-    { id: 2, name: 'Artista Sugerido 02', genre: 'Rock', emoji: '🎤' },
-    { id: 3, name: 'Artista Sugerido 03', genre: 'Indie', emoji: '🎤' }
-  ];
-
-  constructor(private route: ActivatedRoute) {}
+  constructor(
+    private route: ActivatedRoute,
+    private artistService: ArtistService,
+    private followService: FollowService,
+    private songService: SongService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
+    this.currentUserId = this.authService.getUserId();
     this.artistId = this.route.snapshot.paramMap.get('id');
-    // Aquí podrías cargar los datos del artista desde un servicio
+    if (this.artistId) {
+      const id = +this.artistId;
+      this.loadArtist(id);
+      this.loadSongs(id);
+      this.loadFollowStats(id);
+      this.checkIfFollowing(id);
+    }
+  }
+
+  loadArtist(id: number) {
+    this.loading = true;
+    this.artist = {
+      idUser: id,
+      name: 'Cargando...',
+      email: '',
+      genreName: undefined
+    };
+  }
+
+  loadSongs(userId: number) {
+    this.songService.getSongsByUser(userId).subscribe({
+      next: (songs) => {
+        if (songs && Array.isArray(songs)) {
+          this.songs = songs.filter(s => s.visibility === 'public');
+          if (songs.length > 0 && this.artist && songs[0].artist) {
+            this.artist.name = songs[0].artist.name || 'Artista';
+          } else if (this.artist) {
+            this.artist.name = 'Artista';
+          }
+        } else {
+          this.songs = [];
+          if (this.artist) {
+            this.artist.name = 'Artista';
+          }
+        }
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar canciones:', error);
+        if (this.artist) {
+          this.artist.name = 'Artista';
+        }
+        this.songs = [];
+        this.loading = false;
+      }
+    });
+  }
+
+  loadFollowStats(artistId: number) {
+    this.followService.countFollowers(artistId).subscribe({
+      next: (count) => this.followersCount = count,
+      error: (error) => console.error('Error al contar seguidores:', error)
+    });
+
+    this.followService.countFollowing(artistId).subscribe({
+      next: (count) => this.followingCount = count,
+      error: (error) => console.error('Error al contar siguiendo:', error)
+    });
+  }
+
+  checkIfFollowing(artistId: number) {
+    if (!this.currentUserId) return;
+    
+    this.followService.isFollowing(this.currentUserId, artistId).subscribe({
+      next: (following) => this.isFollowing = following,
+      error: (error) => console.error('Error al verificar follow:', error)
+    });
   }
 
   toggleFollow() {
-    this.isFollowing = !this.isFollowing;
-  }
+    if (!this.currentUserId || !this.artistId) return;
 
-  playSong(songId: number) {
-    console.log('Reproduciendo canción:', songId);
+    const artistId = +this.artistId;
+    const action = this.isFollowing 
+      ? this.followService.unfollowArtist(this.currentUserId, artistId)
+      : this.followService.followArtist(this.currentUserId, artistId);
+
+    action.subscribe({
+      next: (message) => {
+        this.isFollowing = !this.isFollowing;
+        this.loadFollowStats(artistId);
+        console.log(message);
+      },
+      error: (error) => console.error('Error al cambiar follow:', error)
+    });
   }
 }

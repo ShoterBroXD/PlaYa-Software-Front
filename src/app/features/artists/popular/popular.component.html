@@ -1,19 +1,29 @@
 <div class="popular-container">
     <h2>Artistas más populares</h2>
 
-    <div class="artists-list">
-        <div *ngFor="let artist of popularArtists" class="artist-card">
-            <div class="artist-info" [routerLink]="['/artists/profile', artist.id]">
+    <div class="loading" *ngIf="loading">Cargando artistas populares...</div>
+
+    <div class="artists-list" *ngIf="!loading">
+        <div *ngFor="let artist of popularArtists; let i = index" class="artist-card">
+            <div class="rank-number">{{ i + 1 }}</div>
+            <div class="artist-info" [routerLink]="['/artists/profile', artist.idUser || artist.artistId]">
                 <div class="artist-avatar">
-                    <span>{{ artist.emoji }}</span>
+                    <span>🎤</span>
                 </div>
                 <div class="artist-details">
-                    <div class="artist-name">{{ artist.name }}</div>
-                    <div class="artist-followers">{{ artist.followers }} seguidores</div>
-                    <div class="artist-description">{{ artist.description }}</div>
+                    <div class="artist-name">{{ artist.name || artist.artistName }}</div>
+                    <div class="artist-plays">{{ artist.totalPlays || artist.playCount }} reproducciones</div>
+                    <div class="popularity-bar">
+                        <div class="popularity-fill" [style.width]="getPopularityWidth(artist.popularity || 0)"></div>
+                    </div>
+                    <div class="popularity-score">{{ (artist.popularity || 0).toFixed(1) }}%</div>
                 </div>
             </div>
             <button class="btn-follow">Seguir</button>
+        </div>
+
+        <div *ngIf="popularArtists.length === 0" class="no-results">
+            No hay datos de popularidad disponibles
         </div>
     </div>
 </div>

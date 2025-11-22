@@ -3,19 +3,34 @@
     <p class="subtitle">Descubre nuevos artistas por géneros, popularidad y tendencias.</p>
 
     <div class="filter-section">
-        <label for="filtro">Filtrar por género:</label>
-        <select id="filtro" [(ngModel)]="selectedGenre">
-            <option *ngFor="let genre of genres" [value]="genre">{{ genre }}</option>
+        <label for="filtro-name">Buscar por nombre:</label>
+        <input 
+            id="filtro-name" 
+            type="text" 
+            [(ngModel)]="searchName" 
+            (ngModelChange)="onFilterChange()"
+            placeholder="Nombre del artista..."
+        />
+        
+        <label for="filtro-genre">Filtrar por género:</label>
+        <select id="filtro-genre" (change)="onGenreChange($event)">
+            <option *ngFor="let genre of genres" [value]="genre.idGenre">{{ genre.name }}</option>
         </select>
     </div>
 
-    <div class="artists-grid">
-        <div *ngFor="let artist of filteredArtists" class="artist-card" [routerLink]="['/artists/profile', artist.id]">
+    <div class="loading" *ngIf="loading">Cargando artistas...</div>
+
+    <div class="artists-grid" *ngIf="!loading">
+        <div *ngFor="let artist of artists" class="artist-card" [routerLink]="['/artists/profile', artist.idUser]">
             <div class="artist-avatar">
-                <span>{{ artist.emoji }}</span>
+                <span>🎤</span>
             </div>
             <div class="artist-name">{{ artist.name }}</div>
-            <div class="artist-info">{{ artist.genre }} • {{ artist.followers }} seguidores</div>
+            <div class="artist-info">{{ artist.genreName || 'Varios' }} • {{ getFollowerCount(artist) }} seguidores</div>
+        </div>
+        
+        <div *ngIf="artists.length === 0" class="no-results">
+            No se encontraron artistas con los filtros seleccionados
         </div>
     </div>
 </div>

@@ -20,25 +20,15 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         errorMessage = `Error: ${error.error.message}`;
        
       } else {
-        // Error del servidor - extraer mensaje del formato ErrorResponse del backend
-        // El backend devuelve: { message: string, status: number, timestamp: string }
         const errorResponse = error.error as ErrorResponse;
         const backendMessage = errorResponse?.message || error.statusText || 'Error desconocido';
         errorMessage = `Error ${error.status}: ${backendMessage}`;
 
-        // Mostrar notificación toast amigable
-        //notificationService.showHttpError(error.status, backendMessage);
-
-        // Si el error es 401 (Unauthorized), hacer logout
         if (error.status === 401) {
           authService.logout();
           router.navigate(['/login']);
         }
 
-        // Si el error es 403 (Forbidden), redirigir
-        if (error.status === 403) {
-          router.navigate(['/']);
-        }
       }
 
       //console.error(errorMessage);

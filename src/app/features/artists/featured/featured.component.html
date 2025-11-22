@@ -1,19 +1,34 @@
 <div class="featured-container">
-    <h2>Artistas por categoría</h2>
+    <h2>Artistas Nuevos</h2>
 
-    <div class="artists-list">
-        <div *ngFor="let artist of featuredArtists" class="artist-card">
-            <div class="artist-info" [routerLink]="['/artists/profile', artist.id]">
-                <div class="artist-avatar">
-                    <span>{{ artist.emoji }}</span>
+    <div class="loading" *ngIf="loading">Cargando artistas nuevos...</div>
+
+    <div *ngIf="!loading">
+        <!-- Artistas Nuevos -->
+        <section class="category-section">
+            <p class="category-description">Artistas que se unieron recientemente a la plataforma (últimos 14 días)</p>
+            <div class="artists-list">
+                <div *ngFor="let artist of activeArtists" class="artist-card">
+                    <div class="artist-info" [routerLink]="['/artists/profile', artist.idUser]">
+                        <div class="artist-avatar">
+                            <span>🎤</span>
+                        </div>
+                        <div class="artist-details">
+                            <div class="artist-name">{{ artist.name }}</div>
+                            <div class="artist-genre">{{ artist.genreName || 'Varios' }}</div>
+                        </div>
+                    </div>
+                    <button 
+                        class="btn-follow" 
+                        [class.following]="isFollowing(artist.idUser)"
+                        (click)="toggleFollow(artist, $event)">
+                        {{ isFollowing(artist.idUser) ? 'Siguiendo' : 'Seguir' }}
+                    </button>
                 </div>
-                <div class="artist-details">
-                    <div class="artist-name">{{ artist.name }}</div>
-                    <div class="artist-followers">{{ artist.followers }} seguidores</div>
-                    <div class="artist-description">{{ artist.description }}</div>
+                <div *ngIf="activeArtists.length === 0" class="no-results-small">
+                    No hay artistas nuevos en este momento
                 </div>
             </div>
-            <button class="btn-follow">Seguir</button>
-        </div>
+        </section>
     </div>
 </div>
