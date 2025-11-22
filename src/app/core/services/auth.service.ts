@@ -58,8 +58,29 @@ export class AuthService {
   logout(): void {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('userType');
+    localStorage.removeItem('userId');
     this.currentUserSubject.next(null);
     this.router.navigate(['/auth/login']);
+  }
+
+  /**
+   * Obtener perfil de usuario actual
+   */
+  getUserProfile(): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/auth/me`);
+  }
+
+  /**
+   * Cargar perfil de usuario después del login
+   */
+  loadUserProfile(): Observable<any> {
+    return this.getUserProfile().pipe(
+      tap((profile: any) => {
+        // Actualizar el usuario actual con el perfil completo
+        this.saveAuthData(profile);
+      })
+    );
   }
 
   /**
@@ -119,6 +140,12 @@ export class AuthService {
    * Guardar datos de autenticación
    */
   private saveAuthData(response: AuthResponse): void {
+    // Decodificar token para obtener idUser
+    const payload = this.decodeToken(response.token);
+    if (payload?.userId && !response.idUser) {
+      (response as any).idUser = payload.userId;
+    }
+
     localStorage.setItem('token', response.token);
     localStorage.setItem('currentUser', JSON.stringify(response));
 

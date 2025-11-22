@@ -1,43 +1,13 @@
-import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const authService = inject(AuthService);
+  const token = authService.getToken();
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Obtener token
-    const token = this.authService.getToken();
-
-    // Si existe token, agregarlo al header
-    if (token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      // Extraer userId del token para rutas específicas
-      const payload = this.decodeToken(token);
-      if (payload && (request.url.includes('/notifications') || request.url.includes('/playlists'))) {
-        const userId = payload.userId;
-        if (userId) {
-          request = request.clone({
-            setHeaders: {
-              ...request.headers,
-              idUser: userId.toString()
-            }
-          });
-        }
-      }
-    }
-
-    return next.handle(request);
-  }
-
-  private decodeToken(token: string): any {
+  // Función para decodificar JWT
+  const decodeToken = (token: string): any => {
     try {
       const base64Url = token.split('.')[1];
       const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
@@ -51,8 +21,29 @@ export class AuthInterceptor implements HttpInterceptor {
       );
       return JSON.parse(jsonPayload);
     } catch (e) {
-      console.error('Error decoding token', e);
       return null;
     }
+  };
+
+  // Si hay token, agregar Authorization header
+  if (token) {
+    const headers: { [key: string]: string } = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    // Agregar idUser solo para rutas de notificaciones y playlists
+    if (req.url.includes('/notifications') || req.url.includes('/playlists')) {
+      const payload = decodeToken(token);
+      if (payload?.userId) {
+        headers['idUser'] = payload.userId.toString();
+      }
+    }
+
+    const clonedRequest = req.clone({
+      setHeaders: headers,
+    });
+    return next(clonedRequest);
   }
-}
+
+  return next(req);
+};
