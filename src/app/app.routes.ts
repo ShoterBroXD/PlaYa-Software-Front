@@ -158,6 +158,19 @@ export const routes: Routes = [
         path: 'messages',
         loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent), // Placeholder
       },
+      {
+        path: 'premium',
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./features/premium/plans/premium-plans.component').then(m => m.PremiumPlansComponent),
+          },
+          {
+            path: 'payment',
+            loadComponent: () => import('./features/premium/payment/premium-payment.component').then(m => m.PremiumPaymentComponent),
+          },
+        ]
+      },
     ]
   },
 
