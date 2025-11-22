@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { ArtistService } from "../../../core/services/artist.service"
 
 @Component({
   selector: 'app-artists-explore',
@@ -15,18 +16,36 @@ export class ExploreComponent {
   
   genres = ['Todos', 'Pop', 'Rock', 'Jazz', 'Electrónica', 'Indie'];
   
-  artists = [
-    { id: 1, name: 'Artista Nuevo 01', genre: 'Pop', followers: '850k', emoji: '🎤' },
-    { id: 2, name: 'Artista Nuevo 02', genre: 'Rock', followers: '1.1M', emoji: '🎤' },
-    { id: 3, name: 'Artista Nuevo 03', genre: 'Jazz', followers: '430k', emoji: '🎤' },
-    { id: 4, name: 'Artista Nuevo 04', genre: 'Electrónica', followers: '690k', emoji: '🎤' },
-    { id: 5, name: 'Artista Nuevo 05', genre: 'Indie', followers: '520k', emoji: '🎤' }
-  ];
+  artists: any[] = [];       // DATA REAL del backend
+  filtered: any[] = [];      // PARA EL FILTRO
 
-  get filteredArtists() {
+  constructor(private artistService: ArtistService) {}
+
+  ngOnInit() {
+    this.loadRecentArtists();
+  }
+
+  loadRecentArtists() {
+    this.artistService.getRecentArtists().subscribe({
+      next: (data) => {
+        this.artists = data;
+        this.applyFilter();
+      },
+      error: (error) => {
+        console.error('Error al obtener artistas:', error);
+      }
+    });
+  }
+
+  onGenreChange() {
+    this.applyFilter();
+  }
+
+  applyFilter() {
     if (this.selectedGenre === 'Todos') {
-      return this.artists;
+      this.filtered = this.artists;
+    } else {
+      this.filtered = this.artists.filter(a => a.genre === this.selectedGenre);
     }
-    return this.artists.filter(artist => artist.genre === this.selectedGenre);
   }
 }

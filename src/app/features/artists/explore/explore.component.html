@@ -10,7 +10,7 @@
     </div>
 
     <div class="artists-grid">
-        <div *ngFor="let artist of filteredArtists" class="artist-card" [routerLink]="['/artists/profile', artist.id]">
+        <div *ngFor="let artist of filtered" class="artist-card" [routerLink]="['/artists/profile', artist.id]">
             <div class="artist-avatar">
                 <span>{{ artist.emoji }}</span>
             </div>
