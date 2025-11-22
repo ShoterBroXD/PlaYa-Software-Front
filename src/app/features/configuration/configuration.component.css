@@ -155,6 +155,18 @@ select {
     color: #444;
 }
 
+.button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.button-row .btn,
+.button-row .btn-preferences {
+    margin: 0;
+}
+
 /* Overlay para cambio de contraseña */
 .overlay {
     position: fixed;

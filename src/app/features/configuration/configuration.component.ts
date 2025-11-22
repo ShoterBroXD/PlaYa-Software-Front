@@ -7,11 +7,12 @@ import { UserService } from '../../core/services/user.service';
 import { UserConfiguration } from '../../core/models/configuration.model';
 import { TranslationService } from '../../core/services/translation.service';
 import { TranslateModule } from '@ngx-translate/core';
+import { MusicPreferencesComponent } from './components/music-preferences/music-preferences.component';
 
 @Component({
   selector: 'app-configuration',
   standalone: true,
-  imports: [CommonModule, FormsModule, ChangePasswordComponent, TranslateModule],
+  imports: [CommonModule, FormsModule, ChangePasswordComponent, MusicPreferencesComponent, TranslateModule],
   templateUrl: './configuration.component.html',
   styleUrls: ['./configuration.component.css'],
 })
@@ -284,6 +285,18 @@ export class ConfigurationComponent implements OnInit {
    */
   onPasswordChangeSuccess(): void {
     console.log('Contraseña cambiada exitosamente');
+  }
+
+  openMusicPreferences(): void {
+    this.showPreferencesOverlay.set(true);
+  }
+
+  closeMusicPreferences(): void {
+    this.showPreferencesOverlay.set(false);
+  }
+
+  onPreferencesUpdated(): void {
+    this.showMessage('success', 'Preferencias musicales actualizadas');
   }
 
 }

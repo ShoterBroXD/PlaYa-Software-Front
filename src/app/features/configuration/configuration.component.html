@@ -79,7 +79,13 @@
                         <option>{{ 'config.account.artist' | translate }}</option>
                     </select>
                 </label>
-                <button class="btn">{{ 'config.account.linkSocial' | translate }}</button>
+                <div class="button-row">
+                    <button class="btn">{{ 'config.account.linkSocial' | translate }}</button>
+                    <button class="btn-preferences" (click)="openMusicPreferences()">
+                        <i class="fas fa-sliders-h"></i>
+                        Ajustar preferencias
+                    </button>
+                </div>
 
                 <h3>{{ 'config.extra.title' | translate }}</h3>
                 <label>
@@ -138,9 +144,8 @@
 </div>
 
 <!-- Overlay de preferencias musicales -->
-<!-- TODO: Implementar en fase 2 -->
-<!-- <app-music-preferences
+<app-music-preferences
     *ngIf="showPreferencesOverlay()"
     (close)="closeMusicPreferences()"
     (preferencesUpdated)="onPreferencesUpdated()">
-</app-music-preferences> -->
+</app-music-preferences>
