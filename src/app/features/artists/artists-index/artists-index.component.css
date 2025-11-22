@@ -1,0 +1,137 @@
+.artists-index-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    color: #0b2239;
+}
+
+h2 {
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+h3.section-title {
+    margin-top: 30px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+/* Featured Artists Scroll */
+.featured-scroll {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.featured-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.featured-scroll::-webkit-scrollbar-thumb {
+    background: #0b869a;
+    border-radius: 10px;
+}
+
+.artist-card-featured {
+    flex: 0 0 130px;
+    background: #e8f0f2;
+    border-radius: 12px;
+    padding: 15px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.artist-card-featured:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(11, 134, 154, 0.2);
+}
+
+.artist-avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 10px;
+    background: #d2d7dc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.artist-avatar span {
+    font-size: 36px;
+    color: #7a7a7a;
+}
+
+.artist-name {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 4px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.artist-genre {
+    font-size: 12px;
+    color: #535353;
+}
+
+/* Followed Artists Scroll */
+.followed-scroll {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    padding-bottom: 10px;
+}
+
+.followed-scroll::-webkit-scrollbar {
+    height: 8px;
+}
+
+.followed-scroll::-webkit-scrollbar-thumb {
+    background: #0b869a;
+    border-radius: 10px;
+}
+
+.artist-card-followed {
+    flex: 0 0 130px;
+    background: #fff;
+    box-shadow: 0 0 6px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.artist-card-followed:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 4px 12px rgba(11, 134, 154, 0.15);
+}
+
+.artist-avatar-small {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 8px;
+    background: #c9d2dc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.artist-avatar-small span {
+    font-size: 28px;
+    color: #7a7a7a;
+}
+
+.artist-name-small {
+    font-weight: 600;
+    font-size: 13px;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

@@ -1,0 +1,76 @@
+<div class="profile-container">
+    <div class="loading" *ngIf="loading">Cargando perfil del artista...</div>
+
+    <div class="profile-layout" *ngIf="!loading && artist">
+        <!-- Contenido principal -->
+        <section class="main-content">
+            <!-- Header con foto y datos básicos -->
+            <div class="artist-header">
+                <div class="artist-avatar-large">
+                    🎤
+                </div>
+                <div class="artist-header-info">
+                    <h1>{{ artist.name }}</h1>
+                    <p class="stats">
+                        <strong>{{ followersCount }}</strong> seguidores • 
+                        <strong>{{ followingCount }}</strong> seguidos
+                    </p>
+                    <div class="action-buttons">
+                        <button class="btn-follow" [class.following]="isFollowing" (click)="toggleFollow()">
+                            {{ isFollowing ? 'Siguiendo' : 'Seguir' }}
+                        </button>
+                        <button class="btn-share">Compartir perfil</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Canciones populares -->
+            <h2>Canciones populares</h2>
+            <ul class="songs-list" *ngIf="songs.length > 0">
+                <li *ngFor="let song of songs" class="song-item">
+                    <div class="song-info">
+                        <strong>{{ song.title }}</strong>
+                        <p>{{ song.description || 'Sin descripción' }}</p>
+                        <small>{{ song.genre?.name || 'Sin género' }} • ⭐ {{ song.averageRating?.toFixed(1) || 'N/A' }}</small>
+                    </div>
+                    <button class="btn-play">Reproducir</button>
+                </li>
+            </ul>
+            <div class="empty-state" *ngIf="songs.length === 0">
+                Este artista aún no tiene canciones publicadas
+            </div>
+
+            <!-- Biografía -->
+            <h2>Biografía</h2>
+            <p class="bio">{{ artist.biography || 'Este artista aún no ha compartido su biografía.' }}</p>
+
+            <!-- Enlace a comunidad -->
+            <h2>Enlace a Comunidad</h2>
+            <a href="#" class="community-link">
+                Comunidad de Fans <span>💬</span>
+            </a>
+        </section>
+
+        <!-- Sidebar lateral -->
+        <aside class="sidebar">
+            <section class="quick-info">
+                <h3>Información rápida</h3>
+                <ul>
+                    <li><strong>Email:</strong> {{ artist.email }}</li>
+                    <li><strong>Género:</strong> {{ artist.genreName || 'No especificado' }}</li>
+                </ul>
+            </section>
+
+            <section class="suggested">
+                <h3>Artistas sugeridos</h3>
+                <div class="empty-state-small">
+                    Próximamente verás artistas similares aquí
+                </div>
+            </section>
+        </aside>
+    </div>
+
+    <div *ngIf="!loading && !artist" class="error-state">
+        No se encontró el perfil del artista
+    </div>
+</div>

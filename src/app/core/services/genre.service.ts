@@ -1,8 +1,9 @@
-﻿import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { Genre } from '../models/genre.model';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
+import { Genre } from '../models/genre.model';
+import { Song } from '../models/song.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +11,14 @@ import { environment } from '../../../environments/environment';
 export class GenreService {
   private http = inject(HttpClient);
   private apiUrl = `${environment.apiUrl}/genres`;
+
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+  }
 
   // Géneros musicales predefinidos
   private readonly predefinedGenres: Genre[] = [

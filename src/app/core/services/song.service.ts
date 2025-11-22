@@ -1,14 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, timeout } from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import {
-  SongRequestDto,
-  SongResponseDto,
-  RateSongRequestDto,
-  CommentResponseDto
-} from '../models/song.model';
+import { Song, SongRequest, RateSongRequest } from '../models/song.model';
 
 @Injectable({
   providedIn: 'root'

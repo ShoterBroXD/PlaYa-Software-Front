@@ -285,30 +285,43 @@ export class ConfigurationComponent implements OnInit {
    */
   onPasswordChangeSuccess(): void {
     console.log('Contraseña cambiada exitosamente');
-    this.showMessage('success', 'Contraseña actualizada correctamente');
   }
 
-  /**
-   * Abrir overlay de preferencias musicales
-   */
-  openMusicPreferences(): void {
-    console.log('🎵 Opening music preferences modal...');
-    this.showPreferencesOverlay.set(true);
-    console.log('Modal state:', this.showPreferencesOverlay());
+  private getPreferencesPayload(): NotificationPreferences {
+    return {
+      enableComments: this.enableComments,
+      enableSystems: this.enableSystems,
+      enableNewReleases: this.enableNewReleases,
+      enableFollowers: this.enableFollowers
+    };
   }
 
-  /**
-   * Cerrar overlay de preferencias musicales
-   */
-  closeMusicPreferences(): void {
-    this.showPreferencesOverlay.set(false);
+  savePreferences() {
+    const payload = this.getPreferencesPayload();
+    this.notificationService.updatePreferences(payload).subscribe({
+      next: () => {
+        console.log('Preferencias guardadas exitosamente');
+        alert('Preferencias guardadas correctamente');
+      },
+      error: (error: unknown) => {
+        console.error('Error guardando preferencias', error);
+        alert('Error al guardar preferencias');
+      }
+    });
   }
 
-  /**
-   * Callback cuando se actualizan las preferencias musicales
-   */
-  onPreferencesUpdated(): void {
-    console.log('Preferencias musicales actualizadas');
-    this.showMessage('success', 'Preferencias musicales actualizadas exitosamente');
+  togglePreferences() {
+    this.notificationService.toggleNotifications().subscribe({
+      next: () => {
+        // Recargar preferencias desde el servidor para reflejar el estado real
+        this.loadPreferences();
+      },
+      error: (error: unknown) => console.error('Error al alternar preferencias', error)
+    });
+  }
+
+  get allNotificationsDisabled(): boolean {
+    return !this.enableComments && !this.enableSystems && 
+           !this.enableNewReleases && !this.enableFollowers;
   }
 }

@@ -4,6 +4,7 @@ import { MainLayoutComponent } from './layouts/main-layout.component';
 import { LibraryLayoutComponent } from './layouts/library-layout/library-layout.component';
 import { CategoriesLayoutComponent } from './layouts/categories-layout/categories-layout.component';
 import { CommunitiesLayoutComponent } from './layouts/communities-layout/communities-layout.component';
+import { ArtistsLayoutComponent } from './layouts/artists-layout/artists-layout.component';
 
 export const routes: Routes = [
   // Landing Page (sin navbar autenticado)
@@ -134,6 +135,36 @@ export const routes: Routes = [
         ]
       },
       {
+        path: 'artists',
+        component: ArtistsLayoutComponent,
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./features/artists/artists-index/artists-index.component').then(m => m.ArtistsIndexComponent),
+          },
+          {
+            path: 'explore',
+            loadComponent: () => import('./features/artists/explore/explore.component').then(m => m.ExploreComponent),
+          },
+          {
+            path: 'popular',
+            loadComponent: () => import('./features/artists/popular/popular.component').then(m => m.PopularComponent),
+          },
+          {
+            path: 'featured',
+            loadComponent: () => import('./features/artists/featured/featured.component').then(m => m.FeaturedComponent),
+          },
+          {
+            path: 'profile/:id',
+            loadComponent: () => import('./features/artists/profile/profile.component').then(m => m.ProfileComponent),
+          }
+        ]
+      },
+      {
+        path: 'premium',
+        loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent), // Placeholder
+       },
+      { 
         path: 'playlists',
         children: [
           {

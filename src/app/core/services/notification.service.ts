@@ -16,17 +16,14 @@ import {
 export class NotificationService {
   private apiUrl = `${environment.apiUrl}/notifications`;
   
-  // Signals para estado reactivo
   private notificationsSignal = signal<Notification[]>([]);
   private unreadCountSignal = signal<number>(0);
   private loadingSignal = signal<boolean>(false);
   
-  // Computed signals
   notifications = computed(() => this.notificationsSignal());
   unreadCount = computed(() => this.unreadCountSignal());
   loading = computed(() => this.loadingSignal());
   
-  // BehaviorSubject para compatibilidad con observables
   private notificationsSubject = new BehaviorSubject<Notification[]>([]);
   public notifications$ = this.notificationsSubject.asObservable();
 
@@ -100,9 +97,6 @@ export class NotificationService {
     return this.http.get<Notification[]>(`${this.apiUrl}/${userId}/unread`);
   }
 
-  /**
-   * Marcar notificación como leída
-   */
   markAsRead(notificationId: number): Observable<void> {
     return this.http.put<void>(
       `${this.apiUrl}/${notificationId}/read`,
@@ -122,23 +116,23 @@ export class NotificationService {
     );
   }
 
-  /**
-   * Marcar todas como leídas
-   */
-  markAllAsRead(): void {
-    const notifications = this.notificationsSignal();
-    const unreadNotifications = notifications.filter(n => !n.read);
-    
-    unreadNotifications.forEach(notification => {
-      this.markAsRead(notification.idNotification).subscribe({
-        error: (err) => console.error('Error al marcar como leída:', err)
-      });
-    });
+  markAllAsRead(): Observable<void> {
+    return this.http.put<void>(
+      `${this.apiUrl}/read-all`,
+      {},
+      { headers: this.getHeaders() }
+    ).pipe(
+      tap(() => {
+        const notifications = this.notificationsSignal();
+        const updatedNotifications = notifications.map(n => ({ ...n, read: true }));
+        this.notificationsSignal.set(updatedNotifications);
+        this.notificationsSubject.next(updatedNotifications);
+        this.unreadCountSignal.set(0);
+      })
+    );
   }
 
-  /**
-   * Eliminar notificación
-   */
+  
   deleteNotification(notificationId: number): Observable<string> {
     return this.http.delete<string>(`${this.apiUrl}/${notificationId}`).pipe(
       tap(() => {
@@ -159,6 +153,16 @@ export class NotificationService {
    */
   createNotification(request: NotificationRequest): Observable<Notification> {
     return this.http.post<Notification>(this.apiUrl, request);
+  }
+
+  /**
+   * Obtener preferencias de notificaciones del usuario
+   */
+  getPreferences(): Observable<NotificationPreferences> {
+    return this.http.get<NotificationPreferences>(
+      `${this.apiUrl}/preferences`,
+      { headers: this.getHeaders() }
+    );
   }
 
   /**

@@ -32,7 +32,8 @@ export interface NotificationRequest {
  * Interfaz para preferencias de notificaciones
  */
 export interface NotificationPreferences {
-  enabled: boolean;
-  emailNotifications?: boolean;
-  pushNotifications?: boolean;
+  enableComments: boolean;
+  enableSystems: boolean;
+  enableNewReleases: boolean;
+  enableFollowers: boolean;
 }

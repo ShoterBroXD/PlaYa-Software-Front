@@ -6,7 +6,7 @@ export interface SidebarItem {
 }
 
 export interface SidebarConfig {
-  context: 'library' | 'categories' | 'communities';
+  context: 'library' | 'categories' | 'communities' | 'artists';
   topItems: SidebarItem[];
   bottomItems: SidebarItem[];
 }
@@ -46,6 +46,20 @@ export const COMMUNITIES_SIDEBAR_CONFIG: SidebarConfig = {
     { label: 'Tus Comunidades', icon: 'liked', route: '/communities/your-communities' },
     { label: 'Recomendados', icon: 'following', route: '/communities/recommended' },
     { label: 'Explorar', icon: 'history', route: '/communities/explore' }
+  ],
+  bottomItems: [
+    { label: 'Configuración', icon: 'cog', route: '/configuration' },
+    { label: 'Cerrar sesión', icon: 'logout', route: '/logout' }
+  ]
+};
+
+export const ARTISTS_SIDEBAR_CONFIG: SidebarConfig = {
+  context: 'artists',
+  topItems: [
+    { label: 'Artistas destacados', icon: 'collection', route: '/artists' },
+    { label: 'Explorar Artistas', icon: 'history', route: '/artists/explore' },
+    { label: 'Más populares', icon: 'music', route: '/artists/popular' },
+    { label: 'Artistas nuevos', icon: 'grid', route: '/artists/featured' }
   ],
   bottomItems: [
     { label: 'Configuración', icon: 'cog', route: '/configuration' },

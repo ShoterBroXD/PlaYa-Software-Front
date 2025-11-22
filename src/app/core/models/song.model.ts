@@ -1,14 +1,20 @@
+import { Genre } from './genre.model';
+
 export interface Song {
-  idSong?: number;
+  idSong: number;
   idUser: number;
   title: string;
   description?: string;
   coverURL: string;
   fileURL: string;
-  visibility: string;
-  duration?: number;
-  uploadDate?: Date;
-  artist?: ArtistResponseDto;
+  visibility: 'public' | 'private' | 'unlisted';
+  duration: number;
+  uploadDate: string;
+  artist?: {
+    idUser: number;
+    name: string;
+    biography?: string;
+  };
   genre?: Genre;
   averageRating?: number;
   ratingCount?: number;
@@ -32,9 +38,13 @@ export interface SongRequestDto {
   description?: string;
   coverURL: string;
   fileURL: string;
-  visibility: string;
+  visibility: 'public' | 'private' | 'unlisted';
   duration?: number;
   idgenre?: number;
+}
+
+export interface RateSongRequest {
+  rating: number;
 }
 
 export interface SongResponseDto {
