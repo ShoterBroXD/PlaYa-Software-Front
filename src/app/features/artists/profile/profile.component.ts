@@ -6,7 +6,7 @@ import { FollowService } from '../../../core/services/follow.service';
 import { SongService } from '../../../core/services/song.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Artist } from '../../../core/models/artist.model';
-import { Song } from '../../../core/models/song.model';
+import { SongResponseDto } from '../../../core/models/song.model';
 
 @Component({
   selector: 'app-artist-profile',
@@ -19,7 +19,7 @@ import { Song } from '../../../core/models/song.model';
 export class ProfileComponent implements OnInit {
   artistId: string | null = null;
   artist: Artist | null = null;
-  songs: Song[] = [];
+  songs: SongResponseDto[] = [];
   followersCount = 0;
   followingCount = 0;
   loading = false;
@@ -99,7 +99,7 @@ export class ProfileComponent implements OnInit {
 
   checkIfFollowing(artistId: number) {
     if (!this.currentUserId) return;
-    
+
     this.followService.isFollowing(this.currentUserId, artistId).subscribe({
       next: (following) => this.isFollowing = following,
       error: (error) => console.error('Error al verificar follow:', error)
@@ -110,7 +110,7 @@ export class ProfileComponent implements OnInit {
     if (!this.currentUserId || !this.artistId) return;
 
     const artistId = +this.artistId;
-    const action = this.isFollowing 
+    const action = this.isFollowing
       ? this.followService.unfollowArtist(this.currentUserId, artistId)
       : this.followService.followArtist(this.currentUserId, artistId);
 

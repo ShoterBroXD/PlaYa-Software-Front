@@ -270,6 +270,87 @@
   align-items: flex-start;
 }
 
+/* Input de respuesta */
+.reply-input-section {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.reply-form {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.reply-textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  resize: vertical;
+  min-height: 60px;
+  margin-bottom: 0.5rem;
+  box-sizing: border-box;
+}
+
+.reply-textarea:focus {
+  outline: none;
+  border-color: #0a6e99;
+}
+
+.reply-actions,
+.reply-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.btn-cancel-reply,
+.btn-post-reply,
+.btn-send-reply {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel-reply {
+  background: transparent;
+  color: #666;
+}
+
+.btn-cancel-reply:hover {
+  background: #e0e0e0;
+  color: #333;
+}
+
+.btn-post-reply,
+.btn-send-reply {
+  background: #0a6e99;
+  color: #fff;
+}
+
+.btn-post-reply:hover:not(:disabled),
+.btn-send-reply:hover:not(:disabled) {
+  background: #084f6a;
+}
+
+.btn-post-reply:disabled,
+.btn-send-reply:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
 .reply-avatar {
   width: 32px;
   height: 32px;

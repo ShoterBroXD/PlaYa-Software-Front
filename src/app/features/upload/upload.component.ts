@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { CloudinaryService } from '../../core/services/cloudinary.service';
-import { Genre, SongService } from '../../core/services/song.service';
+import { SongService } from '../../core/services/song.service';
+import { Genre } from '../../core/models/genre.model';
 
 interface UploadFormState {
   title: string;
@@ -172,17 +173,17 @@ export class UploadComponent implements OnInit {
     this.coverError = null;
     this.submitError = null;
     this.isSubmitting = false;
-    this.selectedGenreId = this.genres.length ? this.genres[0].id : null;
+    this.selectedGenreId = this.genres.length ? this.genres[0].idGenre : null;
   }
 
   private loadGenres() {
     this.isGenresLoading = true;
     this.genreError = null;
     this.songService.getGenres().subscribe({
-      next: (genres) => {
+      next: (genres: Genre[]) => {
         this.genres = genres;
         if (!this.selectedGenreId && genres.length) {
-          this.onGenreChange(genres[0].id);
+          this.onGenreChange(genres[0].idGenre);
         }
         this.isGenresLoading = false;
         this.cdr.detectChanges();
@@ -251,6 +252,14 @@ export class UploadComponent implements OnInit {
     this.isSubmitting = true;
     this.submitError = null;
 
+    const userId = this.authService.getUserId();
+
+    if (!userId) {
+      this.submitError = 'No se pudo identificar al usuario';
+      this.isSubmitting = false;
+      return;
+    }
+
     const payload = {
       title: this.formState.title || this.summaryData.fileName,
       description: this.formState.description,
@@ -261,7 +270,7 @@ export class UploadComponent implements OnInit {
       duration: this.audioDuration,
     };
 
-    this.songService.createSong(payload).subscribe({
+    this.songService.createSong(userId, payload).subscribe({
       next: () => {
         this.isSubmitting = false;
         this.activeStep = 'progress';
@@ -287,7 +296,7 @@ export class UploadComponent implements OnInit {
   }
 
   get selectedGenreName(): string {
-    return this.genres.find((genre) => genre.id === this.selectedGenreId)?.name ?? 'Sin genero';
+    return this.genres.find((genre) => genre.idGenre === this.selectedGenreId)?.name ?? 'Sin genero';
   }
 
   private formatDuration(seconds?: number): string {

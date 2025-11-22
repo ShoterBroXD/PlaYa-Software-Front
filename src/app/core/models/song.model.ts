@@ -24,13 +24,11 @@ export interface ArtistResponseDto {
   idUser: number;
   name: string;
   biography?: string;
-  genre?: Genre;
-}
-
-export interface Genre {
-  idGenre: number;
-  name: string;
-  description?: string;
+  genre?: {
+    idGenre: number;
+    name: string;
+    description?: string;
+  };
 }
 
 export interface SongRequestDto {
@@ -72,10 +70,12 @@ export interface CommentResponseDto {
   idUser: number;
   idSong: number;
   content: string;
-  date: Date;
+  date: string;
+  parentComment?: number | null;
   user?: {
     idUser: number;
     name: string;
     email: string;
   };
+  replies?: CommentResponseDto[];
 }

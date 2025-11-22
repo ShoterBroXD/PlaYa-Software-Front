@@ -1,16 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SongService } from '../../../core/services/song.service';
 import { SongResponseDto } from '../../../core/models/song.model';
 import { SongRatingComponent } from '../../../shared/components/song-rating/song-rating.component';
-import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { ReportModalComponent } from '../../../shared/components/report-modal/report-modal.component';
 
 @Component({
   selector: 'app-categories-tracks',
   standalone: true,
-  imports: [CommonModule, SongRatingComponent],
+  imports: [CommonModule, SongRatingComponent, ReportModalComponent],
   templateUrl: './tracks.component.html',
   styleUrls: ['./tracks.component.css']
 })
@@ -18,6 +16,18 @@ export class CategoriesTracksComponent implements OnInit {
   songs: SongResponseDto[] = [];
   isLoading = true;
   error: string | null = null;
+  
+  // Tracks de ejemplo para UI
+  tracks = [
+    { id: 1, artist: 'Messi', title: 'Mundial (track)', duration: '1:23', image: '/assets/img/icons/pop.png' },
+    { id: 2, artist: 'Otro-artista', title: 'Otra-pista', duration: '2:34', image: '/assets/img/icons/rap.jpg' },
+    { id: 3, artist: 'Tercer-artista', title: 'Tercera-pista', duration: '3:45', image: '/assets/img/icons/rock.jpeg' }
+  ];
+
+  // Modal y UI state
+  showReportModal = signal(false);
+  selectedTrackId = signal<number | null>(null);
+  openDropdowns = signal<Set<number>>(new Set());
 
   constructor(private songService: SongService) {}
 
@@ -32,8 +42,6 @@ export class CategoriesTracksComponent implements OnInit {
     // TEMPORAL: Usar solo datos de ejemplo mientras el backend no esté disponible
     // Para conectar al backend, descomenta el bloque siguiente y comenta loadMockData() 
   }
-
-  
 
   onRatingChanged(songId: number, event: { rating: number; averageRating: number }) {
     console.log(`Canción ${songId} calificada con ${event.rating} estrellas`);
@@ -59,20 +67,7 @@ export class CategoriesTracksComponent implements OnInit {
       month: 'short',
       day: 'numeric'
     });
-  imports: [CommonModule, ReportModalComponent],
-  templateUrl: './tracks.component.html',
-  styleUrls: ['./tracks.component.css']
-})
-export class CategoriesTracksComponent {
-  tracks = [
-    { id: 1, artist: 'Messi', title: 'Mundial (track)', duration: '1:23', image: '/assets/img/icons/pop.png' },
-    { id: 2, artist: 'Otro-artista', title: 'Otra-pista', duration: '2:34', image: '/assets/img/icons/rap.jpg' },
-    { id: 3, artist: 'Tercer-artista', title: 'Tercera-pista', duration: '3:45', image: '/assets/img/icons/rock.jpeg' }
-  ];
-
-  showReportModal = signal(false);
-  selectedTrackId = signal<number | null>(null);
-  openDropdowns = signal<Set<number>>(new Set());
+  }
 
   toggleDropdown(trackId: number) {
     const open = this.openDropdowns();

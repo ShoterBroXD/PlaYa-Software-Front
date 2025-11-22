@@ -51,34 +51,6 @@
                     <input type="checkbox" [(ngModel)]="ahorroDatos" (ngModelChange)="onInputChange()" />
                 </label>
 
-                <h3>Preferencias de Notificaciones</h3>
-                <label class="toggle-label">
-                    <span>Nuevas canciones de artistas seguidos</span>
-                    <div class="toggle-switch">
-                        <input type="checkbox" [(ngModel)]="enableNewReleases" [disabled]="loadingPreferences" id="toggle-releases" />
-                        <span class="toggle-slider"></span>
-                    </div>
-                </label>
-                <label class="toggle-label">
-                    <span>Comentarios / Mensajes</span>
-                    <div class="toggle-switch">
-                        <input type="checkbox" [(ngModel)]="enableComments" [disabled]="loadingPreferences" id="toggle-comments" />
-                        <span class="toggle-slider"></span>
-                    </div>
-                </label>
-                <label class="toggle-label">
-                    <span>Notificaciones del sistema</span>
-                    <div class="toggle-switch">
-                        <input type="checkbox" [(ngModel)]="enableSystems" [disabled]="loadingPreferences" id="toggle-systems" />
-                        <span class="toggle-slider"></span>
-                    </div>
-                </label>
-                <label class="toggle-label">
-                    <span>Nuevos seguidores</span>
-                    <div class="toggle-switch">
-                        <input type="checkbox" [(ngModel)]="enableFollowers" [disabled]="loadingPreferences" id="toggle-followers" />
-                        <span class="toggle-slider"></span>
-                    </div>
                 <h3>{{ 'config.notifications.title' | translate }}</h3>
                 <label>
                     {{ 'config.notifications.newSongs' | translate }}
@@ -96,14 +68,6 @@
                     {{ 'config.notifications.recommendations' | translate }}
                     <input type="checkbox" [(ngModel)]="notifRecomendaciones" (ngModelChange)="onInputChange()" />
                 </label>
-                <div style="display:flex; gap:10px; margin-top:15px;">
-                    <button class="btn" (click)="savePreferences()" [disabled]="loadingPreferences">
-                        Guardar Preferencias
-                    </button>
-                    <button class="btn" (click)="togglePreferences()" [disabled]="loadingPreferences">
-                        {{ allNotificationsDisabled ? 'Activar Todas' : 'Desactivar Todas' }}
-                    </button>
-                </div>
             </div>
 
             <div class="account">
@@ -116,10 +80,6 @@
                     </select>
                 </label>
                 <button class="btn">{{ 'config.account.linkSocial' | translate }}</button>
-                <button class="btn btn-preferences" (click)="openMusicPreferences()">
-                    <i class="fas fa-sliders-h"></i>
-                    {{ 'config.musicPreferences.button' | translate }}
-                </button>
 
                 <h3>{{ 'config.extra.title' | translate }}</h3>
                 <label>
@@ -178,8 +138,9 @@
 </div>
 
 <!-- Overlay de preferencias musicales -->
-<app-music-preferences
+<!-- TODO: Implementar en fase 2 -->
+<!-- <app-music-preferences
     *ngIf="showPreferencesOverlay()"
     (close)="closeMusicPreferences()"
     (preferencesUpdated)="onPreferencesUpdated()">
-</app-music-preferences>
+</app-music-preferences> -->

@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { catchError, timeout } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
-import { Song, SongRequest, RateSongRequest } from '../models/song.model';
+import { SongRequestDto, SongResponseDto, RateSongRequestDto, CommentResponseDto } from '../models/song.model';
+import { Genre } from '../models/genre.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SongService {
   private apiUrl = `${environment.apiUrl}/songs`;
+  private commentsApiUrl = `${environment.apiUrl}/comments`;
   private readonly HTTP_TIMEOUT = 10000; // 10 segundos
 
   constructor(private http: HttpClient) {
@@ -60,7 +63,23 @@ export class SongService {
    * Obtener comentarios de una canción
    */
   getSongComments(songId: number): Observable<CommentResponseDto[]> {
-    return this.http.get<CommentResponseDto[]>(`${this.apiUrl}/${songId}/comments`).pipe(
+    return this.http.get<CommentResponseDto[]>(`${this.commentsApiUrl}/song/${songId}`).pipe(
+      timeout(this.HTTP_TIMEOUT),
+      catchError(this.handleError)
+    );
+  }
+
+  /**
+   * Crear un comentario en una canción
+   */
+  createSongComment(songId: number, content: string, userId: number, idParentComment?: number): Observable<CommentResponseDto> {
+    const headers = new HttpHeaders().set('iduser', userId.toString());
+    const body = {
+      idSong: songId,
+      content,
+      parentComment: idParentComment || null
+    };
+    return this.http.post<CommentResponseDto>(`${this.commentsApiUrl}`, body, { headers }).pipe(
       timeout(this.HTTP_TIMEOUT),
       catchError(this.handleError)
     );
@@ -117,65 +136,19 @@ export class SongService {
       catchError(this.handleError)
     );
   }
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
-import { AuthService } from './auth.service';
 
-export interface Genre {
-  id: number;
-  name: string;
-}
-
-export interface SongRequestPayload {
-  title: string;
-  description?: string;
-  coverURL: string;
-  fileURL: string;
-  visibility: 'public' | 'private' | 'unlisted';
-  idgenre: number;
-  duration?: number;
-}
-
-export interface SongResponse {
-  idSong: number;
-  title: string;
-  coverURL: string;
-  fileURL: string;
-  visibility: string;
-}
-
-@Injectable({
-  providedIn: 'root',
-})
-export class SongService {
-  constructor(private http: HttpClient, private authService: AuthService) {}
-
+  /**
+   * Obtener géneros musicales
+   */
   getGenres(): Observable<Genre[]> {
-    const headers = this.buildHeaders();
-    return this.http.get<Genre[]>(`${environment.apiUrl}/genres`, { headers });
+    return this.http.get<Genre[]>(`${environment.apiUrl}/genres`);
   }
 
-  createSong(payload: SongRequestPayload): Observable<SongResponse> {
-    const headers = this.buildHeaders(true);
-    return this.http.post<SongResponse>(`${environment.apiUrl}/songs`, payload, { headers });
-  }
-
-  private buildHeaders(includeUserId = false): HttpHeaders {
-    let headers = new HttpHeaders();
-
-    const token = this.authService.getToken();
-    if (token) {
-      headers = headers.set('Authorization', `Bearer ${token}`);
-    }
-
-    if (includeUserId) {
-      const userId = this.authService.getUserId();
-      if (userId) {
-        headers = headers.set('iduser', userId.toString());
-      }
-    }
-
-    return headers;
+  /**
+   * Manejo de errores
+   */
+  private handleError(error: any): Observable<never> {
+    console.error('Error en SongService:', error);
+    throw error;
   }
 }

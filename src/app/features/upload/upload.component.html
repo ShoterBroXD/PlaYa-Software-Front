@@ -111,7 +111,7 @@
               Genero
               <select [ngModel]="selectedGenreId" (ngModelChange)="onGenreChange($event)" [disabled]="isGenresLoading">
                 <option [ngValue]="null" disabled>Selecciona un genero</option>
-                <option *ngFor="let genre of genres" [ngValue]="genre.id">
+                <option *ngFor="let genre of genres" [ngValue]="genre.idGenre">
                   {{ genre.name }}
                 </option>
               </select>

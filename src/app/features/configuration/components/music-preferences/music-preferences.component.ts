@@ -1,11 +1,11 @@
 ﻿import { Component, OnInit, signal, inject, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TranslateModule } from '@ngx-translate/core';
 import { GenreService } from '../../../../core/services/genre.service';
 import { UserService } from '../../../../core/services/user.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Genre } from '../../../../core/models/genre.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-music-preferences',

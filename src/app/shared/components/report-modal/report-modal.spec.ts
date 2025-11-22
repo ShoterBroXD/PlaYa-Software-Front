@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ReportModal } from './report-modal';
+import { ReportModalComponent } from './report-modal.component';
 
-describe('ReportModal', () => {
-  let component: ReportModal;
-  let fixture: ComponentFixture<ReportModal>;
+describe('ReportModalComponent', () => {
+  let component: ReportModalComponent;
+  let fixture: ComponentFixture<ReportModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReportModal]
+      imports: [ReportModalComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ReportModal);
+    fixture = TestBed.createComponent(ReportModalComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

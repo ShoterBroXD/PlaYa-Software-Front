@@ -16,7 +16,7 @@
     <div *ngIf="loading" class="loading">Cargando...</div>
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
     <div class="category-card" *ngFor="let p of playlists" [routerLink]="['/playlists', p.id]">
-      <img [src]="p.songs && p.songs[0]?.coverURL || '/assets/img/images/img-placeholder.svg'" [alt]="p.name" class="category-icon" />
+      <img [src]="p.songs && p.songs[0].coverURL || '/assets/img/images/img-placeholder.svg'" [alt]="p.name" class="category-icon" />
       <div class="category-info">
         <h3 class="category-title">{{ p.name }}</h3>
         <p class="category-count">{{ p.songs?.length || 0 }} pistas</p>

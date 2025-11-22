@@ -2,7 +2,6 @@ import { Component, signal, computed, effect, inject, OnInit } from '@angular/co
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
-import { MusicPreferencesComponent } from './components/music-preferences/music-preferences.component';
 import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
 import { UserConfiguration } from '../../core/models/configuration.model';
@@ -12,7 +11,7 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-configuration',
   standalone: true,
-  imports: [CommonModule, FormsModule, ChangePasswordComponent, MusicPreferencesComponent, TranslateModule],
+  imports: [CommonModule, FormsModule, ChangePasswordComponent, TranslateModule],
   templateUrl: './configuration.component.html',
   styleUrls: ['./configuration.component.css'],
 })
@@ -287,41 +286,4 @@ export class ConfigurationComponent implements OnInit {
     console.log('Contraseña cambiada exitosamente');
   }
 
-  private getPreferencesPayload(): NotificationPreferences {
-    return {
-      enableComments: this.enableComments,
-      enableSystems: this.enableSystems,
-      enableNewReleases: this.enableNewReleases,
-      enableFollowers: this.enableFollowers
-    };
-  }
-
-  savePreferences() {
-    const payload = this.getPreferencesPayload();
-    this.notificationService.updatePreferences(payload).subscribe({
-      next: () => {
-        console.log('Preferencias guardadas exitosamente');
-        alert('Preferencias guardadas correctamente');
-      },
-      error: (error: unknown) => {
-        console.error('Error guardando preferencias', error);
-        alert('Error al guardar preferencias');
-      }
-    });
-  }
-
-  togglePreferences() {
-    this.notificationService.toggleNotifications().subscribe({
-      next: () => {
-        // Recargar preferencias desde el servidor para reflejar el estado real
-        this.loadPreferences();
-      },
-      error: (error: unknown) => console.error('Error al alternar preferencias', error)
-    });
-  }
-
-  get allNotificationsDisabled(): boolean {
-    return !this.enableComments && !this.enableSystems && 
-           !this.enableNewReleases && !this.enableFollowers;
-  }
 }
