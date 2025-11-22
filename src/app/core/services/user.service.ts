@@ -30,7 +30,7 @@ export class UserService {
   updateUserProfile(id: number, data: UserUpdateRequest): Observable<User> {
     return this.http.put<User>(`${this.apiUrl}/${id}`, data);
   }
-
+  //CAMBIO CAMBIO CAMBIO CAMBIO CAMBIO
   /**
    * Actualizar idioma de la interfaz del usuario
    * US-019 Escenario 01: Cambio de idioma
