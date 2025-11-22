@@ -112,6 +112,10 @@ export const routes: Routes = [
             loadComponent: () => import('./features/communities/communities-index/communities-index.component').then(m => m.CommunitiesIndexComponent),
           },
           {
+            path: 'create',
+            loadComponent: () => import('./features/communities/create-community/create-community.component').then(m => m.CreateCommunityComponent),
+          },
+          {
             path: 'your-communities',
             loadComponent: () => import('./features/communities/your-communities/your-communities.component').then(m => m.YourCommunitiesComponent),
           },

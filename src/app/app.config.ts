@@ -33,8 +33,7 @@ export const appConfig: ApplicationConfig = {
           provide: TranslateLoader,
           useFactory: createTranslateLoader,
           deps: [HttpClient]
-        },
-        defaultLanguage: 'es'
+        }
       })
     )
   ],

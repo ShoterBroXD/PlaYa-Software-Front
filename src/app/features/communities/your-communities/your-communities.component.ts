@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { CommunityService } from '../../../core/services/community.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { CommunityResponseDto } from '../../../core/models/community.model';
 
 @Component({
   selector: 'app-your-communities',
@@ -9,26 +12,50 @@ import { RouterLink } from '@angular/router';
   templateUrl: './your-communities.component.html',
   styleUrls: ['./your-communities.component.css']
 })
-export class YourCommunitiesComponent {
-  yourCommunities = [
-    { name: 'Michael Jackson', followers: '75B', description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.', image: '/assets/img/images/perfil-comunidades.png', id: 1 },
-    { name: 'The Beatles', followers: '50B', description: 'Comunidad de fans de The Beatles.', image: '/assets/img/images/perfil-comunidades.png', id: 2 },
-    { name: 'Queen', followers: '45B', description: 'We are the champions!', image: '/assets/img/images/perfil-comunidades.png', id: 3 },
-    { name: 'Led Zeppelin', followers: '40B', description: 'Stairway to heaven.', image: '/assets/img/images/perfil-comunidades.png', id: 4 },
-    { name: 'Pink Floyd', followers: '38B', description: 'The Dark Side of the Moon.', image: '/assets/img/images/perfil-comunidades.png', id: 5 },
-    { name: 'The Rolling Stones', followers: '35B', description: 'I can\'t get no satisfaction.', image: '/assets/img/images/perfil-comunidades.png', id: 6 },
-    { name: 'Nirvana', followers: '30B', description: 'Smells like teen spirit.', image: '/assets/img/images/perfil-comunidades.png', id: 7 },
-    { name: 'Metallica', followers: '28B', description: 'Enter Sandman.', image: '/assets/img/images/perfil-comunidades.png', id: 8 }
-  ];
+export class YourCommunitiesComponent implements OnInit {
+  yourCommunities: any[] = [];
+  mostActive: any[] = [];
+  isLoading = true;
+  error: string | null = null;
 
-  mostActive = [
-    { name: 'AC/DC', followers: '25B', description: 'Highway to hell.', image: '/assets/img/images/perfil-comunidades.png', id: 9 },
-    { name: 'U2', followers: '22B', description: 'With or without you.', image: '/assets/img/images/perfil-comunidades.png', id: 10 },
-    { name: 'Guns N\' Roses', followers: '20B', description: 'Welcome to the jungle.', image: '/assets/img/images/perfil-comunidades.png', id: 11 },
-    { name: 'Red Hot Chili Peppers', followers: '18B', description: 'Californication.', image: '/assets/img/images/perfil-comunidades.png', id: 12 },
-    { name: 'The Doors', followers: '15B', description: 'Light my fire.', image: '/assets/img/images/perfil-comunidades.png', id: 13 },
-    { name: 'Radiohead', followers: '14B', description: 'Creep.', image: '/assets/img/images/perfil-comunidades.png', id: 14 },
-    { name: 'Pearl Jam', followers: '12B', description: 'Alive.', image: '/assets/img/images/perfil-comunidades.png', id: 15 },
-    { name: 'Foo Fighters', followers: '10B', description: 'Everlong.', image: '/assets/img/images/perfil-comunidades.png', id: 16 }
-  ];
+  constructor(
+    private communityService: CommunityService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit() {
+    this.loadUserCommunities();
+  }
+
+  loadUserCommunities() {
+    const userId = this.authService.getUserId();
+
+    if (!userId) {
+      this.error = 'Usuario no autenticado';
+      this.isLoading = false;
+      return;
+    }
+
+    this.isLoading = true;
+    this.communityService.getUserCommunities(userId).subscribe({
+      next: (communities: CommunityResponseDto[]) => {
+        const mapped = communities.map(c => ({
+          id: c.idCommunity,
+          name: c.name,
+          followers: c.members?.length ? `${c.members.length}` : '0',
+          description: c.description,
+          image: '/assets/img/images/perfil-comunidades.png'
+        }));
+
+        this.yourCommunities = mapped.slice(0, 8);
+        this.mostActive = mapped.slice(8, 16);
+        this.isLoading = false;
+      },
+      error: (error) => {
+        console.error('Error cargando tus comunidades:', error);
+        this.error = 'Error al cargar tus comunidades.';
+        this.isLoading = false;
+      }
+    });
+  }
 }

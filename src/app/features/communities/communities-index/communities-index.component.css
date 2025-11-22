@@ -1,6 +1,104 @@
 /* Página de comunidades */
 .communities-page { max-width: 1400px; margin: 0 auto; }
 
+/* Header con botón crear */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #05255a;
+  margin: 0;
+}
+
+.btn-create-small {
+  background-color: #0a6e99;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 24px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+  font-size: 0.9rem;
+}
+
+.btn-create-small:hover {
+  background-color: #084f6a;
+  transform: translateY(-2px);
+}
+
+/* Estado vacío */
+.empty-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  padding: 2rem;
+}
+
+.empty-state-content {
+  text-align: center;
+  max-width: 500px;
+}
+
+.empty-state-content h2 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #05255a;
+  margin: 0 0 1rem;
+}
+
+.empty-state-content p {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  color: #666;
+  margin: 0 0 2rem;
+}
+
+.btn-create {
+  background-color: #0a6e99;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 12px 32px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all .3s;
+  box-shadow: 0 4px 12px rgba(10, 110, 153, 0.2);
+}
+
+.btn-create:hover {
+  background-color: #084f6a;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(10, 110, 153, 0.3);
+}
+
+/* Loading y Error states */
+.loading-container, .error-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.error-container {
+  color: #e74c3c;
+}
+
 .content-section { margin-bottom: 3rem; }
 .section-header { margin-bottom: 1.5rem; }
 .section-title { font-family: 'Raleway', sans-serif; font-size: 1.5rem; font-weight: 600; color: #05255a; margin: 0; }
