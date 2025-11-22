@@ -1,0 +1,24 @@
+<div class="rating-container">
+  <div class="stars" [class.readonly]="readonly">
+    <button
+      *ngFor="let star of stars"
+      class="star-btn"
+      [class]="getStarClass(star)"
+      [disabled]="readonly || !isAuthenticated || isSubmitting"
+      (mouseenter)="onStarHover(star)"
+      (mouseleave)="onStarLeave()"
+      (click)="rateSong(star)"
+      [attr.aria-label]="'Calificar con ' + star + ' estrella' + (star > 1 ? 's' : '')">
+      ★
+    </button>
+  </div>
+  
+  <div class="rating-info">
+    <span class="rating-text">{{ getRatingText() }}</span>
+    <span class="loading-text" *ngIf="isSubmitting">Enviando...</span>
+  </div>
+
+  <div class="auth-message" *ngIf="!isAuthenticated && !readonly">
+    <small>Inicia sesión para calificar</small>
+  </div>
+</div>

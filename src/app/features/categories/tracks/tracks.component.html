@@ -1,7 +1,8 @@
 <div class="categories-page">
   <div class="header">
     <div class="title-row">
-      <h1 class="page-title">Pistas</h1>
+      <h1 class="page-title">Pistas - Sistema de Calificación</h1>
+      <p class="subtitle">Califica tus canciones favoritas con estrellas ⭐</p>
     </div>
     <div class="filter-buttons">
       <a routerLink="/categories" class="filter-button">Todos</a>
@@ -11,23 +12,86 @@
     </div>
   </div>
 
-  <div class="track-list">
-    <div class="track-item" *ngFor="let t of tracks">
-      <div class="track-image"><img [src]="t.image" [alt]="t.title" /></div>
-      <div class="track-info">
-        <span class="artist">{{ t.artist }}</span>
-        <span class="title">{{ t.title }}</span>
-        <div class="actions">
-          <button class="pill"><i class="fa-solid fa-heart"></i> 123</button>
-          <button class="pill"><i class="fa-solid fa-repeat"></i> 123</button>
-          <button class="pill"><i class="fa-solid fa-list"></i> 123</button>
-        </div>
-        <div class="controls">
-          <button class="icon"><i class="fa-solid fa-pause"></i></button>
-          <button class="icon"><i class="fa-solid fa-play"></i></button>
+  <!-- Estado de carga -->
+  <div class="loading-container" *ngIf="isLoading">
+    <p>Cargando canciones...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div class="error-container" *ngIf="error && !isLoading">
+    <p>{{ error }}</p>
+    <p class="hint">Mostrando datos de ejemplo</p>
+  </div>
+
+  <!-- Lista de canciones -->
+  <div class="track-list" *ngIf="!isLoading">
+    <div class="track-card" *ngFor="let song of songs">
+      <!-- Imagen de portada -->
+      <div class="track-image">
+        <img [src]="song.coverURL" [alt]="song.title" />
+        <div class="play-overlay">
+          <button class="play-btn">
+            <i class="fa-solid fa-play"></i>
+          </button>
         </div>
       </div>
-      <div class="duration">{{ t.duration }}</div>
+
+      <!-- Información de la canción -->
+      <div class="track-content">
+        <div class="track-header">
+          <h3 class="track-title">{{ song.title }}</h3>
+          <span class="track-id">#{{ song.idSong }}</span>
+        </div>
+        
+        <p class="track-artist">
+          <i class="fa-solid fa-user"></i> {{ song.artist?.name || 'Artista Desconocido' }}
+        </p>
+        
+        <p class="track-description" *ngIf="song.description">
+          {{ song.description }}
+        </p>
+
+        <div class="track-meta">
+          <span class="meta-item">
+            <i class="fa-solid fa-clock"></i> {{ formatDuration(song.duration || 0) }}
+          </span>
+          <span class="meta-item">
+            <i class="fa-solid fa-calendar"></i> {{ formatDate(song.uploadDate) }}
+          </span>
+          <span class="meta-item" [class.visibility-public]="song.visibility === 'public'">
+            <i class="fa-solid fa-eye"></i> {{ song.visibility === 'public' ? 'Público' : 'Privado' }}
+          </span>
+        </div>
+
+        <!-- Componente de Calificación -->
+        <div class="rating-section">
+          <app-song-rating
+            [songId]="song.idSong"
+            [currentRating]="song.averageRating || 0"
+            [ratingCount]="song.ratingCount || 0"
+            (ratingChanged)="onRatingChanged(song.idSong, $event)">
+          </app-song-rating>
+        </div>
+
+        <!-- Acciones -->
+        <div class="track-actions">
+          <button class="action-btn">
+            <i class="fa-solid fa-heart"></i> Me gusta
+          </button>
+          <button class="action-btn">
+            <i class="fa-solid fa-list"></i> Agregar a playlist
+          </button>
+          <button class="action-btn">
+            <i class="fa-solid fa-share"></i> Compartir
+          </button>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Mensaje si no hay canciones -->
+  <div class="empty-state" *ngIf="!isLoading && songs.length === 0">
+    <i class="fa-solid fa-music" style="font-size: 4rem; color: #ccc;"></i>
+    <p>No hay canciones disponibles</p>
   </div>
 </div>
