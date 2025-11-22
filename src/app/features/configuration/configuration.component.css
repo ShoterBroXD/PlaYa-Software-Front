@@ -1,0 +1,311 @@
+.config-layout {
+    display: flex;
+    font-family: Arial, sans-serif;
+    color: #0b2239;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 200px;
+    background: #f5f8fa;
+    border-right: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding-left: 0;
+    font-size: 14px;
+}
+
+.sidebar ul li {
+    padding: 12px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    border-left: 3px solid transparent;
+    color: #535353;
+}
+
+.sidebar ul li.active {
+    font-weight: 700;
+    border-left-color: #0b869a;
+    color: #0b2239;
+    background: #e8f0f2;
+}
+
+.sidebar ul li:hover {
+    background: #e8f0f2;
+}
+
+.main-content {
+    flex: 1;
+    padding: 30px 40px;
+    overflow-y: auto;
+}
+
+h1 {
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+.perfil {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.avatar {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #5a9cea, #144e8f);
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.datos-perfil {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.datos-perfil input {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #0b2239;
+}
+
+.btn-password {
+    background: #ddd;
+    border: none;
+    border-radius: 8px;
+    color: #555;
+    padding: 8px 12px;
+    cursor: pointer;
+    width: fit-content;
+    margin-top: 5px;
+    font-weight: 600;
+}
+
+textarea {
+    flex: 0 0 300px;
+    height: 90px;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    resize: none;
+    color: #0b2239;
+}
+
+.settings {
+    display: flex;
+    justify-content: space-between;
+    gap: 30px;
+}
+
+.preferences,
+.account {
+    flex: 1;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+h3 {
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 12px 0;
+    font-size: 14px;
+}
+
+input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    accent-color: #0b869a;
+    cursor: pointer;
+}
+
+select {
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    padding: 5px 10px;
+    font-size: 14px;
+    color: #0b2239;
+    cursor: pointer;
+}
+
+.btn {
+    background: #ddd;
+    border: none;
+    padding: 8px 20px;
+    margin: 10px 10px 0 0;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #444;
+}
+
+/* Overlay para cambio de contraseña */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.overlay-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Sección de mensajes */
+.message-container {
+    margin-bottom: 20px;
+}
+
+.message {
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    animation: slideDown 0.3s ease;
+}
+
+.message.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.message.error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.message.info {
+    background: #d1ecf1;
+    color: #0c5460;
+    border: 1px solid #bee5eb;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Sección de guardar cambios */
+.save-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #ddd;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-save {
+    background: #0b869a;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 15px;
+    transition: all 0.3s ease;
+}
+
+.btn-save:hover:not(:disabled) {
+    background: #0a6d7e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(11, 134, 154, 0.3);
+}
+
+.btn-save:disabled {
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.btn-save:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+/* Sección de preferencias musicales */
+.preferences-description {
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0.5rem 0 1rem 0;
+  line-height: 1.5;
+}
+
+.btn-preferences {
+  background: linear-gradient(135deg, #9c27b0 0%, #7b1fa2 100%);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.btn-preferences:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(156, 39, 176, 0.4);
+}
+
+.btn-preferences i {
+  font-size: 1.1rem;
+}

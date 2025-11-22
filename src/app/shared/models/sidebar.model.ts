@@ -20,7 +20,7 @@ export const LIBRARY_SIDEBAR_CONFIG: SidebarConfig = {
     { label: 'Historial', icon: 'history', route: '/library/history' }
   ],
   bottomItems: [
-    { label: 'Configuración', icon: 'cog', route: '/settings' },
+    { label: 'Configuración', icon: 'cog', route: '/configuration' },
     { label: 'Cerrar sesión', icon: 'logout', route: '/logout' }
   ]
 };
@@ -34,7 +34,7 @@ export const CATEGORIES_SIDEBAR_CONFIG: SidebarConfig = {
     { label: 'Álbumes', icon: 'album', route: '/categories/albums' }
   ],
   bottomItems: [
-    { label: 'Configuración', icon: 'cog', route: '/settings' },
+    { label: 'Configuración', icon: 'cog', route: '/configuration' },
     { label: 'Cerrar sesión', icon: 'logout', route: '/logout' }
   ]
 };
@@ -48,7 +48,7 @@ export const COMMUNITIES_SIDEBAR_CONFIG: SidebarConfig = {
     { label: 'Explorar', icon: 'history', route: '/communities/explore' }
   ],
   bottomItems: [
-    { label: 'Configuración', icon: 'cog', route: '/settings' },
+    { label: 'Configuración', icon: 'cog', route: '/configuration' },
     { label: 'Cerrar sesión', icon: 'logout', route: '/logout' }
   ]
 };

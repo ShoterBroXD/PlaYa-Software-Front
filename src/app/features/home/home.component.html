@@ -4,28 +4,28 @@
 
         <!-- Mensaje de bienvenida -->
         <section class="welcome-section">
-            <h1>¡Bienvenido a PlaYa, {{ userName }}! ??</h1>
+            <h1>{{ 'home.welcome' | translate }} {{ userName }}! ğŸµ</h1>
             <p class="user-type-badge" [class.artist]="userType === 'ARTIST'">
                 <i [class]="userType === 'ARTIST' ? 'fas fa-microphone' : 'fas fa-headphones'"></i>
                 {{ displayUserType }}
             </p>
         </section>
 
-        <!-- Info de sesión -->
+        <!-- Info de sesiÃ³n -->
         <section class="session-info">
             <div class="info-card">
-                <h3>?? Email</h3>
+                <h3>ğŸ“§ {{ 'home.email' | translate }}</h3>
                 <p>{{ userEmail }}</p>
             </div>
 
             <div class="info-card">
-                <h3>?? Tipo de cuenta</h3>
+                <h3>ğŸ‘¤ {{ 'home.accountType' | translate }}</h3>
                 <p>{{ displayUserType }}</p>
             </div>
 
             <div class="info-card">
-                <h3>?? Estado</h3>
-                <p class="status-active">? Sesión activa</p>
+                <h3>ğŸŸ¢ {{ 'home.status' | translate }}</h3>
+                <p class="status-active">âœ“ {{ 'home.activeSession' | translate }}</p>
             </div>
         </section>
 
@@ -34,14 +34,14 @@
             <div class="alert-info">
                 <i class="fas fa-info-circle"></i>
                 <div>
-                    <h3>Dashboard en construcción</h3>
+                    <h3>{{ 'home.underConstruction' | translate }}</h3>
                     <p>
-                        Este es un componente temporal. En la <strong>Fase 2</strong>,
-                        implementaremos el dashboard completo con todas las funcionalidades:
+                        {{ 'home.tempComponent' | translate }} <strong>{{ 'home.phase2' | translate }}</strong>,
+                        {{ 'home.willImplement' | translate }}
                     </p>
                     <ul>
                         <li *ngIf="userType === 'LISTENER'">
-                            ? Géneros musicales en tendencia
+                            ? Gï¿½neros musicales en tendencia
                         </li>
                         <li *ngIf="userType === 'LISTENER'">
                             ? Comunidades destacadas
@@ -50,17 +50,17 @@
                             ? Recomendaciones personalizadas
                         </li>
                         <li *ngIf="userType === 'ARTIST'">
-                            ? Sidebar de navegación
+                            ? Sidebar de navegaciï¿½n
                         </li>
                         <li *ngIf="userType === 'ARTIST'">
                             ? Subir canciones
                         </li>
                         <li *ngIf="userType === 'ARTIST'">
-                            ? Estadísticas y ganancias
+                            ? Estadï¿½sticas y ganancias
                         </li>
                         <li>? Navbar con notificaciones</li>
-                        <li>? Búsqueda avanzada</li>
-                        <li>? Reproductor de música</li>
+                        <li>? Bï¿½squeda avanzada</li>
+                        <li>? Reproductor de mï¿½sica</li>
                     </ul>
                 </div>
             </div>
@@ -68,10 +68,10 @@
 
         <!-- Demo del reproductor -->
         <section class="player-demo">
-            <h2>?? Prueba el Reproductor</h2>
-            <p>Haz clic en una canción para empezar a reproducir:</p>
+            <h2>ğŸµ {{ 'home.player.testPlayer' | translate }}</h2>
+            <p>{{ 'home.player.clickSong' | translate }}</p>
             <div class="demo-tracks">
-                <div 
+                <div
                     *ngFor="let track of mockTracks; let i = index"
                     class="demo-track"
                     (click)="playTrack(track, i)"
@@ -87,58 +87,58 @@
                 </div>
             </div>
             <div class="demo-instructions">
-                <p><strong>Funcionalidades disponibles:</strong></p>
+                <p><strong>{{ 'home.player.availableFeatures' | translate }}</strong></p>
                 <ul>
-                    <li>?? Play/Pause, siguiente, anterior</li>
-                    <li>?? Reproducción aleatoria y repetición</li>
-                    <li>?? Control de volumen</li>
-                    <li>??? Click en la portada para expandir</li>
-                    <li>?? Ver cola de reproducción</li>
-                    <li>?? Ver comentarios de la canción</li>
-                    <li>?? Like y agregar a playlist</li>
+                    <li>â¯ï¸ {{ 'home.player.playPause' | translate }}</li>
+                    <li>ğŸ”€ {{ 'home.player.shuffle' | translate }}</li>
+                    <li>ğŸ”Š {{ 'home.player.volume' | translate }}</li>
+                    <li>ğŸ–¼ï¸ {{ 'home.player.clickCover' | translate }}</li>
+                    <li>ğŸ“œ {{ 'home.player.viewQueue' | translate }}</li>
+                    <li>ğŸ’¬ {{ 'home.player.viewComments' | translate }}</li>
+                    <li>â¤ï¸ {{ 'home.player.likeAdd' | translate }}</li>
                 </ul>
             </div>
         </section>
 
-        <!-- Acciones rápidas -->
+        <!-- Acciones rï¿½pidas -->
         <section class="quick-actions" *ngIf="userType === 'ARTIST'">
-            <h2>Acciones rápidas</h2>
+            <h2>Acciones rï¿½pidas</h2>
             <div class="actions-grid">
                 <button class="action-card" disabled>
                     <i class="fas fa-upload"></i>
-                    <span>Subir Canción</span>
-                    <small>(Próximamente)</small>
+                    <span>Subir Canciï¿½n</span>
+                    <small>(Prï¿½ximamente)</small>
                 </button>
                 <button class="action-card" disabled>
                     <i class="fas fa-chart-line"></i>
-                    <span>Ver Estadísticas</span>
-                    <small>(Próximamente)</small>
+                    <span>Ver Estadï¿½sticas</span>
+                    <small>(Prï¿½ximamente)</small>
                 </button>
                 <button class="action-card" disabled>
                     <i class="fas fa-users"></i>
-                    <span>Mis Seguidores</span>
-                    <small>(Próximamente)</small>
+                    <span>{{ 'home.quickActions.myFollowers' | translate }}</span>
+                    <small>(Prï¿½ximamente)</small>
                 </button>
             </div>
         </section>
 
         <section class="quick-actions" *ngIf="userType === 'LISTENER'">
-            <h2>Explora</h2>
+            <h2>{{ 'home.quickActions.explore' | translate }}</h2>
             <div class="actions-grid">
                 <button class="action-card" disabled>
                     <i class="fas fa-search"></i>
-                    <span>Buscar Música</span>
-                    <small>(Próximamente)</small>
+                    <span>{{ 'home.quickActions.searchMusic' | translate }}</span>
+                    <small>{{ 'home.quickActions.comingSoon' | translate }}</small>
                 </button>
                 <button class="action-card" disabled>
                     <i class="fas fa-list"></i>
-                    <span>Mis Playlists</span>
-                    <small>(Próximamente)</small>
+                    <span>{{ 'home.quickActions.myPlaylists' | translate }}</span>
+                    <small>{{ 'home.quickActions.comingSoon' | translate }}</small>
                 </button>
                 <button class="action-card" disabled>
                     <i class="fas fa-heart"></i>
-                    <span>Favoritos</span>
-                    <small>(Próximamente)</small>
+                    <span>{{ 'home.quickActions.favorites' | translate }}</span>
+                    <small>{{ 'home.quickActions.comingSoon' | translate }}</small>
                 </button>
             </div>
         </section>
@@ -147,6 +147,6 @@
 
     <!-- Footer temporal -->
     <footer class="home-footer">
-        <p>© 2025 PlaYa - Fase 1 Completa ?</p>
+        <p>{{ 'home.footer' | translate }} ğŸš€</p>
     </footer>
 </div>
