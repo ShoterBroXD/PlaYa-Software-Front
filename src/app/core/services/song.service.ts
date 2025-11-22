@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError, timeout } from 'rxjs/operators';
+import { catchError, timeout, map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { SongRequestDto, SongResponseDto, RateSongRequestDto, CommentResponseDto } from '../models/song.model';
 import { Genre } from '../models/genre.model';
@@ -21,15 +21,23 @@ export class SongService {
   /**
    * Crear una canción (solo artistas)
    */
-  createSong(userId: number, song: SongRequestDto): Observable<SongResponseDto> {
+  createSong(song: SongRequestDto, userId: number): Observable<SongResponseDto> {
+    console.log('=== CREATE SONG ===');
+    console.log('URL:', this.apiUrl);
+    console.log('Song payload:', JSON.stringify(song, null, 2));
+    console.log('User ID (header):', userId);
+    
     const headers = new HttpHeaders().set('iduser', userId.toString());
+    
     return this.http.post<SongResponseDto>(this.apiUrl, song, { headers }).pipe(
       timeout(this.HTTP_TIMEOUT),
-      catchError(this.handleError)
+      catchError((error) => {
+        console.error('Error en createSong:', error);
+        console.error('Error response:', error.error);
+        return this.handleError(error);
+      })
     );
-  }
-
-  /**
+  }  /**
    * Obtener una canción por ID
    */
   getSongById(id: number): Observable<SongResponseDto> {
@@ -141,7 +149,26 @@ export class SongService {
    * Obtener géneros musicales
    */
   getGenres(): Observable<Genre[]> {
-    return this.http.get<Genre[]>(`${environment.apiUrl}/genres`);
+    return this.http
+      .get<Genre[]>(`${environment.apiUrl}/genres`)
+      .pipe(map((genres) => genres.map((genre) => this.normalizeGenre(genre))));
+  }
+
+  private normalizeGenre(rawGenre: any): Genre {
+    const id = rawGenre?.idGenre ?? rawGenre?.idgenre ?? rawGenre?.id;
+    const name = rawGenre?.name ?? rawGenre?.genre ?? rawGenre?.nameGenre;
+    const description =
+      rawGenre?.description ?? rawGenre?.descripcion ?? rawGenre?.descriptionEs ?? null;
+
+    if (typeof id !== 'number' || Number.isNaN(id)) {
+      console.warn('Received genre without numeric id:', rawGenre);
+    }
+
+    return {
+      idGenre: typeof id === 'number' ? id : 0,
+      name: typeof name === 'string' && name.trim() ? name : 'Sin nombre',
+      description: typeof description === 'string' ? description : undefined,
+    };
   }
 
   /**

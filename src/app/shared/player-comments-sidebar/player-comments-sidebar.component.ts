@@ -76,7 +76,7 @@ export class PlayerCommentsSidebarComponent {
         id: dto.idComment,
         userId: dto.idUser,
         username: dto.user?.name || `Usuario ${dto.idUser}`,
-        avatar: '/assets/img/icons/user.png',
+        avatar: '/assets/img/icons/logo-usuario.png',
         content: dto.content,
         timestamp: new Date(dto.date),
         likes: 0,

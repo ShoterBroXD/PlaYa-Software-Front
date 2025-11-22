@@ -68,6 +68,9 @@ export class LibraryMainComponent implements OnInit {
   }
 
   playSong(song: SongResponseDto, list: SongResponseDto[]) {
+    console.log('Song data from backend:', song);
+    console.log('fileURL:', song.fileURL);
+
     // Convertir SongResponseDto a Track con URLs de Cloudinary
     const track: Track = {
       id: song.idSong,
@@ -76,7 +79,7 @@ export class LibraryMainComponent implements OnInit {
       album: song.genre?.name || 'Sin álbum',
       duration: song.duration || 0,
       coverImage: song.coverURL || '/assets/img/images/img-placeholder.svg',
-      audioUrl: song.fileURL, // URL de Cloudinary del audio
+      audioUrl: song.fileURL || '', // URL de Cloudinary del audio
       likes: 0,
       comments: 0,
       isLiked: false

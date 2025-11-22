@@ -181,14 +181,17 @@ export class UploadComponent implements OnInit {
     this.genreError = null;
     this.songService.getGenres().subscribe({
       next: (genres: Genre[]) => {
+        console.log('Genres loaded:', genres);
         this.genres = genres;
         if (!this.selectedGenreId && genres.length) {
           this.onGenreChange(genres[0].idGenre);
+          console.log('Auto-selected first genre:', genres[0].idGenre);
         }
         this.isGenresLoading = false;
         this.cdr.detectChanges();
       },
-      error: () => {
+      error: (error) => {
+        console.error('Error loading genres:', error);
         this.genres = [];
         this.genreError = 'No se pudieron cargar los géneros. Intenta nuevamente.';
         this.isGenresLoading = false;
@@ -198,7 +201,9 @@ export class UploadComponent implements OnInit {
   }
 
   onGenreChange(id: number | null) {
+    console.log('Genre changed to:', id, 'Type:', typeof id);
     this.selectedGenreId = typeof id === 'string' ? Number(id) : id;
+    console.log('Selected genre ID after conversion:', this.selectedGenreId);
     this.submitError = null;
   }
 
@@ -253,27 +258,42 @@ export class UploadComponent implements OnInit {
     this.submitError = null;
 
     const userId = this.authService.getUserId();
-
     if (!userId) {
-      this.submitError = 'No se pudo identificar al usuario';
+      this.submitError = 'Usuario no autenticado';
       this.isSubmitting = false;
       return;
     }
 
-    const payload = {
+    const payload: any = {
       title: this.formState.title || this.summaryData.fileName,
-      description: this.formState.description,
       coverURL: this.coverUrl ?? '',
       fileURL: this.audioUrl ?? '',
       visibility: this.mapVisibility(this.formState.visibility),
-      idgenre: this.selectedGenreId ?? 0,
-      duration: this.audioDuration,
+      duration: Math.round(this.audioDuration ?? 0),
     };
 
-    this.songService.createSong(userId, payload).subscribe({
+    // Solo agregar campos opcionales si tienen valor válido
+    if (this.formState.description) {
+      payload.description = this.formState.description;
+    }
+
+    if (this.selectedGenreId && this.selectedGenreId > 0) {
+      payload.idgenre = this.selectedGenreId;
+    }
+
+    console.log('Payload being sent to backend:', JSON.stringify(payload, null, 2));
+    console.log('User ID from AuthService:', userId);
+    console.log('Selected Genre ID:', this.selectedGenreId);
+
+    this.songService.createSong(payload, userId).subscribe({
       next: () => {
         this.isSubmitting = false;
         this.activeStep = 'progress';
+        // Close modal automatically a short time after showing the progress step
+        setTimeout(() => {
+          this.closeModal();
+          this.resetWizard();
+        }, 1800);
       },
       error: (error) => {
         console.error('Song upload error', error);
