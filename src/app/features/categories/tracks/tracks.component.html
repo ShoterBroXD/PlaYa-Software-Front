@@ -1,32 +1,28 @@
 <div class="categories-page">
   <div class="header">
     <div class="title-row">
-      <h1 class="page-title">Pistas - Sistema de Calificación</h1>
-      <p class="subtitle">Califica tus canciones favoritas con estrellas ⭐</p>
+      <h1 class="page-title">Pistas</h1>
+      <p class="subtitle">Califica tus canciones favoritas con estrellas &#9733;</p>
     </div>
     <div class="filter-buttons">
       <a routerLink="/categories" class="filter-button">Todos</a>
       <a routerLink="/categories/tracks" class="filter-button active">Pistas</a>
       <a routerLink="/categories/playlists" class="filter-button">Listas</a>
-      <a routerLink="/categories/albums" class="filter-button">Álbumes</a>
+      <a routerLink="/categories/albums" class="filter-button">Albumes</a>
     </div>
   </div>
 
-  <!-- Estado de carga -->
   <div class="loading-container" *ngIf="isLoading">
     <p>Cargando canciones...</p>
   </div>
 
-  <!-- Mensaje de error -->
   <div class="error-container" *ngIf="error && !isLoading">
     <p>{{ error }}</p>
     <p class="hint">Mostrando datos de ejemplo</p>
   </div>
 
-  <!-- Lista de canciones -->
-  <div class="track-list" *ngIf="!isLoading">
+  <div class="track-list" *ngIf="!isLoading && songs.length">
     <div class="track-card" *ngFor="let song of songs">
-      <!-- Imagen de portada -->
       <div class="track-image">
         <img [src]="song.coverURL" [alt]="song.title" />
         <div class="play-overlay">
@@ -36,38 +32,16 @@
         </div>
       </div>
 
-      <!-- Información de la canción -->
       <div class="track-content">
         <div class="track-header">
           <h3 class="track-title">{{ song.title }}</h3>
           <span class="track-id">#{{ song.idSong }}</span>
-  <div class="track-list">
-    <div class="track-item" *ngFor="let t of tracks">
-      <div class="track-image"><img [src]="t.image" [alt]="t.title" /></div>
-      <div class="track-info">
-        <span class="artist">{{ t.artist }}</span>
-        <span class="title">{{ t.title }}</span>
-        <div class="actions">
-          <button class="pill"><i class="fa-solid fa-heart"></i> 123</button>
-          <button class="pill"><i class="fa-solid fa-repeat"></i> 123</button>
-          <button class="pill"><i class="fa-solid fa-list"></i> 123</button>
-          <div class="dropdown-menu">
-            <button class="pill options-btn" (click)="toggleDropdown(t.id)">
-              <i class="fa-solid fa-ellipsis-vertical"></i>
-            </button>
-            <div class="dropdown-content" [class.show]="isDropdownOpen(t.id)">
-              <button class="dropdown-item report-btn" (click)="openReportModal(t.id)">
-                <i class="fas fa-flag"></i>
-                Reportar pista
-              </button>
-            </div>
-          </div>
         </div>
-        
+
         <p class="track-artist">
-          <i class="fa-solid fa-user"></i> {{ song.artist?.name || 'Artista Desconocido' }}
+          <i class="fa-solid fa-user"></i> {{ song.artist?.name || 'Artista desconocido' }}
         </p>
-        
+
         <p class="track-description" *ngIf="song.description">
           {{ song.description }}
         </p>
@@ -80,11 +54,10 @@
             <i class="fa-solid fa-calendar"></i> {{ formatDate(song.uploadDate) }}
           </span>
           <span class="meta-item" [class.visibility-public]="song.visibility === 'public'">
-            <i class="fa-solid fa-eye"></i> {{ song.visibility === 'public' ? 'Público' : 'Privado' }}
+            <i class="fa-solid fa-eye"></i> {{ song.visibility === 'public' ? 'Publico' : 'Privado' }}
           </span>
         </div>
 
-        <!-- Componente de Calificación -->
         <div class="rating-section">
           <app-song-rating
             [songId]="song.idSong"
@@ -94,7 +67,6 @@
           </app-song-rating>
         </div>
 
-        <!-- Acciones -->
         <div class="track-actions">
           <button class="action-btn">
             <i class="fa-solid fa-heart"></i> Me gusta
@@ -110,14 +82,12 @@
     </div>
   </div>
 
-  <!-- Mensaje si no hay canciones -->
-  <div class="empty-state" *ngIf="!isLoading && songs.length === 0">
+  <div class="empty-state" *ngIf="!isLoading && !songs.length">
     <i class="fa-solid fa-music" style="font-size: 4rem; color: #ccc;"></i>
     <p>No hay canciones disponibles</p>
   </div>
 </div>
 
-<!-- Report Modal -->
 <app-report-modal
   *ngIf="showReportModal() && selectedTrackId()"
   [contentType]="'SONG'"

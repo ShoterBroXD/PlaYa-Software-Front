@@ -1,5 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { SongService } from '../../../core/services/song.service';
 import { SongResponseDto } from '../../../core/models/song.model';
 import { SongRatingComponent } from '../../../shared/components/song-rating/song-rating.component';
@@ -8,7 +9,7 @@ import { ReportModalComponent } from '../../../shared/components/report-modal/re
 @Component({
   selector: 'app-categories-tracks',
   standalone: true,
-  imports: [CommonModule, SongRatingComponent, ReportModalComponent],
+  imports: [CommonModule, RouterLink, SongRatingComponent, ReportModalComponent],
   templateUrl: './tracks.component.html',
   styleUrls: ['./tracks.component.css']
 })
@@ -39,8 +40,22 @@ export class CategoriesTracksComponent implements OnInit {
     this.isLoading = true;
     this.error = null;
 
-    // TEMPORAL: Usar solo datos de ejemplo mientras el backend no esté disponible
-    // Para conectar al backend, descomenta el bloque siguiente y comenta loadMockData() 
+    this.songService.getPublicSongs().subscribe({
+      next: (songs) => {
+        if (songs && songs.length) {
+          this.songs = songs;
+        } else {
+          this.songs = this.buildFallbackSongs();
+        }
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Error loading public songs:', err);
+        this.error = 'No se pudieron cargar las canciones. Mostramos datos de ejemplo.';
+        this.songs = this.buildFallbackSongs();
+        this.isLoading = false;
+      }
+    });
   }
 
   onRatingChanged(songId: number, event: { rating: number; averageRating: number }) {
@@ -55,14 +70,27 @@ export class CategoriesTracksComponent implements OnInit {
     }
   }
 
-  formatDuration(seconds: number): string {
+  formatDuration(seconds?: number): string {
+    if (!seconds || Number.isNaN(seconds)) {
+      return '--:--';
+    }
+
     const minutes = Math.floor(seconds / 60);
-    const secs = seconds % 60;
+    const secs = Math.floor(seconds % 60);
     return `${minutes}:${secs.toString().padStart(2, '0')}`;
   }
 
-  formatDate(date: Date): string {
-    return new Date(date).toLocaleDateString('es-ES', {
+  formatDate(date?: string | Date): string {
+    if (!date) {
+      return '--';
+    }
+
+    const parsedDate = typeof date === 'string' ? new Date(date) : date;
+    if (Number.isNaN(parsedDate.getTime())) {
+      return '--';
+    }
+
+    return parsedDate.toLocaleDateString('es-ES', {
       year: 'numeric',
       month: 'short',
       day: 'numeric'
@@ -96,5 +124,33 @@ export class CategoriesTracksComponent implements OnInit {
   onReportSubmitted() {
     this.closeReportModal();
     // TODO: Mostrar mensaje de éxito
+  }
+
+  private buildFallbackSongs(): SongResponseDto[] {
+    return this.tracks.map((track) => ({
+      idSong: track.id,
+      idUser: 0,
+      title: track.title,
+      description: '',
+      coverURL: track.image,
+      fileURL: '',
+      visibility: 'public',
+      duration: this.parseDurationLabel(track.duration),
+      uploadDate: new Date(),
+      artist: {
+        idUser: 0,
+        name: track.artist
+      },
+      averageRating: 0,
+      ratingCount: 0
+    }));
+  }
+
+  private parseDurationLabel(label: string): number {
+    const [minutes, seconds] = label.split(':').map((value) => Number(value));
+    if (!Number.isFinite(minutes) || !Number.isFinite(seconds)) {
+      return 0;
+    }
+    return minutes * 60 + seconds;
   }
 }
