@@ -26,9 +26,9 @@ export class SongService {
     console.log('URL:', this.apiUrl);
     console.log('Song payload:', JSON.stringify(song, null, 2));
     console.log('User ID (header):', userId);
-    
+
     const headers = new HttpHeaders().set('iduser', userId.toString());
-    
+
     return this.http.post<SongResponseDto>(this.apiUrl, song, { headers }).pipe(
       timeout(this.HTTP_TIMEOUT),
       catchError((error) => {
