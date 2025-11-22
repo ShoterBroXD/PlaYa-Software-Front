@@ -1,8 +1,8 @@
 <div class="view-playlist-container" *ngIf="playlist">
   <div class="header">
-    <button (click)="goBack()" class="btn btn-secondary">← Volver</button>
+    <button (click)="goBack()" class="btn secondary">← Volver</button>
     <h2>{{ playlist.name }}</h2>
-    <button (click)="sharePlaylist()" class="btn btn-primary">Compartir</button>
+    <button (click)="sharePlaylist()" class="btn primary">Compartir</button>
   </div>
 
   <p>{{ playlist.description || 'Sin descripción' }}</p>
@@ -11,7 +11,7 @@
     <h3>Agregar Canción</h3>
     <form [formGroup]="addSongForm" (ngSubmit)="addSong()">
       <input type="number" formControlName="songId" placeholder="ID de la canción" class="form-control" />
-      <button type="submit" [disabled]="addSongForm.invalid" class="btn btn-primary">Agregar</button>
+      <button type="submit" [disabled]="addSongForm.invalid" class="btn primary">Agregar</button>
     </form>
   </div>
 
@@ -23,7 +23,7 @@
         <h4>{{ song.title }}</h4>
         <p>{{ song.description }}</p>
       </div>
-      <button (click)="removeSong(song.idSong)" class="btn btn-danger">Remover</button>
+      <button (click)="removeSong(song.idSong)" class="btn danger">Remover</button>
     </div>
   </div>
 </div>

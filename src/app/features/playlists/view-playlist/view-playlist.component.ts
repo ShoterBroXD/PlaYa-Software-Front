@@ -41,7 +41,7 @@ export class ViewPlaylistComponent implements OnInit {
     this.loading = true;
     this.playlistService.getPlaylistById(this.playlistId).subscribe({
       next: (data) => {
-        this.playlist = data;
+        this.playlist = this.normalizePlaylist(data);
         this.loading = false;
       },
       error: (error) => {
@@ -89,5 +89,42 @@ export class ViewPlaylistComponent implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/playlists/my']);
+  }
+
+  private normalizePlaylist(raw: PlaylistResponseDto | any): PlaylistResponseDto {
+    const normalizedSongs = this.normalizeSongs(
+      raw?.songs ??
+      raw?.songResponses ??
+      raw?.tracks ??
+      raw?.songList ??
+      []
+    );
+
+    return {
+      id: raw?.id ?? raw?.idPlaylist ?? this.playlistId,
+      idUser: raw?.idUser ?? raw?.userId ?? 0,
+      name: raw?.name ?? raw?.title ?? 'Playlist sin nombre',
+      description: raw?.description ?? '',
+      creationDate: raw?.creationDate ?? raw?.createdAt ?? new Date().toISOString(),
+      visible: raw?.visible ?? true,
+      songs: normalizedSongs
+    };
+  }
+
+  private normalizeSongs(rawSongs: any): SongResponseDto[] {
+    if (!Array.isArray(rawSongs)) {
+      return [];
+    }
+
+    return rawSongs.map((song) => ({
+      idSong: song?.idSong ?? song?.id ?? 0,
+      idUser: song?.idUser ?? song?.userId ?? 0,
+      title: song?.title ?? song?.name ?? 'Canción sin título',
+      description: song?.description ?? '',
+      coverURL: song?.coverURL ?? song?.cover ?? '',
+      fileURL: song?.fileURL ?? song?.url ?? '',
+      visibility: song?.visibility ?? 'public',
+      uploadDate: song?.uploadDate ?? song?.date ?? new Date().toISOString()
+    }));
   }
 }

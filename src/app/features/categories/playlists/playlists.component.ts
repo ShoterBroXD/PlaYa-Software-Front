@@ -15,6 +15,28 @@ export class CategoriesPlaylistsComponent implements OnInit {
   playlists: PlaylistResponseDto[] = [];
   loading = false;
   errorMessage = '';
+  isFallback = false;
+
+  private readonly fallbackPlaylists: PlaylistResponseDto[] = [
+    {
+      id: 201,
+      idUser: 0,
+      name: 'Descubrimientos semanales',
+      description: 'Canciones frescas de la comunidad para inspirarte.',
+      creationDate: new Date().toISOString(),
+      visible: true,
+      songs: []
+    },
+    {
+      id: 202,
+      idUser: 0,
+      name: 'Lo mejor de PlaYa!',
+      description: 'Selección curada con los temas más populares.',
+      creationDate: new Date().toISOString(),
+      visible: true,
+      songs: []
+    }
+  ];
 
   constructor(private playlistService: PlaylistService) {}
 
@@ -24,16 +46,32 @@ export class CategoriesPlaylistsComponent implements OnInit {
 
   loadPlaylists(): void {
     this.loading = true;
+    this.errorMessage = '';
+    this.isFallback = false;
+
     this.playlistService.getAllPlaylists().subscribe({
       next: (data) => {
-        this.playlists = data;
+        if (data && data.length) {
+          this.playlists = data;
+        } else {
+          this.useFallback('Aún no hay playlists públicas. Mira estas sugerencias.');
+        }
         this.loading = false;
       },
       error: (error) => {
         console.error('Error cargando playlists públicas', error);
-        this.errorMessage = 'Error al cargar las playlists.';
-        this.loading = false;
+        this.useFallback('No se pudieron cargar las playlists reales. Mostramos ejemplos.');
       },
     });
+  }
+
+  private useFallback(message: string): void {
+    this.errorMessage = message;
+    this.playlists = this.fallbackPlaylists.map((playlist, index) => ({
+      ...playlist,
+      id: playlist.id + index
+    }));
+    this.loading = false;
+    this.isFallback = true;
   }
 }

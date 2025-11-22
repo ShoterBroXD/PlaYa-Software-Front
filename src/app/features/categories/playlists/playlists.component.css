@@ -23,3 +23,9 @@
 .error-message {
   color: #dc3545;
 }
+
+.info-message {
+  text-align: center;
+  margin: 20px 0;
+  color: #0b869a;
+}
