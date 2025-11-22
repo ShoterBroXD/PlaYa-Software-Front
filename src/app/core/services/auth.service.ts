@@ -184,7 +184,31 @@ export class AuthService {
 
   // Agregar método para obtener ID de usuario
   getUserId(): number | null {
-    const id = localStorage.getItem('userId');
-    return id ? parseInt(id) : null;
+    const storedId = localStorage.getItem('userId');
+    if (storedId) {
+      const parsed = parseInt(storedId, 10);
+      if (!Number.isNaN(parsed)) {
+        return parsed;
+      }
+    }
+
+    const token = this.getToken();
+    if (!token) {
+      return null;
+    }
+
+    const payload = this.decodeToken(token);
+    const possibleId = payload?.userId ?? payload?.idUser ?? payload?.sub;
+    if (possibleId == null) {
+      return null;
+    }
+
+    const parsed = Number(possibleId);
+    if (Number.isNaN(parsed)) {
+      return null;
+    }
+
+    localStorage.setItem('userId', parsed.toString());
+    return parsed;
   }
 }

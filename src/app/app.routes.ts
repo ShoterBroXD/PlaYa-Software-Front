@@ -148,7 +148,8 @@ export const routes: Routes = [
       },
       {
         path: 'upload',
-        loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent), // Placeholder
+        loadComponent: () =>
+          import('./features/upload/upload.component').then((m) => m.UploadComponent),
       },
       {
         path: 'search',

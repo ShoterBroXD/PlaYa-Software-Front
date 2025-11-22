@@ -1,40 +1,24 @@
-import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  // Cloudinary uploads do not accept custom Authorization headers
+  if (req.url.includes('api.cloudinary.com')) {
+    return next(req);
+  }
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Obtener token
-    const token = this.authService.getToken();
+  const authService = inject(AuthService);
+  const token = authService.getToken();
 
-    // Si existe token, agregarlo al header
-    if (token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      // Extraer userId del token para rutas específicas
-      const payload = this.decodeToken(token);
-      if (payload && (request.url.includes('/notifications') || request.url.includes('/playlists'))) {
-        const userId = payload.userId;
-        if (userId) {
-          request = request.clone({
-            setHeaders: {
-              ...request.headers,
-              idUser: userId.toString()
-            }
-          });
-        }
-      }
-    }
-
-    return next.handle(request);
+  // Si hay token, agregar Authorization header
+  if (token) {
+    const clonedRequest = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return next(clonedRequest);
   }
 
   private decodeToken(token: string): any {
