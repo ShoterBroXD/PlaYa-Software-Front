@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
+// Servicio para reportar contenido inadecuado según US-014
+
 export interface ReportRequest {
   contentType: 'SONG' | 'COMMENT' | 'PLAYLIST';
   contentId: number;
