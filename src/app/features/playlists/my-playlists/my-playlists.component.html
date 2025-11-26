@@ -1,0 +1,33 @@
+<div class="my-playlists-container">
+  <div class="header">
+    <h2>Mis Playlists</h2>
+    <a routerLink="/playlists/create" class="btn primary">Crear Nueva Playlist</a>
+  </div>
+
+  <div *ngIf="loading" class="loading">Cargando...</div>
+
+  <div
+    *ngIf="errorMessage"
+    [ngClass]="{ 'error-message': !isUsingFallback, 'info-message': isUsingFallback }"
+  >
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="!loading && playlists.length === 0" class="no-playlists">
+    No tienes playlists. <a routerLink="/playlists/create">Crea una</a>.
+  </div>
+
+  <div class="playlists-grid" *ngIf="!loading && playlists.length > 0">
+    <div class="playlist-card" *ngFor="let playlist of playlists">
+      <div class="playlist-info">
+        <h3>{{ playlist.name }}</h3>
+        <p>{{ playlist.description || 'Sin descripción' }}</p>
+        <p>{{ playlist.songs?.length || 0 }} canciones</p>
+      </div>
+      <div class="playlist-actions">
+        <a [routerLink]="['/playlists', playlist.id]" class="btn secondary">Ver</a>
+        <button (click)="deletePlaylist(playlist.id)" class="btn danger">Eliminar</button>
+      </div>
+    </div>
+  </div>
+</div>

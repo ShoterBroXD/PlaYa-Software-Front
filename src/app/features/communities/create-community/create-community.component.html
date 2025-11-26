@@ -1,0 +1,66 @@
+<div class="create-community-page">
+  <div class="create-community-container">
+    <h1>Crear Nueva Comunidad</h1>
+    <p class="subtitle">Crea un espacio para compartir y conectar con otros fans</p>
+
+    <form (ngSubmit)="createCommunity()" #form="ngForm">
+      <div class="form-group">
+        <label for="name">Nombre de la Comunidad *</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          [(ngModel)]="community.name"
+          required
+          placeholder="Ej: Fans de Rock Clásico"
+          maxlength="100"
+          [disabled]="isCreating">
+        <small class="field-hint">Mínimo 3 caracteres</small>
+      </div>
+
+      <div class="form-group">
+        <label for="description">Descripción *</label>
+        <textarea
+          id="description"
+          name="description"
+          [(ngModel)]="community.description"
+          required
+          placeholder="Describe de qué trata tu comunidad, qué tipo de contenido compartirán..."
+          rows="5"
+          maxlength="500"
+          [disabled]="isCreating"></textarea>
+        <small class="field-hint">Mínimo 10 caracteres - Máximo 500</small>
+      </div>
+
+      <div class="error-message" *ngIf="error">
+        <span>⚠️</span> {{ error }}
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn-primary"
+          [disabled]="isCreating || !form.valid">
+          {{ isCreating ? 'Creando...' : 'Crear Comunidad' }}
+        </button>
+        <button
+          type="button"
+          class="btn-secondary"
+          (click)="cancel()"
+          [disabled]="isCreating">
+          Cancelar
+        </button>
+      </div>
+    </form>
+
+    <div class="info-box">
+      <h3>💡 Consejos</h3>
+      <ul>
+        <li>Elige un nombre claro y descriptivo</li>
+        <li>Explica el propósito de tu comunidad</li>
+        <li>Define qué tipo de contenido se compartirá</li>
+        <li>Sé acogedor e inclusivo con los miembros</li>
+      </ul>
+    </div>
+  </div>
+</div>

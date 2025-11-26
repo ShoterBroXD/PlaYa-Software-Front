@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "PlaYa-Software-Front": {
+    "Playa-Front": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -19,9 +19,15 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets",
+                "output": "assets"
               }
             ],
             "styles": [
+              "src/custom-theme.scss",
               "src/styles.css"
             ]
           },
@@ -53,10 +59,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "PlaYa-Software-Front:build:production"
+              "buildTarget": "Playa-Front:build:production"
             },
             "development": {
-              "buildTarget": "PlaYa-Software-Front:build:development"
+              "buildTarget": "Playa-Front:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -81,5 +87,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

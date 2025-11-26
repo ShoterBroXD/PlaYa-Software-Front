@@ -1,0 +1,217 @@
+<div class="community-detail-page" *ngIf="!isLoading && community.id > 0">
+  <!-- Header -->
+  <section class="community-header">
+    <div class="community-hero">
+      <img [src]="community.image" [alt]="community.name" class="community-hero-image">
+      <div class="community-hero-info">
+        <h1 class="community-hero-title">{{ community.name }}</h1>
+        <p class="community-hero-followers">{{ community.followers }} seguidores</p>
+        <p class="community-hero-description">{{ community.description }}</p>
+        <div class="community-actions">
+          <button
+            class="btn-primary"
+            (click)="joinCommunity()"
+            [disabled]="isUserMember || isJoining">
+            {{ isUserMember ? 'Miembro' : (isJoining ? 'Uniéndose...' : 'Unirse') }}
+          </button>
+          <button class="btn-secondary">Seguir</button>
+        </div>
+      </div>
+    </div>
+  </section>  <!-- Tabs -->
+  <section class="community-nav">
+    <div class="community-tabs">
+      <button class="tab-button" [class.active]="activeTab() === 'posts'" (click)="switchTab('posts')">Publicaciones</button>
+      <button class="tab-button" [class.active]="activeTab() === 'members'" (click)="switchTab('members')">Miembros</button>
+      <button class="tab-button" [class.active]="activeTab() === 'about'" (click)="switchTab('about')">Acerca de</button>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <section class="community-content">
+    <!-- Posts -->
+    <div *ngIf="activeTab() === 'posts'" class="tab-content">
+      <!-- Botón para crear post -->
+      <div class="create-post-section" *ngIf="isUserMember">
+        <button class="btn-create-post" (click)="togglePostForm()" *ngIf="!showPostForm">
+          ✏️ Crear Publicación
+        </button>
+
+        <!-- Formulario de crear post -->
+        <div class="post-form-container" *ngIf="showPostForm">
+          <h3>Nueva Publicación</h3>
+          <form (ngSubmit)="createPost()">
+            <div class="form-group">
+              <input
+                type="text"
+                [(ngModel)]="newPost.title"
+                name="title"
+                placeholder="Título de tu publicación"
+                [disabled]="isCreatingPost"
+                maxlength="100"
+                required>
+            </div>
+            <div class="form-group">
+              <textarea
+                [(ngModel)]="newPost.content"
+                name="content"
+                placeholder="¿Qué quieres compartir con la comunidad?"
+                rows="4"
+                [disabled]="isCreatingPost"
+                maxlength="500"
+                required></textarea>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn-primary" [disabled]="isCreatingPost || !newPost.title.trim() || !newPost.content.trim()">
+                {{ isCreatingPost ? 'Publicando...' : 'Publicar' }}
+              </button>
+              <button type="button" class="btn-secondary" (click)="togglePostForm()" [disabled]="isCreatingPost">
+                Cancelar
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="posts-container">
+        <div *ngIf="!isUserMember && posts.length === 0" class="no-content-message">
+          <p>Debes unirte a la comunidad para ver las publicaciones.</p>
+          <p class="hint">¡Haz clic en el botón "Unirse" arriba!</p>
+        </div>
+        <div *ngIf="isUserMember && posts.length === 0 && !showPostForm" class="no-content-message">
+          <p>No hay publicaciones aún en esta comunidad.</p>
+          <p class="hint">¡Sé el primero en publicar algo!</p>
+        </div>
+        <div class="post-card" *ngFor="let post of posts">
+          <div class="post-header">
+            <img [src]="post.avatar" [alt]="post.author" class="post-author-image">
+            <div class="post-author-info">
+              <p class="post-author-name">{{ post.author }}</p>
+              <p class="post-time">{{ post.time }}</p>
+            </div>
+          </div>
+          <div class="post-content">
+            <h4 class="post-title" *ngIf="post.title">{{ post.title }}</h4>
+            <p>{{ post.content }}</p>
+            <div *ngIf="post.hasSong" class="post-media">
+              <div class="song-preview">
+                <img src="/assets/img/images/perfil-comunidades.png" alt="Canción" class="song-image">
+                <div class="song-info">
+                  <p class="song-title">Billie Jean</p>
+                  <p class="song-artist">Michael Jackson</p>
+                </div>
+                <button class="play-btn">▶️</button>
+              </div>
+            </div>
+          </div>
+          <div class="post-actions">
+            <button class="post-action-btn">❤️ {{ post.likes }}</button>
+            <button class="post-action-btn" (click)="toggleComments(post.id)">
+              💬 {{ post.comments }} {{ expandedPostId === post.id ? '▲' : '▼' }}
+            </button>
+            <button class="post-action-btn">🔤 Compartir</button>
+          </div>
+
+          <!-- Seccion de comentarios -->
+          <div class="comments-section" *ngIf="expandedPostId === post.id">
+            <div class="comments-list" *ngIf="postComments[post.id] && postComments[post.id].length > 0">
+              <div class="comment-item" *ngFor="let comment of postComments[post.id]">
+                <img [src]="comment.avatar" [alt]="comment.author" class="comment-avatar">
+                <div class="comment-content">
+                  <div class="comment-header">
+                    <span class="comment-author">{{ comment.author }}</span>
+                    <span class="comment-time">{{ comment.time }}</span>
+                  </div>
+                  <p class="comment-text">{{ comment.content }}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="no-comments" *ngIf="!loadingComments[post.id] && (!postComments[post.id] || postComments[post.id].length === 0)">
+              <p>No hay comentarios aun. ¡Se el primero en comentar!</p>
+            </div>
+
+            <div class="loading-comments" *ngIf="loadingComments[post.id]">
+              <p>Cargando comentarios...</p>
+            </div>
+
+            <div class="add-comment" *ngIf="isUserMember">
+              <input
+                type="text"
+                [(ngModel)]="newComment[post.id]"
+                placeholder="Escribe un comentario..."
+                (keyup.enter)="addComment(post.id)">
+              <button class="btn-send-comment" (click)="addComment(post.id)" [disabled]="!newComment[post.id] || !newComment[post.id].trim()">
+                Enviar
+              </button>
+            </div>
+
+            <div class="join-to-comment" *ngIf="!isUserMember">
+              <p>Unete a la comunidad para comentar</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Members -->
+    <div *ngIf="activeTab() === 'members'" class="tab-content">
+      <div class="members-container">
+        <div *ngIf="members.length === 0" class="no-content-message">
+          <p>No hay miembros en esta comunidad aún.</p>
+        </div>
+        <div class="member-card" *ngFor="let member of members">
+          <img [src]="member.avatar" [alt]="member.name" class="member-image">
+          <div class="member-info">
+            <p class="member-name">{{ member.name }}</p>
+            <p class="member-role">{{ member.role }}</p>
+          </div>
+          <button class="btn-secondary">Seguir</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- About -->
+    <div *ngIf="activeTab() === 'about'" class="tab-content">
+      <div class="about-container">
+        <h3>Acerca de esta comunidad</h3>
+        <p>Esta es una comunidad dedicada a los fans de {{ community.name }}, el Rey del Pop. Aquí puedes compartir tus canciones favoritas, discutir sobre su música, y conectar con otros fans alrededor del mundo.</p>
+
+        <div class="community-stats">
+          <div class="stat-item">
+            <h4>{{ community.followers }}</h4>
+            <p>Seguidores</p>
+          </div>
+          <div class="stat-item">
+            <h4>{{ community.postsCount }}</h4>
+            <p>Publicaciones</p>
+          </div>
+          <div class="stat-item">
+            <h4>{{ community.createdYear }}</h4>
+            <p>Creada en</p>
+          </div>
+        </div>
+
+        <div class="community-rules">
+          <h4>Reglas de la comunidad</h4>
+          <ul>
+            <li>Mantén el respeto hacia todos los miembros</li>
+            <li>Solo contenido relacionado con {{ community.name }}</li>
+            <li>No spam o contenido promocional</li>
+            <li>Reporta contenido inapropiado</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Loading State -->
+<div *ngIf="isLoading" class="loading-container">
+  <p>Cargando comunidad...</p>
+</div>
+
+<!-- Error State -->
+<div *ngIf="error && !isLoading" class="error-container">
+  <p>{{ error }}</p>
+</div>

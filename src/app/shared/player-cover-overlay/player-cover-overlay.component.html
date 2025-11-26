@@ -1,0 +1,13 @@
+<div 
+  *ngIf="playerService.showCoverExpanded() && playerService.currentTrack()" 
+  class="cover-overlay"
+  (click)="closeCover()"
+>
+  <div class="cover-container">
+    <img 
+      [src]="playerService.currentTrack()!.coverImage" 
+      [alt]="playerService.currentTrack()!.title"
+      class="cover-image"
+    >
+  </div>
+</div>

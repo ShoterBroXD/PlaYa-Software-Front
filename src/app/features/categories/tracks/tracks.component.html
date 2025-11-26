@@ -1,0 +1,97 @@
+<div class="categories-page">
+  <div class="header">
+    <div class="title-row">
+      <h1 class="page-title">Pistas</h1>
+      <p class="subtitle">Califica tus canciones favoritas con estrellas &#9733;</p>
+    </div>
+    <div class="filter-buttons">
+      <a routerLink="/categories" class="filter-button">Todos</a>
+      <a routerLink="/categories/tracks" class="filter-button active">Pistas</a>
+      <a routerLink="/categories/playlists" class="filter-button">Listas</a>
+      <a routerLink="/categories/albums" class="filter-button">Albumes</a>
+    </div>
+  </div>
+
+  <div class="loading-container" *ngIf="isLoading">
+    <p>Cargando canciones...</p>
+  </div>
+
+  <div class="error-container" *ngIf="error && !isLoading">
+    <p>{{ error }}</p>
+    <p class="hint">Mostrando datos de ejemplo</p>
+  </div>
+
+  <div class="track-list" *ngIf="!isLoading && songs.length">
+    <div class="track-card" *ngFor="let song of songs">
+      <div class="track-image">
+        <img [src]="song.coverURL" [alt]="song.title" />
+        <div class="play-overlay">
+          <button class="play-btn">
+            <i class="fa-solid fa-play"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="track-content">
+        <div class="track-header">
+          <h3 class="track-title">{{ song.title }}</h3>
+          <span class="track-id">#{{ song.idSong }}</span>
+        </div>
+
+        <p class="track-artist">
+          <i class="fa-solid fa-user"></i> {{ song.artist?.name || 'Artista desconocido' }}
+        </p>
+
+        <p class="track-description" *ngIf="song.description">
+          {{ song.description }}
+        </p>
+
+        <div class="track-meta">
+          <span class="meta-item">
+            <i class="fa-solid fa-clock"></i> {{ formatDuration(song.duration || 0) }}
+          </span>
+          <span class="meta-item">
+            <i class="fa-solid fa-calendar"></i> {{ formatDate(song.uploadDate) }}
+          </span>
+          <span class="meta-item" [class.visibility-public]="song.visibility === 'public'">
+            <i class="fa-solid fa-eye"></i> {{ song.visibility === 'public' ? 'Publico' : 'Privado' }}
+          </span>
+        </div>
+
+        <div class="rating-section">
+          <app-song-rating
+            [songId]="song.idSong"
+            [currentRating]="song.averageRating || 0"
+            [ratingCount]="song.ratingCount || 0"
+            (ratingChanged)="onRatingChanged(song.idSong, $event)">
+          </app-song-rating>
+        </div>
+
+        <div class="track-actions">
+          <button class="action-btn">
+            <i class="fa-solid fa-heart"></i> Me gusta
+          </button>
+          <button class="action-btn">
+            <i class="fa-solid fa-list"></i> Agregar a playlist
+          </button>
+          <button class="action-btn">
+            <i class="fa-solid fa-share"></i> Compartir
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!isLoading && !songs.length">
+    <i class="fa-solid fa-music" style="font-size: 4rem; color: #ccc;"></i>
+    <p>No hay canciones disponibles</p>
+  </div>
+</div>
+
+<app-report-modal
+  *ngIf="showReportModal() && selectedTrackId()"
+  [contentType]="'SONG'"
+  [contentId]="selectedTrackId()!"
+  (close)="closeReportModal()"
+  (submitted)="onReportSubmitted()"
+></app-report-modal>

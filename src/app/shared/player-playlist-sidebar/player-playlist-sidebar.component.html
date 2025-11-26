@@ -1,0 +1,33 @@
+<aside 
+  *ngIf="playerService.showPlaylistSidebar() && playerService.showCoverExpanded()" 
+  class="playlist-sidebar"
+>
+  <div class="sidebar-header">
+    <h2 class="header-subtitle">se está reproduciendo</h2>
+    <h2 class="header-title">Lista de reproducción</h2>
+  </div>
+
+  <div class="playlist-container">
+    <div 
+      *ngFor="let track of playerService.queue(); let i = index"
+      class="song-item"
+      [class.current]="isCurrentTrack(track)"
+      (click)="playTrack(track, i)"
+    >
+      <img [src]="track.coverImage" [alt]="track.title" class="song-cover">
+      <div class="song-info">
+        <div class="song-title">{{ track.title }}</div>
+        <div class="song-artist">{{ track.artist }}</div>
+      </div>
+      <div class="song-duration">
+        <i class="fas" [ngClass]="isCurrentTrack(track) && playerService.isPlaying() ? 'fa-pause' : 'fa-play'"></i>
+        <span>{{ formatDuration(track.duration) }}</span>
+      </div>
+    </div>
+
+    <div *ngIf="playerService.queue().length === 0" class="empty-state">
+      <i class="fas fa-music"></i>
+      <p>No hay canciones en la cola</p>
+    </div>
+  </div>
+</aside>

@@ -1,0 +1,29 @@
+<div class="container">
+  <h2>Recuperar contraseña</h2>
+  <div class="box">
+    <p>Ingrese su correo electrónico para generar el código de verificación.</p>
+    <input type="email" placeholder="Correo electrónico" [(ngModel)]="email" />
+    
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="alert-error">
+      <i class="fas fa-exclamation-circle"></i>
+      {{ errorMessage }}
+    </div>
+    
+    <div class="buttons">
+      <button class="btn cancel" (click)="cancelar()">Cancelar</button>
+      <button class="btn verify" [disabled]="!email || loading" (click)="generarToken()">
+        <span *ngIf="!loading">Generar código</span>
+        <span *ngIf="loading">Generando...</span>
+      </button>
+    </div>
+    
+    <div *ngIf="tokenGenerado" class="token-message">
+      <p><b>Código generado:</b> <span class="token">{{tokenGenerado}}</span></p>
+      <small>Copia este código y úsalo en la siguiente página para restablecer tu contraseña.</small>
+      <div class="buttons">
+        <button class="btn reset" (click)="irARestablecer()">Ir a restablecer contraseña</button>
+      </div>
+    </div>
+  </div>
+</div>

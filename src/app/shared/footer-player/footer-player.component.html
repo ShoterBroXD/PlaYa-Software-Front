@@ -1,0 +1,143 @@
+<footer *ngIf="playerService.hasTrack()" class="player-footer">
+  <!-- Barra de progreso (top border) -->
+  <input 
+    type="range" 
+    class="song-progress" 
+    [value]="playerService.progress()"
+    (click)="onProgressClick($event)"
+    min="0" 
+    max="100" 
+  />
+
+  <div class="footer-components">
+    <!-- Sección 1: Info de la canción -->
+    <section class="song-info">
+      <div 
+        class="cover-thumbnail" 
+        (click)="toggleCover()"
+        [style.cursor]="'pointer'"
+      >
+        <img [src]="playerService.currentTrack()!.coverImage" [alt]="playerService.currentTrack()!.title">
+      </div>
+      <div class="track-details">
+        <span class="track-title">{{ playerService.currentTrack()!.title }}</span>
+        <div class="track-meta">
+          <span class="track-album" *ngIf="playerService.currentTrack()!.album">
+            <i class="far fa-clock"></i> {{ playerService.currentTrack()!.album }}
+          </span>
+          <span class="track-artist">{{ playerService.currentTrack()!.artist }}</span>
+        </div>
+      </div>
+      <!-- Botón de compartir (placeholder) -->
+      <button class="btn-share" aria-label="Compartir">
+        <i class="fas fa-share-alt"></i>
+      </button>
+    </section>
+
+    <!-- Sección 2: Controles de reproducción -->
+    <section class="player-controls">
+      <!-- Volumen -->
+      <button class="control-btn" aria-label="Volumen">
+        <i class="fas" [ngClass]="{
+          'fa-volume-up': playerService.volume() > 50,
+          'fa-volume-down': playerService.volume() > 0 && playerService.volume() <= 50,
+          'fa-volume-mute': playerService.volume() === 0
+        }"></i>
+      </button>
+      <input 
+        type="range" 
+        class="volume-slider" 
+        [value]="playerService.volume()"
+        (input)="onVolumeChange($event)"
+        min="0" 
+        max="100" 
+      />
+
+      <!-- Agregar a playlist -->
+      <button class="control-btn" (click)="addToPlaylist()" aria-label="Agregar a playlist">
+        <i class="fas fa-list-ul"></i>
+      </button>
+
+      <!-- Anterior -->
+      <button class="control-btn" (click)="previousTrack()" aria-label="Anterior">
+        <i class="fas fa-step-backward"></i>
+      </button>
+
+      <!-- Play/Pause -->
+      <button class="control-btn control-btn-primary" (click)="togglePlayPause()" aria-label="Play/Pause">
+        <i class="fas" [ngClass]="playerService.isPlaying() ? 'fa-pause' : 'fa-play'"></i>
+      </button>
+
+      <!-- Siguiente -->
+      <button class="control-btn" (click)="nextTrack()" aria-label="Siguiente">
+        <i class="fas fa-step-forward"></i>
+      </button>
+
+      <!-- Shuffle -->
+      <button 
+        class="control-btn" 
+        [class.active]="playerService.isShuffle()" 
+        (click)="toggleShuffle()" 
+        aria-label="Aleatorio"
+      >
+        <i class="fas fa-random"></i>
+      </button>
+
+      <!-- Repeat -->
+      <button 
+        class="control-btn" 
+        [class.active]="playerService.repeatMode() !== 'none'" 
+        (click)="toggleRepeat()" 
+        aria-label="Repetir"
+      >
+        <i 
+          class="fas"
+          [class.fa-redo]="playerService.repeatMode() === 'all' || playerService.repeatMode() === 'none'"
+          [class.fa-redo-alt]="playerService.repeatMode() === 'one'"
+        ></i>
+        <span *ngIf="playerService.repeatMode() === 'one'" class="repeat-badge">1</span>
+      </button>
+    </section>
+
+    <!-- Sección 3: Reacciones y controles de vista -->
+    <section class="player-reactions">
+      <!-- Like -->
+      <button 
+        class="reaction-btn" 
+        [class.liked]="playerService.currentTrack()!.isLiked"
+        (click)="toggleLike()" 
+        aria-label="Me gusta"
+      >
+        <i class="fas fa-heart"></i>
+        <span>{{ playerService.currentTrack()!.likes }}</span>
+      </button>
+
+      <!-- Comentarios -->
+      <button 
+        class="reaction-btn" 
+        [class.active]="playerService.showCommentsSidebar()"
+        (click)="toggleComments()" 
+        aria-label="Comentarios"
+      >
+        <i class="fas fa-comment"></i>
+        <span>{{ playerService.currentTrack()!.comments }}</span>
+      </button>
+
+      <!-- Playlist/Cola -->
+      <button 
+        class="reaction-btn reaction-btn-outline" 
+        [class.active]="playerService.showPlaylistSidebar()"
+        (click)="togglePlaylist()" 
+        aria-label="Lista de reproducción"
+      >
+        <i class="fas fa-list"></i>
+        <span>{{ playerService.queue().length }}</span>
+      </button>
+
+      <!-- Tiempos -->
+      <span class="time-current">{{ formatTime(playerService.currentTime()) }}</span>
+      <span class="time-divider">/</span>
+      <span class="time-duration">{{ getFormattedDuration() }}</span>
+    </section>
+  </div>
+</footer>

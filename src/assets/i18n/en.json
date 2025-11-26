@@ -1,0 +1,301 @@
+{
+  "nav": {
+    "home": "Home",
+    "categories": "Categories",
+    "library": "Library",
+    "communities": "Communities",
+    "artists": "Artists",
+    "premium": "Premium",
+    "upload": "Upload",
+    "search": "Search...",
+    "config": "Settings",
+    "logout": "Log out"
+  },
+  "sidebar": {
+    "mainPage": "Main Page",
+    "liked": "Liked",
+    "following": "Following",
+    "history": "History",
+    "yourCommunities": "Your Communities",
+    "recommended": "Recommended",
+    "explore": "Explore",
+    "tracks": "Tracks",
+    "playlists": "Playlists",
+    "albums": "Albums"
+  },
+  "auth": {
+    "login": {
+      "title": "Log in to PlaYA!",
+      "listener": "User",
+      "artist": "Artist",
+      "email": "Email",
+      "emailPlaceholder": "Enter your email...",
+      "password": "Password",
+      "passwordPlaceholder": "Enter your password...",
+      "emailRequired": "Email is required",
+      "invalidEmail": "Invalid email",
+      "passwordRequired": "Password is required",
+      "minChars": "Minimum 6 characters",
+      "cancel": "Cancel",
+      "loginButton": "Log In",
+      "loggingIn": "Logging in...",
+      "noAccount": "Don't have an account yet?",
+      "registerLink": "Sign up for PlaYa!",
+      "forgotPassword": "Forgot your password?"
+    },
+    "register": {
+      "title": "Sign up for free",
+      "listener": "Listener",
+      "artist": "Artist",
+      "fullName": "Full name",
+      "namePlaceholder": "Your name",
+      "nameRequired": "Name is required",
+      "minChars": "Minimum 3 characters",
+      "email": "Email",
+      "emailPlaceholder": "name@example.com",
+      "emailRequired": "Email is required",
+      "invalidEmail": "Invalid email",
+      "password": "Password",
+      "passwordPlaceholder": "Password",
+      "passwordRequired": "Password is required",
+      "minPassword": "Minimum 6 characters",
+      "terms": "By clicking \"Sign up\", you agree to the",
+      "termsLink": "Terms and Conditions",
+      "registerButton": "Sign up",
+      "registering": "Signing up...",
+      "artistName": "Artist name",
+      "country": "Country",
+      "countryPlaceholder": "Your country",
+      "countryRequired": "Country is required",
+      "registerAsArtist": "Sign up as artist",
+      "or": "or",
+      "hasAccount": "Already have an account?",
+      "loginLink": "Log in",
+      "backHome": "Back to home"
+    },
+    "getToken": {
+      "title": "Recover password",
+      "description": "Enter your email to generate the verification code.",
+      "email": "Email",
+      "cancel": "Cancel",
+      "generateButton": "Generate code",
+      "generating": "Generating...",
+      "codeGenerated": "Code generated:",
+      "copyCode": "Copy this code and use it on the next page to reset your password.",
+      "goToReset": "Go to reset password"
+    },
+    "resetPassword": {
+      "title": "Reset password",
+      "description": "Enter the code received and your new password.",
+      "code": "Code received",
+      "newPassword": "New Password",
+      "confirmPassword": "Confirm Password",
+      "minLength": "✓ Minimum length (e.g. 8 characters).",
+      "mustMatch": "✓ Must match confirmation.",
+      "uppercase": "✓ Uppercase letters.",
+      "lowercase": "✓ Lowercase letters.",
+      "numbers": "✓ Numbers.",
+      "special": "✓ Special characters (#,$,%,..).",
+      "cancel": "Cancel",
+      "resetButton": "Reset",
+      "resetting": "Resetting..."
+    }
+  },
+  "landing": {
+    "hero": {
+      "search": "Search..",
+      "searchButton": "Search",
+      "login": "Log In",
+      "createAccount": "Create account",
+      "headline": "Listen to the best independent music and discover new talents!",
+      "subheadline": "A platform for emerging artists to share, discover and connect",
+      "listenNow": "Listen now",
+      "learnMore": "Learn more"
+    },
+    "features": {
+      "title": "Why PlaYa?",
+      "indie": {
+        "title": "Independent music",
+        "description": "Discover emerging artists and support independent talent."
+      },
+      "communities": {
+        "title": "Communities",
+        "description": "Join communities and discover music with other fans."
+      },
+      "playlists": {
+        "title": "Personalized playlists",
+        "description": "Create and share your own playlists."
+      },
+      "forArtists": {
+        "title": "For artists",
+        "description": "Upload your music and connect directly with your audience."
+      },
+      "follow": {
+        "title": "Follow your artists",
+        "description": "Stay up to date with the latest releases from your favorites."
+      },
+      "premium": {
+        "title": "Premium",
+        "description": "Enjoy exclusive features with PlaYa Premium."
+      }
+    },
+    "cta": {
+      "title": "Ready to start your musical journey?",
+      "button": "Sign Up Free"
+    },
+    "footer": {
+      "about": "About",
+      "jobs": "Jobs",
+      "press": "Press",
+      "communities": "Communities",
+      "forArtists": "For artists",
+      "developers": "Developers",
+      "advertising": "Advertising",
+      "legal": "Legal",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "cookies": "Cookies",
+      "copyright": "© 2025 PlaYa. All rights reserved."
+    }
+  },
+  "home": {
+    "welcome": "Welcome to PlaYa,",
+    "email": "Email",
+    "accountType": "Account type",
+    "status": "Status",
+    "activeSession": "Active session",
+    "underConstruction": "Dashboard under construction",
+    "tempComponent": "This is a temporary component. In",
+    "phase2": "Phase 2",
+    "willImplement": "we will implement the complete dashboard with all features:",
+    "features": {
+      "trendingGenres": "Trending music genres",
+      "featuredCommunities": "Featured communities",
+      "personalizedRecommendations": "Personalized recommendations",
+      "navigationSidebar": "Navigation sidebar",
+      "uploadSongs": "Upload songs",
+      "statsAndEarnings": "Statistics and earnings",
+      "navbarNotifications": "Navbar with notifications",
+      "advancedSearch": "Advanced search",
+      "musicPlayer": "Music player"
+    },
+    "player": {
+      "testPlayer": "Test the Player",
+      "clickSong": "Click on a song to start playing:",
+      "availableFeatures": "Available features:",
+      "playPause": "Play/Pause, next, previous",
+      "shuffle": "Shuffle and repeat playback",
+      "volume": "Volume control",
+      "clickCover": "Click on the cover to expand",
+      "viewQueue": "View playback queue",
+      "viewComments": "View song comments",
+      "likeAdd": "Like and add to playlist"
+    },
+    "quickActions": {
+      "title": "Quick actions",
+      "uploadSong": "Upload Song",
+      "comingSoon": "(Coming Soon)",
+      "viewStats": "View Statistics",
+      "myFollowers": "My Followers",
+      "explore": "Explore",
+      "searchMusic": "Search Music",
+      "myPlaylists": "My Playlists",
+      "favorites": "Favorites"
+    },
+    "footer": "© 2025 PlaYa - Phase 1 Complete"
+  },
+  "config": {
+    "title": "Settings",
+    "profile": {
+      "username": "Username",
+      "email": "User Email",
+      "changePassword": "Change Password",
+      "bio": "Biography"
+    },
+    "playback": {
+      "title": "Playback Preferences",
+      "audioQuality": "Audio Quality",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "wifiDownload": "Download with WiFi",
+      "dataSaver": "Data Saver Mode"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "newSongs": "New songs from followed artists",
+      "messages": "Messages / Comments",
+      "releases": "Release reminders",
+      "recommendations": "Personalized recommendations"
+    },
+    "musicPreferences": {
+      "title": "Music Preferences",
+      "description": "Adjust your favorite genres to receive better recommendations",
+      "button": "Adjust Preferences"
+    },
+    "account": {
+      "title": "Account",
+      "type": "Account type",
+      "listener": "Listener",
+      "artist": "Artist",
+      "linkSocial": "Link social networks",
+      "manageDevices": "Manage devices"
+    },
+    "extra": {
+      "title": "Extra",
+      "language": "App Language",
+      "spanish": "Spanish",
+      "english": "English",
+      "portuguese": "Portuguese",
+      "theme": "App Theme",
+      "light": "Light",
+      "dark": "Dark"
+    },
+    "privacy": {
+      "title": "Privacy and Security",
+      "visibleProfile": "Visible profile",
+      "visiblePlaylists": "Visible playlists",
+      "visibleHistory": "Visible playback history"
+    },
+    "actions": {
+      "save": "Save Changes",
+      "saving": "Saving..."
+    },
+    "changePassword": {
+      "title": "Change password",
+      "currentPassword": "Current Password",
+      "currentPlaceholder": "Enter your current password",
+      "hidePassword": "Hide password",
+      "showPassword": "Show password",
+      "newPassword": "New Password",
+      "newPlaceholder": "Enter your new password",
+      "confirmPassword": "Confirm Password",
+      "confirmPlaceholder": "Confirm your new password",
+      "minLength": "✓ Minimum length (e.g: 8 characters).",
+      "mustMatch": "✓ Must match confirmation.",
+      "uppercase": "✓ Uppercase letters.",
+      "lowercase": "✓ Lowercase letters.",
+      "numbers": "✓ Numbers.",
+      "special": "✓ Special characters (#,$,%,..).",
+      "cancel": "Cancel",
+      "changeButton": "Change",
+      "changing": "Changing..."
+    }
+  },
+  "common": {
+    "cancel": "Cancel",
+    "save": "Save",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success"
+  },
+  "preferences": {
+    "title": "Adjust Music Preferences",
+    "description": "Select your favorite genres to receive personalized recommendations",
+    "limitInfo": "You can select up to {{max}} genres",
+    "save": "Save Preferences",
+    "saving": "Saving...",
+    "reset": "Reset Preferences",
+    "noGenres": "No genres available"
+  }
+}

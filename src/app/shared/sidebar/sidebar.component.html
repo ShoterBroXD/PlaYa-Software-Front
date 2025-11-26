@@ -1,0 +1,36 @@
+<aside class="sidebar-main" [class.collapsed]="isCollapsed()" [class.has-player]="playerService.hasTrack()">
+  <!-- Botón para colapsar/expandir -->
+  <button class="collapse-toggle" (click)="toggleCollapse()" type="button">
+    <img src="/assets/img/icons/toggle-sidebar.svg" alt="Toggle sidebar" class="toggle-icon">
+  </button>
+
+  <!-- Items superiores -->
+  <div class="sidebar-above">
+    <a 
+      *ngFor="let item of config.topItems" 
+      [routerLink]="item.route"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{exact: item.route === '/library'}"
+      class="sidebar-item"
+      (click)="handleItemClick(item.route, $event)"
+    >
+      <i [class]="getIconClass(item.icon)" class="sidebar-icon"></i>
+      <span class="sidebar-label" *ngIf="!isCollapsed()">{{ item.label }}</span>
+      <i class="fa-solid fa-chevron-right chevron-icon" *ngIf="!isCollapsed()"></i>
+    </a>
+  </div>
+
+  <!-- Items inferiores -->
+  <div class="sidebar-below">
+    <a 
+      *ngFor="let item of config.bottomItems" 
+      [routerLink]="item.route === '/logout' ? null : item.route"
+      [routerLinkActive]="item.route !== '/logout' ? 'active' : ''"
+      class="sidebar-item"
+      (click)="handleItemClick(item.route, $event)"
+    >
+      <i [class]="getIconClass(item.icon)" class="sidebar-icon"></i>
+      <span class="sidebar-label" *ngIf="!isCollapsed()">{{ item.label }}</span>
+    </a>
+  </div>
+</aside>

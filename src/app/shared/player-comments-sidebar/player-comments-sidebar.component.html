@@ -1,0 +1,144 @@
+<aside
+  *ngIf="playerService.showCommentsSidebar() && playerService.showCoverExpanded()"
+  class="comments-sidebar"
+>
+  <!-- Header -->
+  <div class="sidebar-header">
+    <h2 class="comments-count">{{ comments().length }} comentarios</h2>
+    <button class="sort-button">
+      <span>Ordenar por</span>
+      <i class="fas fa-chevron-down"></i>
+    </button>
+  </div>
+
+  <!-- Input para nuevo comentario -->
+  <div class="comment-input-section">
+    <img src="/assets/img/icons/logo-usuario.png" alt="Tu perfil" class="user-avatar">
+    <textarea
+      [(ngModel)]="newComment"
+      placeholder="Escribe un comentario..."
+      class="comment-textarea"
+      rows="2"
+    ></textarea>
+    <button
+      class="btn-post-comment"
+      type="button"
+      (click)="postComment()"
+      [disabled]="!newComment.trim() || submitting()"
+    >
+      {{ submitting() ? 'Publicando...' : 'Comentar' }}
+    </button>
+  </div>
+
+  <!-- Lista de comentarios -->
+  <div class="comments-list">
+    <ng-container *ngIf="!isLoading(); else loadingState">
+      <p class="state-message error" *ngIf="loadError()">{{ loadError() }}</p>
+      <ng-container *ngIf="!loadError()">
+        <div *ngIf="comments().length === 0" class="no-comments">
+          <i class="fas fa-comment-slash"></i>
+          <p>Ningun comentario aun, se el primero en comentar!</p>
+        </div>
+
+        <div *ngFor="let comment of comments()" class="comment-item">
+          <img [src]="comment.avatar" [alt]="comment.username" class="comment-avatar">
+
+          <div class="comment-content">
+            <div class="comment-header">
+              <span class="comment-username">{{ comment.username }}</span>
+              <span class="comment-time">{{ getTimeAgo(comment.timestamp) }}</span>
+            </div>
+
+            <p class="comment-text">{{ comment.content }}</p>
+
+            <div class="comment-actions">
+              <button
+                *ngIf="comment.replies && comment.replies.length > 0"
+                class="btn-toggle-replies"
+                type="button"
+                (click)="toggleReplies(comment.id)"
+              >
+                <i class="fas fa-reply"></i>
+                {{ comment.replies.length }} respuesta{{ comment.replies.length !== 1 ? 's' : '' }}
+              </button>
+              <button class="btn-reply" type="button" (click)="startReply(comment.id)">
+                {{ replyingTo() === comment.id ? 'Cancelar' : 'Responder' }}
+              </button>
+            </div>
+
+            <div class="reply-form" *ngIf="replyingTo() === comment.id">
+              <textarea
+                [(ngModel)]="replyText"
+                rows="2"
+                placeholder="Escribe una respuesta..."
+                class="reply-textarea"
+              ></textarea>
+              <div class="reply-form-actions">
+                <button type="button" class="btn-cancel-reply" (click)="cancelReply()">Cancelar</button>
+                <button
+                  type="button"
+                  class="btn-send-reply"
+                  (click)="submitReply(comment.id)"
+                  [disabled]="!replyText.trim() || submittingReply()"
+                >
+                  {{ submittingReply() ? 'Enviando...' : 'Responder' }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Respuestas -->
+            <div *ngIf="isRepliesExpanded(comment.id) && comment.replies" class="replies-container">
+              <div *ngFor="let reply of comment.replies" class="reply-item">
+                <img [src]="reply.avatar" [alt]="reply.username" class="reply-avatar">
+                <div class="reply-content">
+                  <span class="reply-username">{{ reply.username }}</span>
+                  <p class="reply-text">{{ reply.content }}</p>
+                </div>
+                <button class="btn-like-reply" type="button" (click)="toggleLike(reply)">
+                  <i class="fas fa-heart" [class.liked]="reply.isLiked"></i>
+                  <span>{{ reply.likes }}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="comment-options">
+            <div class="dropdown-menu">
+              <button class="btn-more-options" type="button" (click)="toggleDropdown(comment.id)">
+                <i class="fas fa-ellipsis-v"></i>
+              </button>
+              <div class="dropdown-content" [class.show]="isDropdownOpen(comment.id)">
+                <button class="dropdown-item report-btn" type="button" (click)="openReportModal(comment.id)">
+                  <i class="fas fa-flag"></i>
+                  Reportar comentario
+                </button>
+              </div>
+            </div>
+            <button
+              class="btn-like-comment"
+              [class.liked]="comment.isLiked"
+              type="button"
+              (click)="toggleLike(comment)"
+            >
+              <i class="fas fa-heart"></i>
+              <span>{{ comment.likes }}</span>
+            </button>
+          </div>
+        </div>
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <ng-template #loadingState>
+    <p class="state-message">Cargando comentarios...</p>
+  </ng-template>
+</aside>
+
+<!-- Report Modal -->
+<app-report-modal
+  *ngIf="showReportModal() && selectedCommentId()"
+  [contentType]="'COMMENT'"
+  [contentId]="selectedCommentId()!"
+  (close)="closeReportModal()"
+  (submitted)="onReportSubmitted()"
+></app-report-modal>

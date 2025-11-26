@@ -1,0 +1,12 @@
+<div class="library-page">
+  <div class="library-header">
+    <h1 class="library-title">Tu Biblioteca</h1>
+    <p class="library-subtitle">Siguiendo</p>
+  </div>
+
+  <div class="empty-state" *ngIf="!hasFollowing">
+    <i class="fa-solid fa-user-plus empty-icon"></i>
+    <p class="empty-text">Aún no sigues a ningún artista!</p>
+    <button class="btn-explore">Explorar artistas</button>
+  </div>
+</div>
