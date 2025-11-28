@@ -14,10 +14,10 @@ import { AuthService } from '../../../core/services/auth.service';
 export class LoginComponent {
   // Formularios separados para Usuario y Artista
   usuarioForm: FormGroup;
-  artistaForm: FormGroup;
+  //artistaForm: FormGroup;
 
   // Control de tabs
-  activeTab: 'usuario' | 'artista' = 'usuario';
+  //activeTab: 'usuario' | 'artista' = 'usuario';
 
   loading = false;
   errorMessage = '';
@@ -32,15 +32,14 @@ export class LoginComponent {
     this.usuarioForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      type: ['LISTENER'],
     });
 
     // Formulario Artista (ARTIST)
-    this.artistaForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]],
-      type: ['ARTIST'],
-    });
+    // this.artistaForm = this.fb.group({
+    //   email: ['', [Validators.required, Validators.email]],
+    //   password: ['', [Validators.required, Validators.minLength(6)]],
+    //   type: ['ARTIST'],
+    // });
   }
 
   // Getters para validaciones - Usuario
@@ -52,26 +51,26 @@ export class LoginComponent {
   }
 
   // Getters para validaciones - Artista
-  get artistaEmail() {
-    return this.artistaForm.get('email');
-  }
-  get artistaPassword() {
-    return this.artistaForm.get('password');
-  }
+  // get artistaEmail() {
+  //   return this.artistaForm.get('email');
+  // }
+  // get artistaPassword() {
+  //   return this.artistaForm.get('password');
+  // }
 
   /**
    * Cambiar entre tabs
    */
-  toggleTab(tab: 'usuario' | 'artista'): void {
-    this.activeTab = tab;
-    this.errorMessage = ''; // Limpiar errores al cambiar tab
-  }
+  // toggleTab(tab: 'usuario' | 'artista'): void {
+  //   this.activeTab = tab;
+  //   this.errorMessage = ''; // Limpiar errores al cambiar tab
+  // }
 
   /**
    * Enviar formulario según el tab activo
    */
   onSubmit(): void {
-    const form = this.activeTab === 'usuario' ? this.usuarioForm : this.artistaForm;
+    const form = this.usuarioForm;
 
     if (form.invalid) {
       form.markAllAsTouched();
@@ -85,7 +84,8 @@ export class LoginComponent {
       next: (response) => {
         console.log('Login exitoso', response);
         const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
-        const resolvedType = (response.type ?? form.value.type) as 'ARTIST' | 'LISTENER' | undefined;
+        // const resolvedType = (response.type ?? form.value.type) as 'ARTIST' | 'LISTENER' | undefined;
+        const resolvedType = response.type as 'ARTIST' | 'LISTENER' | undefined;
         if (resolvedType) {
           this.authService.setUserType(resolvedType);
         }
