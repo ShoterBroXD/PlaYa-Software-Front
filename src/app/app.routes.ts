@@ -4,6 +4,7 @@ import { MainLayoutComponent } from './layouts/main-layout.component';
 import { LibraryLayoutComponent } from './layouts/library-layout/library-layout.component';
 import { CategoriesLayoutComponent } from './layouts/categories-layout/categories-layout.component';
 import { CommunitiesLayoutComponent } from './layouts/communities-layout/communities-layout.component';
+import { ArtistLayoutComponent } from './layouts/dashboard-layout/artist-dashboard-layout/artist-layout.component';
 
 export const routes: Routes = [
   // Landing Page (sin navbar autenticado)
@@ -54,10 +55,16 @@ export const routes: Routes = [
       },
       {
         path: 'dashboard-artista',
-        loadComponent: () =>
-          import('./features/dashboards/artist-dashboard/artist-dashboard.component').then(
-            (m) => m.ArtistDashboardComponent
-          ),
+        component: ArtistLayoutComponent,
+        children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import('./features/dashboards/artist-dashboard/artist-dashboard.component').then(
+                (m) => m.ArtistDashboardComponent
+              ),
+          },
+        ],
       },
       {
         path: 'categories',
@@ -65,19 +72,19 @@ export const routes: Routes = [
         children: [
           {
             path: '',
-            loadComponent: () => import('./features/categories/categories-index/categories-index.component').then(m => m.CategoriesIndexComponent),
+            loadComponent: () => import('./features/categories/categories-index/categories-index.component').then((m) => m.CategoriesIndexComponent),
           },
           {
             path: 'tracks',
-            loadComponent: () => import('./features/categories/tracks/tracks.component').then(m => m.CategoriesTracksComponent),
+            loadComponent: () => import('./features/categories/tracks/tracks.component').then((m) => m.CategoriesTracksComponent),
           },
           {
             path: 'playlists',
-            loadComponent: () => import('./features/categories/playlists/playlists.component').then(m => m.CategoriesPlaylistsComponent),
+            loadComponent: () => import('./features/categories/playlists/playlists.component').then((m) => m.CategoriesPlaylistsComponent),
           },
           {
             path: 'albums',
-            loadComponent: () => import('./features/categories/albums/albums.component').then(m => m.CategoriesAlbumsComponent),
+            loadComponent: () => import('./features/categories/albums/albums.component').then((m) => m.CategoriesAlbumsComponent),
           },
         ]
       },
@@ -109,19 +116,19 @@ export const routes: Routes = [
         children: [
           {
             path: '',
-            loadComponent: () => import('./features/communities/communities-index/communities-index.component').then(m => m.CommunitiesIndexComponent),
+            loadComponent: () => import('./features/communities/communities-index/communities-index.component').then((m) => m.CommunitiesIndexComponent),
           },
           {
             path: 'your-communities',
-            loadComponent: () => import('./features/communities/your-communities/your-communities.component').then(m => m.YourCommunitiesComponent),
+            loadComponent: () => import('./features/communities/your-communities/your-communities.component').then((m) => m.YourCommunitiesComponent),
           },
           {
             path: 'recommended',
-            loadComponent: () => import('./features/communities/recommended/recommended.component').then(m => m.RecommendedCommunitiesComponent),
+            loadComponent: () => import('./features/communities/recommended/recommended.component').then((m) => m.RecommendedCommunitiesComponent),
           },
           {
             path: 'explore',
-            loadComponent: () => import('./features/communities/explore/explore.component').then(m => m.ExploreCommunitiesComponent),
+            loadComponent: () => import('./features/communities/explore/explore.component').then((m) => m.ExploreCommunitiesComponent),
           },
           {
             path: ':id',

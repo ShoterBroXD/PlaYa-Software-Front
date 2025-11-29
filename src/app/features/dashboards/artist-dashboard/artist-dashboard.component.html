@@ -1,23 +1,12 @@
 <section class="artist-dashboard">
-  <aside class="artist-dashboard__sidebar">
-    <!-- <p class="sidebar-title">Panel del artista</p> -->
-    <nav>
-      <button
-        *ngFor="let link of sidebarLinks; let idx = index"
-        class="sidebar-link"
-        [class.sidebar-link--secondary]="link.isSecondary"
-        [class.sidebar-link--active]="idx === 0"
-      >
-        <span>{{ link.label }}</span>
-      </button>
-    </nav>
-  </aside>
-
+  <!-- <div class="artist-dashboard__sidebar">
+    <app-sidebar [config]="sidebarConfig"></app-sidebar>
+  </div> -->
   <div class="artist-dashboard__content">
     <header class="artist-dashboard__hero">
       <img [src]="avatar" alt="Avatar artista" class="avatar" />
       <div>
-        <p class="eyebrow">Perfil principal</p>
+        <!-- <p class="eyebrow">Perfil principal</p> -->
         <h1>Bienvenido ({{ userName }})!</h1>
         <p>
           Veo que aun no tienes ninguna cancion subida. Que esperas? Sube una cancion y ensenale a las
@@ -35,11 +24,13 @@
 
       <div *ngIf="uploadedSongs.length === 0" class="empty-state">
         <div class="empty-state__media">
-          <div class="thumbnail"></div>
+          <div class="thumbnail">
+            <img src='/assets/img/images/img-placeholder.svg' alt="song cover placeholder" />
+          </div>
         </div>
         <div class="empty-state__copy">
-          <h3>Aun no tienes musicas subidas</h3>
-          <p>Usa el boton azul para comenzar a subir tus primeras melodias.</p>
+          <h3>Aun no tienes musicas subidas!</h3>
+          <p>Dale click al boton azul para subir tu primera melodia.</p>
           <button class="cta ghost">Comienza subiendo tu musica</button>
         </div>
       </div>
@@ -64,7 +55,8 @@
           [style.--accent]="gainsCard.accent"
           [style.--bg]="gainsCard.background"
         >
-          <span>{{ gainsCard.icon }}</span>
+          <!-- <span>{{ gainsCard.icon }}</span> -->
+          <img src="assets/img/images/currency-dollar.svg" alt="gains card icon" />
         </div>
         <div class="highlight__copy">
           <h2>{{ gainsCard.title }}</h2>

@@ -1,5 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { SidebarStateService } from '../../../core/services/sidebar-state.service';
+import { PlayerService } from '../../../core/services/player.service';
+import { ARTIST_DASHBOARD_SIDEBAR_CONFIG } from '../../../shared/models/sidebar.model';
 
 interface SidebarLink {
   label: string;
@@ -32,7 +35,12 @@ interface HighlightCard {
 })
 export class ArtistDashboardComponent {
   userName = 'Usuario';
-  avatar = '/assets/img/images/profile-pic.jpg';
+  avatar = 'assets/img/images/logo-usuario.svg';
+
+  constructor(
+      public sidebarState: SidebarStateService,
+      public playerService: PlayerService
+    ) {}
 
   sidebarLinks: SidebarLink[] = [
     { label: 'Perfil principal' },
@@ -42,6 +50,8 @@ export class ArtistDashboardComponent {
     { label: 'Configuracion', isSecondary: true },
     { label: 'Cerrar sesion', isSecondary: true },
   ];
+
+  sidebarConfig = ARTIST_DASHBOARD_SIDEBAR_CONFIG;
 
   uploadedSongs: UploadedSong[] = [];
 

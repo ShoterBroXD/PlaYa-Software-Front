@@ -6,7 +6,7 @@ export interface SidebarItem {
 }
 
 export interface SidebarConfig {
-  context: 'library' | 'categories' | 'communities';
+  context: 'library' | 'categories' | 'communities' | 'artist-dashboard';
   topItems: SidebarItem[];
   bottomItems: SidebarItem[];
 }
@@ -51,4 +51,18 @@ export const COMMUNITIES_SIDEBAR_CONFIG: SidebarConfig = {
     { label: 'Configuración', icon: 'cog', route: '/settings' },
     { label: 'Cerrar sesión', icon: 'logout', route: '/logout' }
   ]
+};
+// FALTA MODIFICAR LAS RUTAS E ICONOS
+export const ARTIST_DASHBOARD_SIDEBAR_CONFIG: SidebarConfig = {
+  context: 'artist-dashboard',
+  topItems: [
+      {route: '/dashboard-artista', label: 'Perfil principal', icon: ''},
+      {route: 'events', label: 'Eventos', icon: ''},
+      {route: 'communities', label: 'Comunidades', icon: ''},
+      {route: 'statistics', label: 'Estadisticas', icon: ''},
+    ],
+    bottomItems: [
+      {route: '/settings', label: 'Configuración', icon: 'cog'},
+      {route: '/logout', label: 'Cerrar sesión', icon: 'logout'},
+    ]
 };
