@@ -38,6 +38,10 @@ export class ViewPlaylistComponent implements OnInit {
   }
 
   loadPlaylist(): void {
+    if (!this.playlistId || isNaN(this.playlistId)) {
+      this.errorMessage = 'ID de playlist inválido';
+      return;
+    }
     this.loading = true;
     this.playlistService.getPlaylistById(this.playlistId).subscribe({
       next: (data) => {

@@ -23,101 +23,23 @@
                 <p>{{ displayUserType }}</p>
             </div>
 
-            <div class="info-card">
-                <h3>🟢 {{ 'home.status' | translate }}</h3>
-                <p class="status-active">✓ {{ 'home.activeSession' | translate }}</p>
-            </div>
         </section>
 
-        <!-- Mensaje temporal -->
-        <section class="coming-soon">
-            <div class="alert-info">
-                <i class="fas fa-info-circle"></i>
-                <div>
-                    <h3>{{ 'home.underConstruction' | translate }}</h3>
-                    <p>
-                        {{ 'home.tempComponent' | translate }} <strong>{{ 'home.phase2' | translate }}</strong>,
-                        {{ 'home.willImplement' | translate }}
-                    </p>
-                    <ul>
-                        <li *ngIf="userType === 'LISTENER'">
-                            ? G�neros musicales en tendencia
-                        </li>
-                        <li *ngIf="userType === 'LISTENER'">
-                            ? Comunidades destacadas
-                        </li>
-                        <li *ngIf="userType === 'LISTENER'">
-                            ? Recomendaciones personalizadas
-                        </li>
-                        <li *ngIf="userType === 'ARTIST'">
-                            ? Sidebar de navegaci�n
-                        </li>
-                        <li *ngIf="userType === 'ARTIST'">
-                            ? Subir canciones
-                        </li>
-                        <li *ngIf="userType === 'ARTIST'">
-                            ? Estad�sticas y ganancias
-                        </li>
-                        <li>? Navbar con notificaciones</li>
-                        <li>? B�squeda avanzada</li>
-                        <li>? Reproductor de m�sica</li>
-                    </ul>
-                </div>
-            </div>
-        </section>
-
-        <!-- Demo del reproductor -->
-        <section class="player-demo">
-            <h2>🎵 {{ 'home.player.testPlayer' | translate }}</h2>
-            <p>{{ 'home.player.clickSong' | translate }}</p>
-            <div class="demo-tracks">
-                <div
-                    *ngFor="let track of mockTracks; let i = index"
-                    class="demo-track"
-                    (click)="playTrack(track, i)"
-                >
-                    <img [src]="track.coverImage" [alt]="track.title" class="track-cover">
-                    <div class="track-info-demo">
-                        <p class="track-name">{{ track.title }}</p>
-                        <p class="track-artist-demo">{{ track.artist }}</p>
-                    </div>
-                    <button class="btn-play-demo">
-                        <i class="fas fa-play"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="demo-instructions">
-                <p><strong>{{ 'home.player.availableFeatures' | translate }}</strong></p>
-                <ul>
-                    <li>⏯️ {{ 'home.player.playPause' | translate }}</li>
-                    <li>🔀 {{ 'home.player.shuffle' | translate }}</li>
-                    <li>🔊 {{ 'home.player.volume' | translate }}</li>
-                    <li>🖼️ {{ 'home.player.clickCover' | translate }}</li>
-                    <li>📜 {{ 'home.player.viewQueue' | translate }}</li>
-                    <li>💬 {{ 'home.player.viewComments' | translate }}</li>
-                    <li>❤️ {{ 'home.player.likeAdd' | translate }}</li>
-                </ul>
-            </div>
-        </section>
-
-        <!-- Acciones r�pidas -->
+        <!-- Acciones rápidas -->
         <section class="quick-actions" *ngIf="userType === 'ARTIST'">
-            <h2>Acciones r�pidas</h2>
+            <h2>Acciones rápidas</h2>
             <div class="actions-grid">
-                <button class="action-card" disabled>
+                <button class="action-card" routerLink="/upload">
                     <i class="fas fa-upload"></i>
-                    <span>Subir Canci�n</span>
-                    <small>(Pr�ximamente)</small>
+                    <span>Subir Canción</span>
                 </button>
-                <button class="action-card" disabled>
+                <button class="action-card" routerLink="/dashboard-artista">
                     <i class="fas fa-chart-line"></i>
-                    <span>Ver Estad�sticas</span>
-                    <small>(Pr�ximamente)</small>
+                    <span>Ver Estadísticas</span>
                 </button>
-                <button class="action-card" disabled>
+                <button class="action-card" routerLink="/configuration">
                     <i class="fas fa-users"></i>
                     <span>{{ 'home.quickActions.myFollowers' | translate }}</span>
-                    <small>(Pr�ximamente)</small>
                 </button>
             </div>
         </section>
@@ -125,20 +47,17 @@
         <section class="quick-actions" *ngIf="userType === 'LISTENER'">
             <h2>{{ 'home.quickActions.explore' | translate }}</h2>
             <div class="actions-grid">
-                <button class="action-card" disabled>
+                <button class="action-card" routerLink="/search">
                     <i class="fas fa-search"></i>
                     <span>{{ 'home.quickActions.searchMusic' | translate }}</span>
-                    <small>{{ 'home.quickActions.comingSoon' | translate }}</small>
                 </button>
-                <button class="action-card" disabled>
+                <button class="action-card" routerLink="/playlists/my">
                     <i class="fas fa-list"></i>
                     <span>{{ 'home.quickActions.myPlaylists' | translate }}</span>
-                    <small>{{ 'home.quickActions.comingSoon' | translate }}</small>
                 </button>
-                <button class="action-card" disabled>
+                <button class="action-card" routerLink="/library/liked">
                     <i class="fas fa-heart"></i>
                     <span>{{ 'home.quickActions.favorites' | translate }}</span>
-                    <small>{{ 'home.quickActions.comingSoon' | translate }}</small>
                 </button>
             </div>
         </section>

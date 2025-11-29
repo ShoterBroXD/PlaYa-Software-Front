@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { PremiumStatus, SubscriptionRequest, SubscriptionResponse } from '../models/premium.model';
 
@@ -10,7 +10,7 @@ import { PremiumStatus, SubscriptionRequest, SubscriptionResponse } from '../mod
 export class PremiumService {
   private readonly API_URL = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
@@ -26,7 +26,16 @@ export class PremiumService {
       throw new Error('Usuario no autenticado');
     }
     const headers = this.getHeaders().set('idUser', userId.toString());
-    return this.http.post<SubscriptionResponse>(`${this.API_URL}/premium/subscribe`, request, { headers });
+    return this.http.post<SubscriptionResponse>(`${this.API_URL}/premium/subscribe`, request, { headers }).pipe(
+      tap(response => {
+        if (response.token) {
+          console.log('Updating token after subscription');
+          localStorage.setItem('token', response.token);
+          // Optionally update current user in AuthService if needed, 
+          // but updating localStorage token is crucial for interceptor.
+        }
+      })
+    );
   }
 
   getStatus(userId: number): Observable<PremiumStatus> {

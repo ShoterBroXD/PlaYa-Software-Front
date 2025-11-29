@@ -3,12 +3,6 @@ import { Component, computed, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 
-interface SidebarLink {
-  label: string;
-  icon?: string;
-  isSecondary?: boolean;
-}
-
 interface UploadedSong {
   title: string;
   plays: number;
@@ -36,15 +30,6 @@ export class ArtistDashboardComponent {
   private authService = inject(AuthService);
   userName = computed(() => this.authService.getCurrentUser()?.name || 'Usuario');
   avatar = '/assets/img/images/profile-pic.jpg';
-
-  sidebarLinks: SidebarLink[] = [
-    { label: 'Perfil principal' },
-    { label: 'Eventos' },
-    { label: 'Comunidades' },
-    { label: 'Estadisticas' },
-    { label: 'Configuracion', isSecondary: true },
-    { label: 'Cerrar sesion', isSecondary: true },
-  ];
 
   uploadedSongs: UploadedSong[] = [];
 
