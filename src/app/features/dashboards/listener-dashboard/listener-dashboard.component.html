@@ -11,6 +11,26 @@
         <button class="cta primary">Premium</button>
       </div>
     </header>
+    
+    <!-- Seccion de canciones -->
+    <section class="card-section">
+      <div class="section-header">
+        <div>
+          <p class="section-eyebrow">Recomendado para ti</p>
+          <h2>Canciones en tendencia</h2>
+        </div>
+        <button class="cta text">Ver todo</button>
+      </div>
+      <div class="song-grid">
+        <div class="card-song" *ngFor="let song of songs" (click)="playSong(song, songs)">
+          <img [src]="song.image" [alt]="song.title" class="card-img">
+          <div class="card-info">
+            <p class="song-title">{{ song.title }}</p>
+            <p class="song-details">{{ song.artist }} · {{ song.year }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section class="card-section">
       <div class="section-header">

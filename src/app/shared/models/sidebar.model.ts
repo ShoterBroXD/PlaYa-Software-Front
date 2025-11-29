@@ -58,7 +58,7 @@ export const ARTIST_DASHBOARD_SIDEBAR_CONFIG: SidebarConfig = {
   topItems: [
       {route: '/dashboard-artista', label: 'Perfil principal', icon: ''},
       {route: 'events', label: 'Eventos', icon: ''},
-      {route: 'communities', label: 'Comunidades', icon: ''},
+      {route: '/communities', label: 'Comunidades', icon: ''},
       {route: 'statistics', label: 'Estadisticas', icon: ''},
     ],
     bottomItems: [
