@@ -1,91 +1,68 @@
 <section class="artist-dashboard">
-  <aside class="artist-dashboard__sidebar">
-    <p class="sidebar-title">Panel del artista</p>
-    <nav>
-      <button
-        *ngFor="let link of sidebarLinks; let idx = index"
-        class="sidebar-link"
-        [class.sidebar-link--secondary]="link.isSecondary"
-        [class.sidebar-link--active]="idx === 0"
-      >
-        <span>{{ link.label }}</span>
-      </button>
-    </nav>
-  </aside>
-
-  <div class="artist-dashboard__content">
-    <header class="artist-dashboard__hero">
-      <img [src]="avatar" alt="Avatar artista" class="avatar" />
-      <div>
-        <p class="eyebrow">Perfil principal</p>
-        <h1>Bienvenido {{ userName() }}!</h1>
-        <p>
-          Veo que aun no tienes ninguna cancion subida. Que esperas? Sube una cancion y enséñale a las
-          personas tus melodías. Conecta con tus fans respondiendo mensajes, compartiendo enlaces y
-          anunciando tus nuevos lanzamientos.
-        </p>
-      </div>
-    </header>
-
-    <section class="panel-card songs-card">
-      <div class="section-header">
-        <h2>Canciones subidas</h2>
-        <button class="cta primary" routerLink="/upload">Subir cancion</button>
-      </div>
-
-      <div *ngIf="uploadedSongs.length === 0" class="empty-state">
-        <div class="empty-state__media">
-          <div class="thumbnail"></div>
-        </div>
-        <div class="empty-state__copy">
-          <h3>Aun no tienes musicas subidas</h3>
-          <p>Usa el boton azul para comenzar a subir tus primeras melodias.</p>
-          <button class="cta ghost" routerLink="/upload">Comienza subiendo tu musica</button>
-        </div>
-      </div>
-
-      <div *ngIf="uploadedSongs.length > 0" class="songs-grid">
-        <article class="song-card" *ngFor="let song of uploadedSongs">
-          <div class="song-card__media"></div>
-          <div>
-            <h3>{{ song.title }}</h3>
-            <p>{{ song.plays | number }} reproducciones · {{ song.lastUpdate }}</p>
-            <span class="status">{{ song.status }}</span>
-          </div>
-          <button class="cta text">Ver detalles</button>
-        </article>
-      </div>
-    </section>
-
-    <div class="artist-dashboard__highlights">
-      <section class="panel-card highlight">
-        <div
-          class="highlight__icon"
-          [style.--accent]="gainsCard.accent"
-          [style.--bg]="gainsCard.background"
-        >
-          <span>{{ gainsCard.icon }}</span>
-        </div>
-        <div class="highlight__copy">
-          <h2>{{ gainsCard.title }}</h2>
-          <p>{{ gainsCard.description }}</p>
-        </div>
-        <button class="cta outline" routerLink="/upload">{{ gainsCard.action }}</button>
-      </section>
-      <section class="panel-card highlight">
-        <div
-          class="highlight__icon"
-          [style.--accent]="mostListenedCard.accent"
-          [style.--bg]="mostListenedCard.background"
-        >
-          <span>{{ mostListenedCard.icon }}</span>
-        </div>
-        <div class="highlight__copy">
-          <h2>{{ mostListenedCard.title }}</h2>
-          <p>{{ mostListenedCard.description }}</p>
-        </div>
-        <button class="cta outline">{{ mostListenedCard.action }}</button>
-      </section>
+  <header class="artist-dashboard__hero">
+    <img [src]="avatar" alt="Avatar artista" class="avatar" />
+    <div>
+      <p class="eyebrow">Perfil principal</p>
+      <h1>Bienvenido {{ userName() }}!</h1>
+      <p>
+        Veo que aun no tienes ninguna cancion subida. Que esperas? Sube una cancion y enséñale a las
+        personas tus melodías. Conecta con tus fans respondiendo mensajes, compartiendo enlaces y
+        anunciando tus nuevos lanzamientos.
+      </p>
     </div>
+  </header>
+
+  <section class="panel-card songs-card">
+    <div class="section-header">
+      <h2>Canciones subidas</h2>
+      <button class="cta primary" routerLink="/upload">Subir cancion</button>
+    </div>
+
+    <div *ngIf="uploadedSongs.length === 0" class="empty-state">
+      <div class="empty-state__media">
+        <div class="thumbnail"></div>
+      </div>
+      <div class="empty-state__copy">
+        <h3>Aun no tienes musicas subidas</h3>
+        <p>Usa el boton azul para comenzar a subir tus primeras melodias.</p>
+        <button class="cta ghost" routerLink="/upload">Comienza subiendo tu musica</button>
+      </div>
+    </div>
+
+    <div *ngIf="uploadedSongs.length > 0" class="songs-grid">
+      <article class="song-card" *ngFor="let song of uploadedSongs">
+        <div class="song-card__media"></div>
+        <div>
+          <h3>{{ song.title }}</h3>
+          <p>{{ song.plays | number }} reproducciones · {{ song.lastUpdate }}</p>
+          <span class="status">{{ song.status }}</span>
+        </div>
+        <button class="cta text" routerLink="/library">Ver detalles</button>
+      </article>
+    </div>
+  </section>
+
+  <div class="artist-dashboard__highlights">
+    <section class="panel-card highlight">
+      <div class="highlight__icon" [style.--accent]="gainsCard.accent" [style.--bg]="gainsCard.background">
+        <span>{{ gainsCard.icon }}</span>
+      </div>
+      <div class="highlight__copy">
+        <h2>{{ gainsCard.title }}</h2>
+        <p>{{ gainsCard.description }}</p>
+      </div>
+      <button class="cta outline" routerLink="/premium">{{ gainsCard.action }}</button>
+    </section>
+    <section class="panel-card highlight">
+      <div class="highlight__icon" [style.--accent]="mostListenedCard.accent"
+        [style.--bg]="mostListenedCard.background">
+        <span>{{ mostListenedCard.icon }}</span>
+      </div>
+      <div class="highlight__copy">
+        <h2>{{ mostListenedCard.title }}</h2>
+        <p>{{ mostListenedCard.description }}</p>
+      </div>
+      <button class="cta outline" routerLink="/artists/popular">{{ mostListenedCard.action }}</button>
+    </section>
   </div>
 </section>
