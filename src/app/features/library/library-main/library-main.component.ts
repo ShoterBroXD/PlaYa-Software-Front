@@ -1,5 +1,5 @@
 import { Component, OnInit, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf, NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PlayerService } from '../../../core/services/player.service';
 import { Track } from '../../../core/models/player.model';
@@ -13,7 +13,7 @@ import { AddToPlaylistModalComponent } from '../../../shared/components/add-to-p
 @Component({
   selector: 'app-library-main',
   standalone: true,
-  imports: [CommonModule, RouterLink, AddToPlaylistModalComponent],
+  imports: [CommonModule, NgIf, NgFor, RouterLink, AddToPlaylistModalComponent],
   templateUrl: './library-main.component.html',
   styleUrls: ['./library-main.component.css']
 })
