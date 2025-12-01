@@ -14,13 +14,34 @@
     </div>
   </div>
 
-  <section class="categories-grid">
-    <div class="category-card" *ngFor="let c of categories">
-      <img [src]="c.image" [alt]="c.title" class="category-icon" />
-      <div class="category-info">
-        <h3 class="category-title">{{ c.title }}</h3>
-        <p class="category-count">{{ c.count }} canciones</p>
+  <!-- Loader -->
+  <div *ngIf="isLoading" class="loading-container">
+    <div class="spinner"></div>
+    <p>Cargando géneros...</p>
+  </div>
+
+  <!-- Error -->
+  <div *ngIf="error && !isLoading" class="error-container">
+    <p>{{ error }}</p>
+    <button (click)="loadGenres()" class="retry-button">Reintentar</button>
+  </div>
+
+  <!-- Grid de géneros -->
+  <section *ngIf="!isLoading && !error" class="categories-grid">
+    <div 
+      class="category-card" 
+      *ngFor="let genre of genres"
+      (click)="navigateToGenre(genre.idGenre)"
+      [style.background]="getGenreGradient(genre.name)">
+      <div class="category-content">
+        <h3 class="category-title">{{ genre.name }}</h3>
+        <p class="category-description">Explorar {{ genre.name }}</p>
       </div>
     </div>
   </section>
+
+  <!-- Mensaje cuando no hay géneros -->
+  <div *ngIf="!isLoading && !error && genres.length === 0" class="empty-state">
+    <p>No hay géneros disponibles en este momento.</p>
+  </div>
 </div>

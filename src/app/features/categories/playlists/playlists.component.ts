@@ -40,6 +40,20 @@ export class CategoriesPlaylistsComponent implements OnInit {
 
   constructor(private playlistService: PlaylistService) {}
 
+  // Gradientes para playlists en tonos azules
+  private readonly playlistGradients = [
+    'linear-gradient(135deg, #0a6e99 0%, #084f6a 100%)',
+    'linear-gradient(135deg, #3498db 0%, #2874a6 100%)',
+    'linear-gradient(135deg, #5dade2 0%, #1f618d 100%)',
+    'linear-gradient(135deg, #85c1e9 0%, #2980b9 100%)',
+    'linear-gradient(135deg, #1e90ff 0%, #0066cc 100%)',
+    'linear-gradient(135deg, #4a90e2 0%, #2e5c8a 100%)',
+  ];
+
+  getPlaylistGradient(index: number): string {
+    return this.playlistGradients[index % this.playlistGradients.length];
+  }
+
   ngOnInit(): void {
     this.loadPlaylists();
   }

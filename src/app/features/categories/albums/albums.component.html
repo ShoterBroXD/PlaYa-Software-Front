@@ -12,11 +12,13 @@
   </div>
 
   <div class="categories-grid">
-    <div class="category-card" *ngFor="let a of albums">
-      <img [src]="a.image" [alt]="a.title" class="category-icon" />
-      <div class="category-info">
+    <div 
+      class="category-card" 
+      *ngFor="let a of albums; let i = index"
+      [style.background]="getAlbumGradient(i)">
+      <div class="category-content">
         <h3 class="category-title">{{ a.title }}</h3>
-        <p class="category-count">{{ a.tracks }} pistas</p>
+        <p class="category-description">{{ a.tracks }} pistas</p>
       </div>
     </div>
   </div>

@@ -10,7 +10,7 @@
       *ngFor="let item of config.topItems" 
       [routerLink]="item.route"
       routerLinkActive="active"
-      [routerLinkActiveOptions]="{exact: item.route === '/library'}"
+      [routerLinkActiveOptions]="{exact: true}"
       class="sidebar-item"
       (click)="handleItemClick(item.route, $event)"
     >
