@@ -41,7 +41,7 @@ export class CategoriesIndexComponent implements OnInit {
   loadGenres() {
     this.isLoading = true;
     this.error = null;
-    
+
     this.songService.getGenres().subscribe({
       next: (genres: Genre[]) => {
         console.log('Géneros cargados desde el backend:', genres);

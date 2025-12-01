@@ -12,17 +12,17 @@
 .filter-button.active { background-color: #084f6a; }
 
 .categories-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; padding: 8px 0; }
-.category-card { 
-  position: relative; 
-  border-radius: 12px; 
-  overflow: hidden; 
-  cursor: pointer; 
-  transition: transform 0.3s ease, box-shadow 0.3s ease; 
-  height: 150px; 
-  display: flex; 
-  align-items: flex-end; 
-  padding: 1.2rem; 
-  box-shadow: 0 4px 12px rgba(10, 110, 153, 0.15); 
+.category-card {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 150px;
+  display: flex;
+  align-items: flex-end;
+  padding: 1.2rem;
+  box-shadow: 0 4px 12px rgba(10, 110, 153, 0.15);
 }
 .category-card:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 10px 20px rgba(10, 110, 153, 0.25); }
 .category-content { width: 100%; }

@@ -24,7 +24,7 @@ interface HighlightCard {
 export class ArtistDashboardComponent implements OnInit {
   private authService = inject(AuthService);
   private songService = inject(SongService);
-  
+
   userName = computed(() => this.authService.getCurrentUser()?.name || 'Usuario');
   avatar = '/assets/img/images/profile-pic.jpg';
 

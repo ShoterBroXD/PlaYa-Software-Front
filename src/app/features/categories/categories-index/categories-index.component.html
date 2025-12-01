@@ -28,8 +28,8 @@
 
   <!-- Grid de géneros -->
   <section *ngIf="!isLoading && !error" class="categories-grid">
-    <div 
-      class="category-card" 
+    <div
+      class="category-card"
       *ngFor="let genre of genres"
       (click)="navigateToGenre(genre.idGenre)"
       [style.background]="getGenreGradient(genre.name)">
