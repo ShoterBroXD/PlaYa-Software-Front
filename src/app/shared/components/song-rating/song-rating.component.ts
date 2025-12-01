@@ -76,7 +76,7 @@ export class SongRatingComponent implements OnInit {
         this.currentRating = response.averageRating || rating;
         this.ratingCount = response.ratingCount || 1;
         this.isSubmitting = false;
-        
+
         // Emitir evento con la nueva calificación
         this.ratingChanged.emit({
           rating: rating,
@@ -87,13 +87,13 @@ export class SongRatingComponent implements OnInit {
       },
       error: (error) => {
         console.error('Error al calificar canción:', error);
-        
+
         if (error.message.includes('conectar al servidor')) {
-          alert('⚠️ Backend no disponible\n\nEl servidor no está corriendo. Para probar la funcionalidad:\n\n1. Inicia el backend Spring Boot en http://localhost:8080\n2. Verifica que la API /api/v1/songs esté activa\n\nLa interfaz seguirá mostrando datos de ejemplo.');
+          alert('⚠️ Backend no disponible\n\nEl servidor en Render no responde. Verifica:\n\n1. Que el servicio en Render esté activo\n2. Que la URL https://playa-software.onrender.com esté accesible\n\nLa interfaz seguirá mostrando datos de ejemplo.');
         } else {
           alert('Error al guardar la calificación: ' + error.message);
         }
-        
+
         this.isSubmitting = false;
       }
     });
