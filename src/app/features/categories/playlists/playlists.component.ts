@@ -14,6 +14,7 @@ import { PlaylistResponseDto } from '../../../core/models/playlist.model';
 })
 export class CategoriesPlaylistsComponent implements OnInit {
   playlists: PlaylistResponseDto[] = [];
+  playlistCounts: Map<number, number> = new Map();
   loading = false;
   errorMessage = '';
   isFallback = false;
@@ -66,6 +67,7 @@ export class CategoriesPlaylistsComponent implements OnInit {
       next: (data) => {
         if (data && data.length) {
           this.playlists = data;
+          this.loadSongCounts();
         } else {
           this.useFallback('Aún no hay playlists públicas. Mira estas sugerencias.');
         }
@@ -86,5 +88,28 @@ export class CategoriesPlaylistsComponent implements OnInit {
     }));
     this.loading = false;
     this.isFallback = true;
+  }
+
+  loadSongCounts(): void {
+    this.playlists.forEach(playlist => {
+      const rawId: any = (playlist as any).id ?? (playlist as any).idPlaylist ?? (playlist as any).id_playlist;
+      const id = Number(rawId);
+      if (Number.isFinite(id)) {
+        this.playlistService.getSongCountByPlaylistId(id).subscribe({
+          next: (count) => {
+            this.playlistCounts.set(id, count);
+          },
+          error: (err) => {
+            console.error('Error loading song count for playlist', id, err);
+          }
+        });
+      }
+    });
+  }
+
+  getSongCount(playlist: PlaylistResponseDto): number {
+    const rawId: any = (playlist as any).id ?? (playlist as any).idPlaylist ?? (playlist as any).id_playlist;
+    const id = Number(rawId);
+    return this.playlistCounts.get(id) ?? playlist.songs?.length ?? 0;
   }
 }

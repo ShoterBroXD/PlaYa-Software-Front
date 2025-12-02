@@ -22,7 +22,7 @@
       <div class="playlist-info">
         <h3>{{ playlist.name }}</h3>
         <p>{{ playlist.description || 'Sin descripción' }}</p>
-        <p>{{ playlist.songs?.length || 0 }} canciones</p>
+        <p>{{ getSongCount(playlist) }} canciones</p>
       </div>
       <div class="playlist-actions">
         <button (click)="openPlaylist(playlist)" class="btn secondary">Ver</button>
