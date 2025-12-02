@@ -40,10 +40,10 @@
         <button class="cta text" routerLink="/categories">Ver todo</button>
       </div>
       <div class="genre-grid">
-        <article class="genre-card" *ngFor="let genre of trendingGenres">
+        <article class="genre-card" *ngFor="let genre of trendingGenres" (click)="navigateToGenre(genre.idGenre)" style="cursor: pointer;">
           <div class="genre-card__placeholder"></div>
           <h3>{{ genre.name }}</h3>
-          <p>{{ genre.description }}</p>
+          <p>{{ genre.description || 'Explorar ' + genre.name }}</p>
         </article>
       </div>
     </section>
@@ -69,7 +69,7 @@
             <p class="topic">{{ community.topic }}</p>
             <p class="excerpt">{{ community.excerpt }}</p>
           </div>
-          <button class="cta icon" aria-label="Ir a comunidad" routerLink="/communities/explore">
+          <button class="cta icon" aria-label="Ir a comunidad" (click)="navigateToCommunity(community.id)">
             <span>&rsaquo;</span>
           </button>
         </article>

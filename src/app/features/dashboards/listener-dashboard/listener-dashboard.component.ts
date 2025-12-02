@@ -1,6 +1,6 @@
-import { CommonModule, NgFor } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Component, computed, inject, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { SongService } from '../../../core/services/song.service';
 import { CommunityService } from '../../../core/services/community.service';
@@ -29,14 +29,15 @@ interface Song {
 @Component({
   selector: 'app-listener-dashboard',
   standalone: true,
-  imports: [CommonModule, NgFor, RouterLink],
+  imports: [CommonModule, RouterLink],
   templateUrl: './listener-dashboard.component.html',
   styleUrls: ['./listener-dashboard.component.css'],
 })
-export class ListenerDashboardComponent {
+export class ListenerDashboardComponent implements OnInit {
   private authService = inject(AuthService);
   private songService = inject(SongService);
   private communityService = inject(CommunityService);
+  private router = inject(Router);
 
   userName = computed(() => this.authService.getCurrentUser()?.name || 'Usuario');
   welcomeSubtitle = 'Listo para descubrir nuevos gustos?';
@@ -96,6 +97,14 @@ export class ListenerDashboardComponent {
       },
       error: (err) => console.error('Error loading communities', err)
     });
+  }
+
+  navigateToGenre(genreId: number) {
+    this.router.navigate(['/categories/tracks', genreId]);
+  }
+
+  navigateToCommunity(communityId: number) {
+    this.router.navigate(['/communities', communityId]);
   }
   constructor(public playerService: PlayerService) {}
 

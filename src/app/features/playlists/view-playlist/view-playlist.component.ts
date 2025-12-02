@@ -92,7 +92,21 @@ export class ViewPlaylistComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['/playlists/my']);
+    // Try to navigate back to the origin route passed in navigation state
+    const from = (window.history.state && window.history.state.from) ? window.history.state.from : null;
+    if (from && typeof from === 'string') {
+      // navigate to the previous route stored in state
+      this.router.navigateByUrl(from).catch(() => window.history.back());
+      return;
+    }
+
+    // Fallback to history.back() which will return to the actual previous page if available
+    try {
+      window.history.back();
+    } catch (e) {
+      // final fallback to the my playlists page
+      this.router.navigate(['/playlists/my']);
+    }
   }
 
   private normalizePlaylist(raw: PlaylistResponseDto | any): PlaylistResponseDto {

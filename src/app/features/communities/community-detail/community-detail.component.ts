@@ -111,7 +111,7 @@ export class CommunityDetailComponent implements OnInit {
       if (this.isLoading) {
         console.warn('TIMEOUT: Forzando fin de carga despues de 10s');
         this.isLoading = false;
-        this.error = 'Timeout al cargar la comunidad. Verifica que el backend este ejecutandose en localhost:8080';
+        this.error = 'Timeout al cargar la comunidad. Verifica la conexión con el backend en Render';
         this.cdr.detectChanges();
       }
     }, 10000);

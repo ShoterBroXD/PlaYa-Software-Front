@@ -51,6 +51,24 @@
   background-color: #b02a37;
 }
 
+.btn-icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+}
+
+.btn-icon img {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.btn-icon:hover {
+  opacity: 0.7;
+}
+
 .loading, .error-message {
   text-align: center;
   margin: 20px 0;

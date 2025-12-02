@@ -5,8 +5,10 @@ import { ArtistService } from '../../../core/services/artist.service';
 import { FollowService } from '../../../core/services/follow.service';
 import { SongService } from '../../../core/services/song.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { PlayerService } from '../../../core/services/player.service';
 import { Artist } from '../../../core/models/artist.model';
 import { SongResponseDto } from '../../../core/models/song.model';
+import { Track } from '../../../core/models/player.model';
 
 @Component({
   selector: 'app-artist-profile',
@@ -31,7 +33,8 @@ export class ProfileComponent implements OnInit {
     private artistService: ArtistService,
     private followService: FollowService,
     private songService: SongService,
-    private authService: AuthService
+    private authService: AuthService,
+    private playerService: PlayerService
   ) {}
 
   ngOnInit() {
@@ -122,5 +125,38 @@ export class ProfileComponent implements OnInit {
       },
       error: (error) => console.error('Error al cambiar follow:', error)
     });
+  }
+
+  playSong(song: SongResponseDto) {
+    // Convert SongResponseDto to Track
+    const track: Track = {
+      id: song.idSong,
+      title: song.title,
+      artist: song.artist?.name || this.artist?.name || 'Artista Desconocido',
+      album: song.genre?.name || 'Sin álbum',
+      duration: song.duration || 0,
+      coverImage: song.coverURL || '/assets/img/images/img-placeholder.svg',
+      audioUrl: song.fileURL || '',
+      likes: 0,
+      comments: 0,
+      isLiked: false
+    };
+
+    // Convert all songs to Track queue
+    const queue: Track[] = this.songs.map(s => ({
+      id: s.idSong,
+      title: s.title,
+      artist: s.artist?.name || this.artist?.name || 'Artista Desconocido',
+      album: s.genre?.name || 'Sin álbum',
+      duration: s.duration || 0,
+      coverImage: s.coverURL || '/assets/img/images/img-placeholder.svg',
+      audioUrl: s.fileURL,
+      likes: 0,
+      comments: 0,
+      isLiked: false
+    }));
+
+    const index = this.songs.findIndex(s => s.idSong === song.idSong);
+    this.playerService.playTrack(track, queue, index);
   }
 }

@@ -23,11 +23,13 @@
                 <div *ngFor="let playlist of playlists()" class="playlist-item" (click)="selectPlaylist(playlist)">
                     <div class="playlist-info">
                         <span class="playlist-name">{{ playlist.name }}</span>
-                        <span class="playlist-count">{{ playlist.songs?.length || 0 }} canciones</span>
+                        <span class="playlist-count">{{ getSongCount(playlist) }} canciones</span>
                     </div>
                     <i class="fas fa-chevron-right"></i>
                 </div>
             </div>
+            <!-- <div *ngIf="errorMessage()" class="error-message">{{ errorMessage() }}</div>
+            <div *ngIf="successMessage()" class="success-message">{{ successMessage() }}</div> -->
         </div>
     </div>
 </div>
