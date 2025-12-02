@@ -1,21 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { SidebarStateService } from '../../../core/services/sidebar-state.service';
-import { PlayerService } from '../../../core/services/player.service';
-import { ARTIST_DASHBOARD_SIDEBAR_CONFIG } from '../../../shared/models/sidebar.model';
-
-interface SidebarLink {
-  label: string;
-  icon?: string;
-  isSecondary?: boolean;
-}
-
-interface UploadedSong {
-  title: string;
-  plays: number;
-  status: 'Publicado' | 'Borrador';
-  lastUpdate: string;
-}
+import { Component, computed, inject, OnInit } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
+import { SongService } from '../../../core/services/song.service';
+import { SongResponseDto } from '../../../core/models/song.model';
 
 interface HighlightCard {
   title: string;
@@ -29,31 +17,48 @@ interface HighlightCard {
 @Component({
   selector: 'app-artist-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterModule],
   templateUrl: './artist-dashboard.component.html',
   styleUrls: ['./artist-dashboard.component.css'],
 })
-export class ArtistDashboardComponent {
-  userName = 'Usuario';
-  avatar = 'assets/img/images/logo-usuario.svg';
+export class ArtistDashboardComponent implements OnInit {
+  private authService = inject(AuthService);
+  private songService = inject(SongService);
 
-  constructor(
-      public sidebarState: SidebarStateService,
-      public playerService: PlayerService
-    ) {}
+  userName = computed(() => this.authService.getCurrentUser()?.name || 'Usuario');
+  avatar = '/assets/img/images/profile-pic.jpg';
 
-  sidebarLinks: SidebarLink[] = [
-    { label: 'Perfil principal' },
-    { label: 'Eventos' },
-    { label: 'Comunidades' },
-    { label: 'Estadisticas' },
-    { label: 'Configuracion', isSecondary: true },
-    { label: 'Cerrar sesion', isSecondary: true },
-  ];
+  uploadedSongs: SongResponseDto[] = [];
+  isLoadingSongs = false;
+  songsError: string | null = null;
 
-  sidebarConfig = ARTIST_DASHBOARD_SIDEBAR_CONFIG;
+  ngOnInit() {
+    this.loadUserSongs();
+  }
 
-  uploadedSongs: UploadedSong[] = [];
+  loadUserSongs() {
+    const userId = this.authService.getUserId();
+    if (!userId) {
+      console.warn('No user ID found');
+      return;
+    }
+
+    this.isLoadingSongs = true;
+    this.songsError = null;
+
+    this.songService.getSongsByUser(userId).subscribe({
+      next: (songs) => {
+        console.log('Canciones del usuario cargadas:', songs);
+        this.uploadedSongs = songs;
+        this.isLoadingSongs = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar canciones del usuario:', error);
+        this.songsError = 'No se pudieron cargar tus canciones';
+        this.isLoadingSongs = false;
+      }
+    });
+  }
 
   gainsCard: HighlightCard = {
     title: 'Ganancias',

@@ -1,6 +1,11 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://tu-api-produccion.com/api/v1',
-  uploadsUrl: 'https://tu-api-produccion.com/uploads',
-  wsUrl: 'wss://tu-api-produccion.com/ws',
+  apiUrl: 'https://playa-software.onrender.com/api/v1',
+  uploadsUrl: 'https://playa-software.onrender.com/uploads',
+  wsUrl: 'wss://playa-software.onrender.com/ws',
+  cloudinary: {
+    cloudName: '',
+    uploadPreset: '',
+    folder: '',
+  },
 };

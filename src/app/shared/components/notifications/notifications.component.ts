@@ -95,7 +95,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
    * Marcar todas como leídas
    */
   markAllAsRead(): void {
-    this.notificationService.markAllAsRead();
+    this.notificationService.markAllAsRead().subscribe({
+      next: () => console.log('Todas las notificaciones marcadas como leídas'),
+      error: (err) => console.error('Error al marcar todas como leídas:', err)
+    });
   }
 
   /**

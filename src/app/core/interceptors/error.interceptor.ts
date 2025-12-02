@@ -1,53 +1,114 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor,
-  HttpErrorResponse,
-} from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
+import { ErrorResponse } from '../models/error.model';
 
-@Injectable()
-export class ErrorInterceptor implements HttpInterceptor {
-  constructor(private router: Router, private authService: AuthService) {}
+const DEFAULT_ERROR_MESSAGE = 'Ocurrio un error inesperado. Intenta nuevamente.';
 
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    return next.handle(request).pipe(
-      catchError((error: HttpErrorResponse) => {
-        let errorMessage = 'Ocurrió un error desconocido';
+export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  const router = inject(Router);
+  const authService = inject(AuthService);
 
-        if (error.error instanceof ErrorEvent) {
-          // Error del lado del cliente
-          errorMessage = `Error: ${error.error.message}`;
-        } else {
-          // Error del lado del servidor
-          switch (error.status) {
-            case 401:
-              errorMessage = 'No autorizado. Por favor inicia sesión.';
-              this.authService.logout();
-              break;
-            case 403:
-              errorMessage = 'No tienes permisos para realizar esta acción.';
-              break;
-            case 404:
-              errorMessage = 'Recurso no encontrado.';
-              break;
-            case 500:
-              errorMessage = 'Error del servidor. Intenta más tarde.';
-              break;
-            default:
-              errorMessage = error.error?.message || errorMessage;
-          }
-        }
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      const backendPayload = extractBackendPayload(error.error);
+      const errorMessage = resolveErrorMessage(error, backendPayload);
 
-        console.error('Error HTTP:', errorMessage);
+      if (error.status === 401) {
+        authService.logout();
+        router.navigate(['/login']);
+      }
 
-        return throwError(() => new Error(errorMessage));
-      })
-    );
+      console.error('HTTP Error Interceptor', {
+        url: req.url,
+        status: error.status,
+        message: errorMessage,
+        response: error.error
+      });
+
+      const enhancedError = new HttpErrorResponse({
+        error: normalizeErrorBody(error, errorMessage, backendPayload),
+        headers: error.headers,
+        status: error.status,
+        statusText: error.statusText,
+        url: error.url ?? req.url
+      });
+
+      return throwError(() => enhancedError);
+    })
+  );
+};
+
+function resolveErrorMessage(
+  error: HttpErrorResponse,
+  backendPayload: Partial<ErrorResponse> | null
+): string {
+  if (error.error instanceof ErrorEvent) {
+    return error.error.message || DEFAULT_ERROR_MESSAGE;
   }
+
+  if (error.status === 0) {
+    return 'No fue posible comunicarse con el servidor. Verifica tu conexion.';
+  }
+
+  const backendMessage = extractBackendMessage(backendPayload);
+  return backendMessage || error.statusText || DEFAULT_ERROR_MESSAGE;
+}
+
+function extractBackendPayload(payload: unknown): Partial<ErrorResponse> | null {
+  if (!payload) {
+    return null;
+  }
+
+  if (typeof payload === 'string') {
+    return payload.trim() ? { message: payload } : null;
+  }
+
+  if (typeof payload === 'object') {
+    return payload as Partial<ErrorResponse>;
+  }
+
+  return null;
+}
+
+function normalizeErrorBody(
+  error: HttpErrorResponse,
+  message: string,
+  backendPayload: Partial<ErrorResponse> | null
+): (ErrorResponse & { details?: unknown }) {
+  return {
+    message,
+    status: backendPayload?.status ?? error.status ?? 0,
+    timestamp: backendPayload?.timestamp ?? new Date().toISOString(),
+    details: backendPayload ?? error.error ?? null
+  };
+}
+
+function extractBackendMessage(payload: Partial<ErrorResponse> | null): string | null {
+  if (!payload) {
+    return null;
+  }
+
+  const directMessage = payload.message || (payload as any)?.error || (payload as any)?.detail;
+  if (typeof directMessage === 'string' && directMessage.trim()) {
+    return directMessage.trim();
+  }
+
+  const responseField = (payload as any)?.response;
+  if (typeof responseField === 'string' && responseField.trim()) {
+    return responseField.trim();
+  }
+
+  if (responseField && typeof responseField === 'object') {
+    const stringValues = Object.values(responseField).filter(
+      (value): value is string => typeof value === 'string' && value.trim().length > 0
+    );
+    if (stringValues.length > 0) {
+      return stringValues[0];
+    }
+  }
+
+  return null;
 }

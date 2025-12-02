@@ -1,1 +1,39 @@
 @import '../categories-index/categories-index.component.css';
+
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn {
+  padding: 10px 20px;
+  background-color: #0a6e99;
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #084f6a;
+}
+
+.btn-primary {
+  background-color: #0a6e99;
+}
+
+.playlist-card {
+  cursor: pointer;
+}
+
+.info-container {
+  text-align: center;
+  margin: 20px 0;
+  padding: 1rem;
+  color: #0a6e99;
+  font-family: 'Montserrat', sans-serif;
+}

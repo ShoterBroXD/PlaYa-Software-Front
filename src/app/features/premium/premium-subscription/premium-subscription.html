@@ -1,0 +1,119 @@
+<div class="premium-container">
+  <div class="premium-header">
+    <h1>Premium</h1>
+    <p>Desbloquea todo el potencial de PlaYa con nuestra suscripción premium</p>
+  </div>
+
+  <!-- Estado actual de suscripción -->
+  <div class="current-status" *ngIf="premiumStatus()">
+    <div class="status-card" [class.active]="isPremiumActive()">
+      <div class="status-icon">
+        <i class="fas" [class]="isPremiumActive() ? 'fa-crown' : 'fa-user'"></i>
+      </div>
+      <div class="status-info">
+        <h3>{{ isPremiumActive() ? 'Suscripción Premium Activa' : 'Suscripción Inactiva' }}</h3>
+        <p *ngIf="isPremiumActive()">
+          Plan: {{ premiumStatus()?.planType }} |
+          Estado: {{ premiumStatus()?.status }}
+        </p>
+        <p *ngIf="!isPremiumActive()">
+          Actualiza a premium para acceder a todas las funciones
+        </p>
+      </div>
+      <div class="status-actions" *ngIf="isPremiumActive()">
+        <button class="btn btn-outline" (click)="cancelSubscription()" [disabled]="isLoading()">
+          <i class="fas fa-times"></i>
+          Cancelar Suscripción
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Beneficios -->
+  <div class="benefits-section">
+    <h2>¿Qué incluye Premium?</h2>
+    <div class="benefits-grid">
+      <div class="benefit-card" *ngFor="let benefit of benefits()">
+        <div class="benefit-icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <p>{{ benefit }}</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Planes disponibles -->
+  <div class="plans-section" *ngIf="!isPremiumActive()">
+    <h2>Elige tu plan</h2>
+    <div class="plans-grid">
+      <div
+        class="plan-card"
+        *ngFor="let plan of plans"
+        [class.popular]="plan.popular"
+        [class.selected]="selectedPlan() === plan.id"
+        (click)="selectPlan(plan.id)">
+        <div class="plan-header">
+          <h3>{{ plan.name }}</h3>
+          <div class="plan-price">
+            <span class="price">{{ plan.price }}</span>
+            <span class="period">/ {{ plan.period }}</span>
+          </div>
+          <div class="popular-badge" *ngIf="plan.popular">Más Popular</div>
+          <div class="savings" *ngIf="plan.savings">{{ plan.savings }}</div>
+        </div>
+        <div class="plan-features">
+          <ul>
+            <li><i class="fas fa-check"></i> Sin anuncios</li>
+            <li><i class="fas fa-check"></i> Descargas ilimitadas</li>
+            <li><i class="fas fa-check"></i> Calidad HD</li>
+            <li><i class="fas fa-check"></i> Soporte prioritario</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulario de suscripción -->
+  <div class="subscription-form" *ngIf="!isPremiumActive()">
+    <h2>Completa tu suscripción</h2>
+    <form (ngSubmit)="subscribe()">
+      <!-- Método de pago -->
+      <div class="form-group">
+        <label>Método de pago</label>
+        <div class="payment-methods">
+          <div
+            class="payment-method"
+            *ngFor="let method of paymentMethods"
+            [class.selected]="subscriptionRequest.paymentMethod === method.id"
+            (click)="subscriptionRequest.paymentMethod = method.id">
+            <i [class]="method.icon"></i>
+            <span>{{ method.name }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Botón de suscripción -->
+      <div class="form-actions">
+        <button
+          type="submit"
+          class="btn btn-primary btn-large"
+          [disabled]="isSubscribing() || !subscriptionRequest.paymentMethod">
+          <i class="fas fa-credit-card" *ngIf="!isSubscribing()"></i>
+          <i class="fas fa-spinner fa-spin" *ngIf="isSubscribing()"></i>
+          {{ isSubscribing() ? 'Procesando...' : 'Suscribirse ahora' }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Mensajes -->
+  <div class="alert alert-success" *ngIf="successMessage()">
+    <i class="fas fa-check-circle"></i>
+    {{ successMessage() }}
+  </div>
+
+  <div class="alert alert-error" *ngIf="errorMessage()">
+    <i class="fas fa-exclamation-triangle"></i>
+    {{ errorMessage() }}
+  </div>
+</div>

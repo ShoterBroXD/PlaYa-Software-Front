@@ -1,0 +1,79 @@
+.view-playlist-container {
+  padding: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.add-song, .songs-list {
+  margin-bottom: 20px;
+}
+
+.songs-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.song-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.song-info h4 {
+  margin: 0;
+}
+
+.song-info p {
+  margin: 5px 0;
+  color: #666;
+}
+
+.form-control {
+  padding: 8px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn.danger {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.btn.danger:hover {
+  background-color: #b02a37;
+}
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+}
+
+.btn-icon img {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.btn-icon:hover {
+  opacity: 0.7;
+}
+
+.loading, .error-message {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.error-message {
+  color: #dc3545;
+}

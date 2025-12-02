@@ -1,25 +1,28 @@
-import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
-  constructor(private authService: AuthService) {}
-
-  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // Obtener token
-    const token = this.authService.getToken();
-
-    // Si existe token, agregarlo al header
-    if (token) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    }
-
-    return next.handle(request);
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  // Cloudinary uploads do not accept custom Authorization headers
+  if (req.url.includes('api.cloudinary.com')) {
+    return next(req);
   }
-}
+
+  const authService = inject(AuthService);
+  const token = authService.getToken();
+
+  // Si hay token, agregar Authorization header
+  if (token) {
+    console.log('Auth Interceptor - Adding token to request:', req.url);
+    console.log('Token exists:', !!token);
+    const clonedRequest = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return next(clonedRequest);
+  }
+
+  console.warn('Auth Interceptor - No token found for request:', req.url);
+  return next(req);
+};

@@ -4,7 +4,7 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { AuthResponse, LoginRequest, RegisterRequest } from '../models/auth.model';
-
+  
 @Injectable({
   providedIn: 'root',
 })
@@ -127,9 +127,11 @@ export class AuthService {
       localStorage.setItem('userType', response.type);
     }
 
-    // Guardar ID de usuario si viene en la respuesta
-    if (response.idUser) {
-      localStorage.setItem('userId', response.idUser.toString());
+    // Extraer y guardar ID de usuario del token JWT
+    const payload = this.decodeToken(response.token);
+    if (payload && payload.userId) {
+      response.idUser = payload.userId;
+      localStorage.setItem('userId', payload.userId.toString());
     }
 
     this.currentUserSubject.next(response);
@@ -182,7 +184,31 @@ export class AuthService {
 
   // Agregar método para obtener ID de usuario
   getUserId(): number | null {
-    const id = localStorage.getItem('userId');
-    return id ? parseInt(id) : null;
+    const storedId = localStorage.getItem('userId');
+    if (storedId) {
+      const parsed = parseInt(storedId, 10);
+      if (!Number.isNaN(parsed)) {
+        return parsed;
+      }
+    }
+
+    const token = this.getToken();
+    if (!token) {
+      return null;
+    }
+
+    const payload = this.decodeToken(token);
+    const possibleId = payload?.userId ?? payload?.idUser ?? payload?.sub;
+    if (possibleId == null) {
+      return null;
+    }
+
+    const parsed = Number(possibleId);
+    if (Number.isNaN(parsed)) {
+      return null;
+    }
+
+    localStorage.setItem('userId', parsed.toString());
+    return parsed;
   }
 }

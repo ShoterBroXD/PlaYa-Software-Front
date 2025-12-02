@@ -1,0 +1,76 @@
+<div class="create-playlist-container">
+  <h2>Crear Nueva Playlist</h2>
+
+  <form [formGroup]="playlistForm" (ngSubmit)="onSubmit()" class="playlist-form">
+    <div class="form-group">
+      <label for="name">Nombre de la Playlist *</label>
+      <input
+        type="text"
+        id="name"
+        formControlName="name"
+        class="form-control"
+        [class.error]="name?.invalid && name?.touched"
+      />
+      <div class="error-message" *ngIf="name?.invalid && name?.touched">
+        <span *ngIf="name?.errors?.['required']">El nombre es obligatorio.</span>
+        <span *ngIf="name?.errors?.['minlength']">El nombre debe tener al menos 3 caracteres.</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="description">Descripción (opcional)</label>
+      <textarea
+        id="description"
+        formControlName="description"
+        class="form-control"
+        rows="3"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>Visibilidad de la Playlist</label>
+      <div class="visibility-options">
+        <label class="visibility-option">
+          <input
+            type="radio"
+            formControlName="visible"
+            [value]="true"
+            class="visibility-radio"
+          />
+          <div class="option-content">
+            <i class="fas fa-globe"></i>
+            <div>
+              <strong>Pública</strong>
+              <p>Cualquiera puede ver esta playlist</p>
+            </div>
+          </div>
+        </label>
+        <label class="visibility-option">
+          <input
+            type="radio"
+            formControlName="visible"
+            [value]="false"
+            class="visibility-radio"
+          />
+          <div class="option-content">
+            <i class="fas fa-lock"></i>
+            <div>
+              <strong>Privada</strong>
+              <p>Solo tú puedes ver esta playlist</p>
+            </div>
+          </div>
+        </label>
+      </div>
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+    <div class="form-actions">
+      <button type="button" (click)="onCancel()" class="btn btn-secondary">Cancelar</button>
+      <button type="submit" [disabled]="loading" class="btn btn-primary">
+        <span *ngIf="loading">Creando...</span>
+        <span *ngIf="!loading">Crear Playlist</span>
+      </button>
+    </div>
+  </form>
+</div>

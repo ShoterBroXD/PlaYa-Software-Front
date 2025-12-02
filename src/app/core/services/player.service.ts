@@ -1,5 +1,7 @@
 import { Injectable, signal, computed, effect } from '@angular/core';
 import { Track, PlayerState, PlayerUIState, Comment } from '../models/player.model';
+import { LikeService } from './like.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -52,7 +54,10 @@ export class PlayerService {
   // Computed para saber si hay track cargado
   hasTrack = computed(() => this.currentTrack() !== null);
 
-  constructor() {
+  constructor(
+    private likeService: LikeService,
+    private authService: AuthService
+  ) {
     // Crear audio element
     this.audio = new Audio();
     
@@ -70,7 +75,6 @@ export class PlayerService {
     });
   }
 
-  // ==================== CONTROL DE REPRODUCCIÓN ====================
 
   playTrack(track: Track, queue: Track[] = [], startIndex: number = 0) {
     this.playerState.update(state => ({
@@ -258,7 +262,13 @@ export class PlayerService {
     const track = this.currentTrack();
     if (!track) return;
 
-    // TODO: Llamar a API para like/unlike
+    const userId = this.authService.getUserId();
+    if (!userId) {
+      console.error('Usuario no autenticado');
+      return;
+    }
+
+    // Optimistic update
     const updatedTrack = {
       ...track,
       isLiked: !track.isLiked,
@@ -270,6 +280,22 @@ export class PlayerService {
       currentTrack: updatedTrack,
       queue: state.queue.map(t => t.id === track.id ? updatedTrack : t)
     }));
+
+    // Llamar al backend
+    this.likeService.toggleLike(track.id, userId, track.isLiked ?? false).subscribe({
+      next: (message) => {
+        console.log('Like actualizado:', message);
+      },
+      error: (error) => {
+        console.error('Error al actualizar like:', error);
+        // Revertir cambio en caso de error
+        this.playerState.update(state => ({
+          ...state,
+          currentTrack: track,
+          queue: state.queue.map(t => t.id === track.id ? track : t)
+        }));
+      }
+    });
   }
 
   addToPlaylist() {

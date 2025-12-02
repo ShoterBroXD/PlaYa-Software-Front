@@ -4,7 +4,7 @@ import { MainLayoutComponent } from './layouts/main-layout.component';
 import { LibraryLayoutComponent } from './layouts/library-layout/library-layout.component';
 import { CategoriesLayoutComponent } from './layouts/categories-layout/categories-layout.component';
 import { CommunitiesLayoutComponent } from './layouts/communities-layout/communities-layout.component';
-import { ArtistLayoutComponent } from './layouts/dashboard-layout/artist-dashboard-layout/artist-layout.component';
+import { ArtistsLayoutComponent } from './layouts/artists-layout/artists-layout.component';
 
 export const routes: Routes = [
   // Landing Page (sin navbar autenticado)
@@ -25,16 +25,16 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/auth/register/register.component').then((m) => m.RegisterComponent),
   },
-    {
-      path: 'auth/get-token',
-      loadComponent: () =>
-        import('./features/auth/get-token/get-token.component').then((m) => m.GetTokenComponent),
-    },
-    {
-      path: 'auth/reset-password',
-      loadComponent: () =>
-        import('./features/auth/reset-password/reset-password.component').then((m) => m.ResetPasswordComponent),
-    },
+  {
+    path: 'auth/get-token',
+    loadComponent: () =>
+      import('./features/auth/get-token/get-token.component').then((m) => m.GetTokenComponent),
+  },
+  {
+    path: 'auth/reset-password',
+    loadComponent: () =>
+      import('./features/auth/reset-password/reset-password.component').then((m) => m.ResetPasswordComponent),
+  },
 
   // Protected Routes (CON navbar autenticado via MainLayout)
   {
@@ -119,6 +119,10 @@ export const routes: Routes = [
             loadComponent: () => import('./features/communities/communities-index/communities-index.component').then((m) => m.CommunitiesIndexComponent),
           },
           {
+            path: 'create',
+            loadComponent: () => import('./features/communities/create-community/create-community.component').then(m => m.CreateCommunityComponent),
+          },
+          {
             path: 'your-communities',
             loadComponent: () => import('./features/communities/your-communities/your-communities.component').then((m) => m.YourCommunitiesComponent),
           },
@@ -137,20 +141,68 @@ export const routes: Routes = [
         ]
       },
       {
-        path: 'premium',
-        loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent), // Placeholder
+        path: 'artists',
+        component: ArtistsLayoutComponent,
+        children: [
+          {
+            path: '',
+            loadComponent: () => import('./features/artists/artists-index/artists-index.component').then(m => m.ArtistsIndexComponent),
+          },
+          {
+            path: 'explore',
+            loadComponent: () => import('./features/artists/explore/explore.component').then(m => m.ExploreComponent),
+          },
+          {
+            path: 'popular',
+            loadComponent: () => import('./features/artists/popular/popular.component').then(m => m.PopularComponent),
+          },
+          {
+            path: 'featured',
+            loadComponent: () => import('./features/artists/featured/featured.component').then(m => m.FeaturedComponent),
+          },
+          {
+            path: 'profile/:id',
+            loadComponent: () => import('./features/artists/profile/profile.component').then(m => m.ProfileComponent),
+          }
+        ]
+      },
+      {
+        path: 'playlists',
+        children: [
+          {
+            path: 'my',
+            loadComponent: () => import('./features/playlists/my-playlists/my-playlists.component').then(m => m.MyPlaylistsComponent),
+          },
+          {
+            path: 'create',
+            loadComponent: () => import('./features/playlists/create-playlist/create-playlist.component').then(m => m.CreatePlaylistComponent),
+          },
+          {
+            path: ':id',
+            loadComponent: () => import('./features/playlists/view-playlist/view-playlist.component').then(m => m.ViewPlaylistComponent),
+          },
+        ]
       },
       {
         path: 'upload',
-        loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent), // Placeholder
+        loadComponent: () =>
+          import('./features/upload/upload.component').then((m) => m.UploadComponent),
       },
       {
         path: 'search',
-        loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent), // Placeholder
+        loadComponent: () => import('./features/search/search.component').then((m) => m.SearchComponent),
       },
       {
         path: 'messages',
-        loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent), // Placeholder
+        loadComponent: () => import('./features/messages/messages.component').then((m) => m.MessagesComponent),
+      },
+      {
+        path: 'configuration',
+        loadComponent: () => import('./features/configuration/configuration.component').then((m) => m.ConfigurationComponent),
+      },
+      {
+        path: 'premium',
+        loadComponent: () => import('./features/premium/premium-subscription/premium-subscription').then(m => m.PremiumSubscriptionComponent),
       },
     ]
   },

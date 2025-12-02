@@ -1,4 +1,4 @@
-<div class="landing-container">
+﻿<div class="landing-container">
     <!-- Navbar -->
     <header>
         <nav class="navbar">
@@ -7,29 +7,31 @@
                 <img src="/assets/img/images/logo-playa.png" alt="Logo de PlaYA!" />
             </div>
 
-            <!-- Search Form -->
-            <form class="search-form" (ngSubmit)="onSearch()" role="search" aria-label="Buscar en la plataforma">
-                <input type="search" [(ngModel)]="searchQuery" name="search" placeholder="Buscar.."
-                    aria-label="Buscar" />
-                <button type="submit" aria-label="Buscar">
+                        <!-- Search Form -->
+            <form class="search-form" (ngSubmit)="onSearch()" role="search"
+                [attr.aria-label]="'landing.hero.searchButton' | translate">
+                <input type="search" [(ngModel)]="searchQuery" name="search"
+                    [placeholder]="'landing.hero.search' | translate"
+                    [attr.aria-label]="'landing.hero.searchButton' | translate" />
+                <button type="submit" [attr.aria-label]="'landing.hero.searchButton' | translate">
                     <i class="fas fa-search"></i>
                 </button>
             </form>
 
             <!-- Navigation Links -->
             <ul class="nav-links">
-                <li><a href="#categorias">Categorías</a></li>
-                <li><a href="#biblioteca">Biblioteca</a></li>
-                <li><a href="#comunidades">Comunidades</a></li>
+                <li><a href="#categorias">{{ 'nav.categories' | translate }}</a></li>
+                <li><a href="#biblioteca">{{ 'nav.library' | translate }}</a></li>
+                <li><a href="#comunidades">{{ 'nav.communities' | translate }}</a></li>
             </ul>
 
             <!-- Auth Buttons -->
             <div class="auth-buttons">
                 <button class="btn login primary" (click)="navigateToLogin()">
-                    Iniciar Sesión
+                    {{ 'landing.hero.login' | translate }}
                 </button>
                 <button class="btn signup primary" (click)="navigateToRegister()">
-                    Crear cuenta
+                    {{ 'landing.hero.createAccount' | translate }}
                 </button>
             </div>
         </nav>
@@ -38,71 +40,69 @@
     <!-- Hero Section -->
     <main class="hero">
         <div class="hero-text">
-            <h1>Escucha la mejor música independiente y descubre nuevos talentos!</h1>
-            <p>Una plataforma para artistas emergentes donde compartir, descubrir y conectar</p>
+            <h1>{{ 'landing.hero.headline' | translate }}</h1>
+            <p>{{ 'landing.hero.subheadline' | translate }}</p>
             <div class="hero-buttons">
                 <button class="btn primary" (click)="navigateToLogin()">
-                    Escuchar ahora
+                    {{ 'landing.hero.listenNow' | translate }}
                 </button>
                 <button class="btn secondary" routerLink="/about">
-                    Aprender más
+                    {{ 'landing.hero.learnMore' | translate }}
                 </button>
             </div>
         </div>
         <div class="hero-image">
-            <img src="/assets/img/images/hero-dj.png" alt="DJ tocando música" />
+            <img src="/assets/img/images/hero-dj.png" [alt]="'landing.hero.headline' | translate" />
         </div>
     </main>
 
     <!-- Features Section -->
     <section class="features" id="categorias">
-        <h2 class="section-title">¿Por qué PlaYa?</h2>
+        <h2 class="section-title">{{ 'landing.features.title' | translate }}</h2>
         <div class="features-grid">
 
             <div class="feature-card">
                 <i class="fas fa-music fa-3x"></i>
-                <h3>Música independiente</h3>
-                <p>Descubre artistas emergentes y apoya el talento independiente.</p>
+                <h3>{{ 'landing.features.indie.title' | translate }}</h3>
+                <p>{{ 'landing.features.indie.description' | translate }}</p>
             </div>
 
             <div class="feature-card">
                 <i class="fas fa-users fa-3x"></i>
-                <h3>Comunidades</h3>
-                <p>Únete a comunidades y descubre música con otros fans.</p>
+                <h3>{{ 'landing.features.communities.title' | translate }}</h3>
+                <p>{{ 'landing.features.communities.description' | translate }}</p>
             </div>
 
             <div class="feature-card">
                 <i class="fas fa-list fa-3x"></i>
-                <h3>Playlists personalizadas</h3>
-                <p>Crea y comparte tus propias listas de reproducción.</p>
+                <h3>{{ 'landing.features.playlists.title' | translate }}</h3>
+                <p>{{ 'landing.features.playlists.description' | translate }}</p>
             </div>
 
             <div class="feature-card">
                 <i class="fas fa-microphone fa-3x"></i>
-                <h3>Para artistas</h3>
-                <p>Sube tu música y conecta directamente con tu audiencia.</p>
+                <h3>{{ 'landing.features.forArtists.title' | translate }}</h3>
+                <p>{{ 'landing.features.forArtists.description' | translate }}</p>
             </div>
 
             <div class="feature-card">
                 <i class="fas fa-heart fa-3x"></i>
-                <h3>Sigue a tus artistas</h3>
-                <p>Mantente al día con los últimos lanzamientos de tus favoritos.</p>
+                <h3>{{ 'landing.features.follow.title' | translate }}</h3>
+                <p>{{ 'landing.features.follow.description' | translate }}</p>
             </div>
 
             <div class="feature-card">
                 <i class="fas fa-crown fa-3x"></i>
-                <h3>Premium</h3>
-                <p>Disfruta de funciones exclusivas con PlaYa Premium.</p>
-            </div>
-
-        </div>
+                <h3>{{ 'landing.features.premium.title' | translate }}</h3>
+                <p>{{ 'landing.features.premium.description' | translate }}</p>
+            </div>        </div>
     </section>
 
     <!-- CTA Section -->
     <section class="cta">
-        <h2>¿Listo para comenzar tu viaje musical?</h2>
+        <h2>{{ 'landing.cta.title' | translate }}</h2>
         <button class="btn primary" (click)="navigateToRegister()">
-            Registrarse Gratis
+            {{ 'landing.cta.button' | translate }}
         </button>
     </section>
 
@@ -112,30 +112,35 @@
             <div class="footer-section">
                 <h4>PlaYa</h4>
                 <ul>
-                    <li><a href="#about">Acerca de</a></li>
-                    <li><a href="#careers">Empleos</a></li>
-                    <li><a href="#press">Prensa</a></li>
+                    <li><a href="#about">{{ 'landing.footer.about' | translate }}</a></li>
+                    <li><a href="#careers">{{ 'landing.footer.jobs' | translate }}</a></li>
+                    <li><a href="#press">{{ 'landing.footer.press' | translate }}</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h4>Comunidades</h4>
+                <h4>{{ 'landing.footer.communities' | translate }}</h4>
                 <ul>
-                    <li><a href="#artists">Para artistas</a></li>
-                    <li><a href="#developers">Desarrolladores</a></li>
-                    <li><a href="#advertising">Publicidad</a></li>
+                    <li><a href="#artists">{{ 'landing.footer.forArtists' | translate }}</a></li>
+                    <li><a href="#developers">{{ 'landing.footer.developers' | translate }}</a></li>
+                    <li><a href="#advertising">{{ 'landing.footer.advertising' | translate }}</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h4>Legal</h4>
+                <h4>{{ 'landing.footer.legal' | translate }}</h4>
                 <ul>
-                    <li><a href="#privacy">Privacidad</a></li>
-                    <li><a href="#terms">Términos</a></li>
-                    <li><a href="#cookies">Cookies</a></li>
+                    <li><a href="#privacy">{{ 'landing.footer.privacy' | translate }}</a></li>
+                    <li><a href="#terms">{{ 'landing.footer.terms' | translate }}</a></li>
+                    <li><a href="#cookies">{{ 'landing.footer.cookies' | translate }}</a></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>© 2025 PlaYa. Todos los derechos reservados.</p>
+            <p>{{ 'landing.footer.copyright' | translate }}</p>
         </div>
     </footer>
 </div>
+
+
+
+
+

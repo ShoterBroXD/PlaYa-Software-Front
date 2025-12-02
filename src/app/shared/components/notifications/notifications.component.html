@@ -13,11 +13,7 @@
   </button>
 
   <!-- Panel de notificaciones -->
-  <div 
-    class="notification-panel" 
-    [class.open]="isOpen()"
-    *ngIf="isOpen()"
-  >
+  <div class="notification-panel" [class.open]="isOpen()" *ngIf="isOpen()" >
     <!-- Header -->
     <div class="notification-header">
       <h3>
@@ -114,13 +110,6 @@
         </div>
       </div>
     </div>
-
-    <!-- Footer
-    <div class="notification-footer">
-      <button class="btn-view-all" (click)="closePanel()">
-        Ver todas las notificaciones
-      </button>
-    </div> -->
   </div>
 
   <!-- Overlay -->

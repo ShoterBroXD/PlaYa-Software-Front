@@ -1,0 +1,92 @@
+.explore-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    color: #0b2239;
+}
+
+h2 {
+    font-weight: 700;
+    margin-bottom: 10px;
+    font-size: 24px;
+}
+
+.subtitle {
+    margin-bottom: 25px;
+    color: #535353;
+    font-size: 14px;
+}
+
+.filter-section {
+    margin-bottom: 30px;
+}
+
+.filter-section label {
+    font-weight: 600;
+    margin-right: 12px;
+    font-size: 14px;
+}
+
+.filter-section select {
+    border-radius: 10px;
+    padding: 6px 12px;
+    border: 1px solid #0b869a;
+    font-size: 14px;
+    color: #0b2239;
+    cursor: pointer;
+    background-color: white;
+}
+
+.filter-section select:focus {
+    outline: none;
+    border-color: #0b869a;
+    box-shadow: 0 0 0 2px rgba(11, 134, 154, 0.1);
+}
+
+.artists-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+}
+
+.artist-card {
+    background: #e8f0f2;
+    border-radius: 15px;
+    padding: 15px;
+    cursor: pointer;
+    text-align: center;
+    box-shadow: 0 0 8px rgba(11, 134, 154, 0.15);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.artist-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 16px rgba(11, 134, 154, 0.25);
+}
+
+.artist-avatar {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 10px;
+    background: #d2d7dc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.artist-avatar span {
+    font-size: 48px;
+    color: #7a7a7a;
+}
+
+.artist-name {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #0b2239;
+}
+
+.artist-info {
+    font-size: 13px;
+    color: #535353;
+}
