@@ -1,13 +1,15 @@
 .explore-container {
-    max-width: 1000px;
+    max-width: 1400px;
     margin: 0 auto;
     color: #0b2239;
 }
 
 h2 {
-    font-weight: 700;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
     margin-bottom: 10px;
-    font-size: 24px;
+    font-size: 2rem;
+    color: #05255a;
 }
 
 .subtitle {
@@ -26,16 +28,26 @@ h2 {
     font-size: 14px;
 }
 
+.filter-section input[type="text"],
 .filter-section select {
     border-radius: 10px;
     padding: 6px 12px;
     border: 1px solid #0b869a;
     font-size: 14px;
     color: #0b2239;
-    cursor: pointer;
     background-color: white;
 }
 
+.filter-section input[type="text"] {
+    cursor: text;
+    min-width: 160px;
+}
+
+.filter-section select {
+    cursor: pointer;
+}
+
+.filter-section input[type="text"]:focus,
 .filter-section select:focus {
     outline: none;
     border-color: #0b869a;

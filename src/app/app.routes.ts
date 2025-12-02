@@ -73,6 +73,10 @@ export const routes: Routes = [
             loadComponent: () => import('./features/categories/tracks/tracks.component').then(m => m.CategoriesTracksComponent),
           },
           {
+            path: 'tracks/:genreId',
+            loadComponent: () => import('./features/categories/tracks/tracks.component').then(m => m.CategoriesTracksComponent),
+          },
+          {
             path: 'playlists',
             loadComponent: () => import('./features/categories/playlists/playlists.component').then(m => m.CategoriesPlaylistsComponent),
           },
