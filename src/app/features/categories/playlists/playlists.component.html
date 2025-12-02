@@ -32,7 +32,7 @@
       [style.background]="getPlaylistGradient(i)">
       <div class="category-content">
         <h3 class="category-title">{{ p.name }}</h3>
-        <p class="category-description">{{ p.songs?.length || 0 }} pistas</p>
+        <p class="category-count">{{ getSongCount(p) }} pistas</p>
       </div>
     </div>
   </div>

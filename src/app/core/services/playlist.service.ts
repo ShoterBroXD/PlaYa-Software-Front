@@ -76,4 +76,10 @@ export class PlaylistService {
       responseType: 'text' as 'json',
     });
   }
+
+  getSongCountByPlaylistId(id: number): Observable<number> {
+    return this.http.get<number>(`${this.API_URL}/playlists/${id}/count`, {
+      headers: this.getHeaders(),
+    });
+  }
 }

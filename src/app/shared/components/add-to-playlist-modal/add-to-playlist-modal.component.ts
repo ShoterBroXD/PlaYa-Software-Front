@@ -19,6 +19,7 @@ export class AddToPlaylistModalComponent implements OnInit {
     @Output() added = new EventEmitter<void>();
 
     playlists = signal<PlaylistResponseDto[]>([]);
+    playlistCounts = signal<Map<number, number>>(new Map());
     loading = signal(false);
     errorMessage = signal<string | null>(null);
     successMessage = signal<string | null>(null);
@@ -54,6 +55,7 @@ export class AddToPlaylistModalComponent implements OnInit {
         this.playlistService.getPlaylistsByUser(userId).subscribe({
             next: (data) => {
                 this.playlists.set(data || []);
+                this.loadSongCounts();
                 this.loading.set(false);
             },
             error: (error) => {
@@ -138,6 +140,32 @@ export class AddToPlaylistModalComponent implements OnInit {
     createNewPlaylist() {
         this.close();
         this.router.navigate(['/playlists/create']);
+    }
+
+    loadSongCounts(): void {
+        const currentPlaylists = this.playlists();
+        const newCounts = new Map<number, number>();
+        currentPlaylists.forEach(playlist => {
+            const rawId: any = (playlist as any).id ?? (playlist as any).idPlaylist ?? (playlist as any).id_playlist;
+            const id = Number(rawId);
+            if (Number.isFinite(id)) {
+                this.playlistService.getSongCountByPlaylistId(id).subscribe({
+                    next: (count) => {
+                        newCounts.set(id, count);
+                        this.playlistCounts.set(new Map(newCounts));
+                    },
+                    error: (err) => {
+                        // console.error('Error loading song count for playlist', id, err);
+                    }
+                });
+            }
+        });
+    }
+
+    getSongCount(playlist: PlaylistResponseDto): number {
+        const rawId: any = (playlist as any).id ?? (playlist as any).idPlaylist ?? (playlist as any).id_playlist;
+        const id = Number(rawId);
+        return this.playlistCounts().get(id) ?? playlist.songs?.length ?? 0;
     }
 
     private extractErrorMessage(err: any): string | null {

@@ -33,7 +33,7 @@
                         <p>{{ song.description || 'Sin descripción' }}</p>
                         <small>{{ song.genre?.name || 'Sin género' }} • ⭐ {{ song.averageRating?.toFixed(1) || 'N/A' }}</small>
                     </div>
-                    <button class="btn-play">Reproducir</button>
+                    <button class="btn-play" (click)="playSong(song)">Reproducir</button>
                 </li>
             </ul>
             <div class="empty-state" *ngIf="songs.length === 0">

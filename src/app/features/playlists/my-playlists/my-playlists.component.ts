@@ -17,6 +17,7 @@ import { of } from 'rxjs';
 })
 export class MyPlaylistsComponent implements OnInit {
   playlists: PlaylistResponseDto[] = [];
+  playlistCounts: Map<number, number> = new Map();
   loading = false;
   errorMessage = '';
   isUsingFallback = false;
@@ -57,6 +58,27 @@ export class MyPlaylistsComponent implements OnInit {
     this.router.navigate(['/playlists', id], { state: { from: this.router.url } });
   }
 
+  loadSongCounts(): void {
+    this.playlists.forEach(playlist => {
+      const id = this.ensureNumber(playlist?.id ?? (playlist as any)?.idPlaylist, 0);
+      if (id) {
+        this.playlistService.getSongCountByPlaylistId(id).subscribe({
+          next: (count) => {
+            this.playlistCounts.set(id, count);
+          },
+          error: (err) => {
+            console.error('Error loading song count for playlist', id, err);
+          }
+        });
+      }
+    });
+  }
+
+  getSongCount(playlist: PlaylistResponseDto): number {
+    const id = this.ensureNumber(playlist?.id ?? (playlist as any)?.idPlaylist, 0);
+    return this.playlistCounts.get(id) ?? playlist.songs?.length ?? 0;
+  }
+
   ngOnInit(): void {
     this.authService.currentUser$.pipe(
       switchMap((user: any) => {
@@ -82,6 +104,7 @@ export class MyPlaylistsComponent implements OnInit {
         if (normalized.length) {
           this.playlists = normalized;
           this.errorMessage = '';
+          this.loadSongCounts();
         } else {
           this.useFallback('Todavía no tienes playlists. Aquí tienes algunas sugerencias.');
         }
