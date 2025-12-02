@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { PlaylistService } from '../../../core/services/playlist.service';
 import { PlaylistResponseDto } from '../../../core/models/playlist.model';
 
@@ -38,7 +39,19 @@ export class CategoriesPlaylistsComponent implements OnInit {
     }
   ];
 
-  constructor(private playlistService: PlaylistService) {}
+  constructor(private playlistService: PlaylistService, private router: Router) {}
+
+  openPlaylist(playlist: PlaylistResponseDto) {
+    // Robustly get playlist id (some payloads might use different property names)
+    const rawId: any = (playlist as any).id ?? (playlist as any).idPlaylist ?? (playlist as any).id_playlist;
+    const idNum = Number(rawId);
+    if (!Number.isFinite(idNum)) {
+      console.error('Invalid playlist id for navigation', playlist);
+      return;
+    }
+    // Pass the current route as `from` so the playlist view can navigate back
+    this.router.navigate(['/playlists', idNum], { state: { from: this.router.url } });
+  }
 
   ngOnInit(): void {
     this.loadPlaylists();

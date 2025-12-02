@@ -23,7 +23,9 @@
     <div
       class="category-card"
       *ngFor="let p of playlists"
-      [routerLink]="['/playlists', p.id]"
+      (click)="openPlaylist(p)"
+      role="button"
+      style="cursor: pointer;"
     >
       <img
         [src]="p.songs && p.songs.length ? p.songs[0].coverURL : '/assets/img/images/img-placeholder.svg'"
