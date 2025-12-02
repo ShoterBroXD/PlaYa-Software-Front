@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PlaylistService } from '../../../core/services/playlist.service';
+import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { PlaylistResponseDto, SongResponseDto } from '../../../core/models/playlist.model';
 import { switchMap } from 'rxjs/operators';
@@ -43,8 +44,18 @@ export class MyPlaylistsComponent implements OnInit {
 
   constructor(
     private playlistService: PlaylistService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) { }
+
+  openPlaylist(playlist: PlaylistResponseDto) {
+    const id = this.ensureNumber(playlist?.id ?? (playlist as any)?.idPlaylist ?? (playlist as any)?.playlistId, 0);
+    if (!id) {
+      console.error('Invalid playlist id for navigation', playlist);
+      return;
+    }
+    this.router.navigate(['/playlists', id], { state: { from: this.router.url } });
+  }
 
   ngOnInit(): void {
     this.authService.currentUser$.pipe(

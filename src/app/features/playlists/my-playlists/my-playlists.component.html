@@ -25,7 +25,7 @@
         <p>{{ playlist.songs?.length || 0 }} canciones</p>
       </div>
       <div class="playlist-actions">
-        <a [routerLink]="['/playlists', playlist.id]" class="btn secondary">Ver</a>
+        <button (click)="openPlaylist(playlist)" class="btn secondary">Ver</button>
         <button (click)="deletePlaylist(playlist.id)" class="btn danger">Eliminar</button>
       </div>
     </div>
