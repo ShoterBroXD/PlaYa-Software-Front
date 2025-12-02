@@ -18,8 +18,19 @@
       <button class="cta primary" routerLink="/upload">Subir cancion</button>
     </div>
 
+    <!-- Loading -->
+    <div *ngIf="isLoadingSongs" class="loading-state">
+      <p>Cargando tus canciones...</p>
+    </div>
+
+    <!-- Error -->
+    <div *ngIf="songsError && !isLoadingSongs" class="error-state">
+      <p>{{ songsError }}</p>
+      <button class="cta ghost" (click)="loadUserSongs()">Reintentar</button>
+    </div>
+
     <div *ngIf="uploadedSongs.length === 0" class="empty-state">
-      <<div class="empty-state__media">
+      <div class="empty-state__media">
         <div class="thumbnail">
           <img src='/assets/img/images/img-placeholder.svg' alt="song cover placeholder" />
         </div>
@@ -33,11 +44,12 @@
 
     <div *ngIf="uploadedSongs.length > 0" class="songs-grid">
       <article class="song-card" *ngFor="let song of uploadedSongs">
-        <div class="song-card__media"></div>
+        <div class="song-card__media">
+          <img [src]="song.coverURL" [alt]="song.title" />
+        </div>
         <div>
           <h3>{{ song.title }}</h3>
-          <p>{{ song.plays | number }} reproducciones · {{ song.lastUpdate }}</p>
-          <span class="status">{{ song.status }}</span>
+          <p>{{ song.visibility === 'public' ? 'Público' : song.visibility === 'private' ? 'Privado' : 'Seguidores' }} · {{ song.uploadDate | date:'short' }}</p>
         </div>
         <button class="cta text" routerLink="/library">Ver detalles</button>
       </article>

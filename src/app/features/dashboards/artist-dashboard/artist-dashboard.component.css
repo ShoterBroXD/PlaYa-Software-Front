@@ -111,15 +111,15 @@
   align-items: center;
 }
 
-.empty-state__media {
+/* .empty-state__media {
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background: #f1f5fb;
+  background: #f1f5fb;
   border-radius: 18px;
-  border: 1px dashed #cfd8ec; */
+  border: 1px dashed #cfd8ec; 
   padding: 0.5rem;
-}
+} */
 
 .thumbnail img {
   width: 120px;
@@ -128,12 +128,12 @@
   background: #e5ecfb;
 }
 
-.empty-state__copy {
+/* .empty-state__copy {
   display: flex;
   align-items: center;
   flex-direction: row;
   gap: 0.6rem;
-}
+} */
 
 .empty-state__copy h3 {
   margin: 0 0 0.4rem;

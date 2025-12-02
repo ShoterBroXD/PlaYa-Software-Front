@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, computed, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { SongService } from '../../../core/services/song.service';
+import { SongResponseDto } from '../../../core/models/song.model';
 
 interface UploadedSong {
   title: string;
@@ -28,10 +30,40 @@ interface HighlightCard {
 })
 export class ArtistDashboardComponent {
   private authService = inject(AuthService);
+  private songService = inject(SongService);
   userName = computed(() => this.authService.getCurrentUser()?.name || 'Usuario');
   avatar = '/assets/img/images/profile-pic.jpg';
 
-  uploadedSongs: UploadedSong[] = [];
+  uploadedSongs: SongResponseDto[] = [];
+  isLoadingSongs = false;
+  songsError: string | null = null;
+
+  ngOnInit() {
+    this.loadUserSongs();
+  }
+  loadUserSongs() {
+    const userId = this.authService.getUserId();
+    if (!userId) {
+      console.warn('No user ID found');
+      return;
+    }
+
+    this.isLoadingSongs = true;
+    this.songsError = null;
+
+    this.songService.getSongsByUser(userId).subscribe({
+      next: (songs) => {
+        console.log('Canciones del usuario cargadas:', songs);
+        this.uploadedSongs = songs;
+        this.isLoadingSongs = false;
+      },
+      error: (error) => {
+        console.error('Error al cargar canciones del usuario:', error);
+        this.songsError = 'No se pudieron cargar tus canciones';
+        this.isLoadingSongs = false;
+      }
+    });
+  }
 
   gainsCard: HighlightCard = {
     title: 'Ganancias',
