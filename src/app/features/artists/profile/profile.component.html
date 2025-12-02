@@ -24,31 +24,36 @@
                 </div>
             </div>
 
+            <!-- Biografía -->
+            <h2>Biografía</h2>
+            <p class="bio">{{ artist.biography || 'Este artista aún no ha compartido su biografía.' }}</p>
+
             <!-- Canciones populares -->
-            <h2>Canciones populares</h2>
+            <h2>Canciones</h2>
             <ul class="songs-list" *ngIf="songs.length > 0">
                 <li *ngFor="let song of songs" class="song-item">
+                    <img [src]="song.coverURL || '/assets/img/images/img-placeholder.svg'" 
+                         [alt]="song.title" 
+                         class="song-cover">
                     <div class="song-info">
                         <strong>{{ song.title }}</strong>
                         <p>{{ song.description || 'Sin descripción' }}</p>
                         <small>{{ song.genre?.name || 'Sin género' }} • ⭐ {{ song.averageRating?.toFixed(1) || 'N/A' }}</small>
                     </div>
-                    <button class="btn-play" (click)="playSong(song)">Reproducir</button>
+                    <button class="btn-play-icon" (click)="playSong(song)">
+                        <img src="/assets/img/icons/icon_play_tracks.svg" alt="Reproducir" />
+                    </button>
                 </li>
             </ul>
             <div class="empty-state" *ngIf="songs.length === 0">
                 Este artista aún no tiene canciones publicadas
             </div>
 
-            <!-- Biografía -->
-            <h2>Biografía</h2>
-            <p class="bio">{{ artist.biography || 'Este artista aún no ha compartido su biografía.' }}</p>
-
-            <!-- Enlace a comunidad -->
-            <h2>Enlace a Comunidad</h2>
+            <!-- Enlace a comunidad COMENTADO POR: SI NO FUNCIONA NO LO MUESTRES--> 
+            <!-- <h2>Enlace a Comunidad</h2>
             <a href="#" class="community-link">
                 Comunidad de Fans <span>💬</span>
-            </a>
+            </a> -->
         </section>
 
         <!-- Sidebar lateral -->

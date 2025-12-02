@@ -19,8 +19,10 @@
     </div>
 
     <div *ngIf="uploadedSongs.length === 0" class="empty-state">
-      <div class="empty-state__media">
-        <div class="thumbnail"></div>
+      <<div class="empty-state__media">
+        <div class="thumbnail">
+          <img src='/assets/img/images/img-placeholder.svg' alt="song cover placeholder" />
+        </div>
       </div>
       <div class="empty-state__copy">
         <h3>Aun no tienes musicas subidas</h3>
@@ -44,18 +46,26 @@
 
   <div class="artist-dashboard__highlights">
     <section class="panel-card highlight">
-      <div class="highlight__icon" [style.--accent]="gainsCard.accent" [style.--bg]="gainsCard.background">
-        <span>{{ gainsCard.icon }}</span>
+      <div
+        class="highlight__icon"
+        [style.--accent]="gainsCard.accent"
+        [style.--bg]="gainsCard.background"
+      >
+        <!-- <span>{{ gainsCard.icon }}</span> -->
+        <img src="assets/img/images/currency_dollar.svg" alt="gains card icon" />
       </div>
       <div class="highlight__copy">
         <h2>{{ gainsCard.title }}</h2>
         <p>{{ gainsCard.description }}</p>
       </div>
-      <button class="cta outline" routerLink="/premium">{{ gainsCard.action }}</button>
+      <button class="cta outline">{{ gainsCard.action }}</button>
     </section>
     <section class="panel-card highlight">
-      <div class="highlight__icon" [style.--accent]="mostListenedCard.accent"
-        [style.--bg]="mostListenedCard.background">
+      <div
+        class="highlight__icon"
+        [style.--accent]="mostListenedCard.accent"
+        [style.--bg]="mostListenedCard.background"
+      >
         <span>{{ mostListenedCard.icon }}</span>
       </div>
       <div class="highlight__copy">

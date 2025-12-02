@@ -3,38 +3,52 @@
     <h2 class="login-title">Inicia sesión en PlaYA!</h2>
 
     <!-- Tabs Usuario/Artista -->
-    <div class="tabs">
+    <!-- <div class="tabs">
         <button class="tab-btn" [class.active]="activeTab === 'usuario'" (click)="toggleTab('usuario')">
             Usuario
         </button>
         <button class="tab-btn" [class.active]="activeTab === 'artista'" (click)="toggleTab('artista')">
             Artista
         </button>
-    </div>
+    </div> -->
 
     <!-- Formulario Usuario -->
-    <form *ngIf="activeTab === 'usuario'" [formGroup]="usuarioForm" (ngSubmit)="onSubmit()" class="login-form">
+    <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()" class="login-form">
         <label for="usuarioEmail">Correo electrónico</label>
         <input id="usuarioEmail" type="email" formControlName="email" placeholder="Coloque su correo..."
             class="form-control" [class.error]="usuarioEmail?.invalid && usuarioEmail?.touched">
-        <div class="error-message" *ngIf="usuarioEmail?.invalid && usuarioEmail?.touched">
-            <span *ngIf="usuarioEmail?.errors?.['required']">El correo es requerido</span>
-            <span *ngIf="usuarioEmail?.errors?.['email']">Correo inválido</span>
-        </div>
+        @if (usuarioEmail?.invalid && usuarioEmail?.touched) {
+          <div class="error-message">
+            @if (usuarioEmail?.errors?.['required']) {
+              <span>El correo es requerido</span>
+            }
+            @if (usuarioEmail?.errors?.['email']) {
+              <span>Correo inválido</span>
+            }
+          </div>
+        }
 
         <label for="usuarioPassword">Contraseña</label>
         <input id="usuarioPassword" type="password" formControlName="password" placeholder="Coloque su contraseña..."
             class="form-control" [class.error]="usuarioPassword?.invalid && usuarioPassword?.touched">
-        <div class="error-message" *ngIf="usuarioPassword?.invalid && usuarioPassword?.touched">
-            <span *ngIf="usuarioPassword?.errors?.['required']">La contraseña es requerida</span>
-            <span *ngIf="usuarioPassword?.errors?.['minlength']">Mínimo 6 caracteres</span>
-        </div>
+        @if (usuarioPassword?.invalid && usuarioPassword?.touched) {
+          <div class="error-message">
+            @if (usuarioPassword?.errors?.['required']) {
+              <span>La contraseña es requerida</span>
+            }
+            @if (usuarioPassword?.errors?.['minlength']) {
+              <span>Mínimo 6 caracteres</span>
+            }
+          </div>
+        }
 
         <!-- Error general -->
-        <div class="alert-error" *ngIf="errorMessage">
+        @if (errorMessage) {
+          <div class="alert-error">
             <i class="fas fa-exclamation-circle"></i>
             {{ errorMessage }}
-        </div>
+          </div>
+        }
 
         <!-- Botones -->
         <div class="button-container">
@@ -42,16 +56,20 @@
                 Cancelar
             </button>
             <button type="submit" class="btn go primary" [disabled]="loading || usuarioForm.invalid">
-                <span *ngIf="!loading">Iniciar Sesión</span>
-                <span *ngIf="loading">
+                @if (!loading) {
+                  <span>Iniciar Sesión</span>
+                }
+                @if (loading) {
+                  <span>
                     <i class="fas fa-spinner fa-spin"></i> Iniciando...
-                </span>
+                  </span>
+                }
             </button>
         </div>
     </form>
 
     <!-- Formulario Artista -->
-    <form *ngIf="activeTab === 'artista'" [formGroup]="artistaForm" (ngSubmit)="onSubmit()" class="login-form">
+    <!-- <form *ngIf="activeTab === 'artista'" [formGroup]="artistaForm" (ngSubmit)="onSubmit()" class="login-form">
         <label for="artistaEmail">Correo electrónico</label>
         <input id="artistaEmail" type="email" formControlName="email" placeholder="Coloque su correo..."
             class="form-control" [class.error]="artistaEmail?.invalid && artistaEmail?.touched">
@@ -66,16 +84,16 @@
         <div class="error-message" *ngIf="artistaPassword?.invalid && artistaPassword?.touched">
             <span *ngIf="artistaPassword?.errors?.['required']">La contraseña es requerida</span>
             <span *ngIf="artistaPassword?.errors?.['minlength']">Mínimo 6 caracteres</span>
-        </div>
+        </div> -->
 
         <!-- Error general -->
-        <div class="alert-error" *ngIf="errorMessage">
+        <!-- <div class="alert-error" *ngIf="errorMessage">
             <i class="fas fa-exclamation-circle"></i>
             {{ errorMessage }}
-        </div>
+        </div> -->
 
         <!-- Botones -->
-        <div class="button-container">
+        <!-- <div class="button-container">
             <button type="button" class="btn cancel secondary" (click)="onCancel()">
                 Cancelar
             </button>
@@ -86,7 +104,7 @@
                 </span>
             </button>
         </div>
-    </form>
+    </form> -->
 
     <!-- Link a registro y recuperación -->
     <p class="auth-footer">

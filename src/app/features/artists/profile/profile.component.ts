@@ -55,6 +55,7 @@ export class ProfileComponent implements OnInit {
       idUser: id,
       name: 'Cargando...',
       email: '',
+      biography: '',
       genreName: undefined
     };
   }

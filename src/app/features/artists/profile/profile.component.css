@@ -108,18 +108,29 @@ h2:first-of-type {
 }
 
 .song-item {
-    padding: 8px 0;
+    padding: 8px;
     border-bottom: 1px solid #ddd;
-    cursor: pointer;
     display: flex;
-    justify-content: space-between;
+    gap: 12px;
     align-items: center;
     transition: background 0.2s ease;
+    position: relative;
 }
 
 .song-item:hover {
     background: #f9f9f9;
-    padding-left: 8px;
+}
+
+.song-cover {
+    width: 50px;
+    height: 50px;
+    border-radius: 4px;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.song-info {
+    flex: 1;
 }
 
 .song-info strong {
@@ -137,19 +148,35 @@ h2:first-of-type {
     color: #555;
 }
 
-.btn-play {
-    background: #0b869a;
+.btn-play-icon {
+    background: transparent;
     border: none;
-    padding: 6px 14px;
-    border-radius: 20px;
-    color: white;
-    font-weight: 600;
+    padding: 8px;
     cursor: pointer;
-    transition: background 0.2s ease;
+    opacity: 0;
+    transition: all 0.2s ease;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 50%;
 }
 
-.btn-play:hover {
-    background: #096d7d;
+.btn-play-icon img {
+    width: 20px;
+    height: 20px;
+    display: block;
+}
+
+.song-item:hover .btn-play-icon {
+    opacity: 1;
+}
+
+.btn-play-icon:hover {
+    background: #ffffff;
+    box-shadow: 0 0 8px #0b869a;
 }
 
 /* Biografía */
