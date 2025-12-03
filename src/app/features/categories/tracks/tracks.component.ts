@@ -2,7 +2,9 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import { SongService } from '../../../core/services/song.service';
+import { PlayerService } from '../../../core/services/player.service';
 import { SongResponseDto } from '../../../core/models/song.model';
+import { Track } from '../../../core/models/player.model';
 import { SongRatingComponent } from '../../../shared/components/song-rating/song-rating.component';
 import { ReportModalComponent } from '../../../shared/components/report-modal/report-modal.component';
 
@@ -35,8 +37,9 @@ export class CategoriesTracksComponent implements OnInit {
 
   constructor(
     private songService: SongService,
+    private playerService: PlayerService,
     private route: ActivatedRoute
-  ) {}
+  ) { }
 
   ngOnInit() {
     // Obtener el parámetro de género de la ruta
@@ -65,6 +68,12 @@ export class CategoriesTracksComponent implements OnInit {
           } else {
             this.songs = songs;
           }
+
+          // Filtrar contenido reportado localmente
+          const hiddenIds = this.getHiddenContentIds();
+          if (hiddenIds.length > 0) {
+            this.songs = this.songs.filter(s => !hiddenIds.includes(s.idSong));
+          }
         } else {
           this.songs = this.buildFallbackSongs();
         }
@@ -77,6 +86,22 @@ export class CategoriesTracksComponent implements OnInit {
         this.isLoading = false;
       }
     });
+  }
+
+  playSong(song: SongResponseDto) {
+    const track: Track = {
+      id: song.idSong,
+      title: song.title,
+      artist: song.artist?.name || 'Artista desconocido',
+      album: song.genre?.name || 'Sencillo',
+      duration: song.duration || 0,
+      coverImage: song.coverURL,
+      audioUrl: song.fileURL,
+      likes: 0, // TODO: Obtener likes reales si están disponibles
+      comments: 0 // TODO: Obtener comentarios reales si están disponibles
+    };
+
+    this.playerService.playTrack(track);
   }
 
   onRatingChanged(songId: number, event: { rating: number; averageRating: number }) {
@@ -143,8 +168,27 @@ export class CategoriesTracksComponent implements OnInit {
   }
 
   onReportSubmitted() {
+    const reportedId = this.selectedTrackId();
+    if (reportedId) {
+      this.saveHiddenContentId(reportedId);
+      // Remover inmediatamente de la lista local
+      this.songs = this.songs.filter(s => s.idSong !== reportedId);
+    }
     this.closeReportModal();
-    // TODO: Mostrar mensaje de éxito
+    alert('Contenido reportado. Ya no verás esta canción.');
+  }
+
+  private getHiddenContentIds(): number[] {
+    const stored = localStorage.getItem('hidden_content_ids');
+    return stored ? JSON.parse(stored) : [];
+  }
+
+  private saveHiddenContentId(id: number) {
+    const ids = this.getHiddenContentIds();
+    if (!ids.includes(id)) {
+      ids.push(id);
+      localStorage.setItem('hidden_content_ids', JSON.stringify(ids));
+    }
   }
 
   private buildFallbackSongs(): SongResponseDto[] {
@@ -154,7 +198,7 @@ export class CategoriesTracksComponent implements OnInit {
       title: track.title,
       description: '',
       coverURL: track.image,
-      fileURL: '',
+      fileURL: '', // URL vacía para fallback
       visibility: 'public',
       duration: this.parseDurationLabel(track.duration),
       uploadDate: new Date(),

@@ -2,7 +2,8 @@
   <div class="header">
     <div class="title-row">
       <h1 class="page-title">{{ genreName ? genreName : 'Pistas' }}</h1>
-      <p class="subtitle">{{ genreName ? 'Canciones de ' + genreName : 'Califica tus canciones favoritas con estrellas &#9733;' }}</p>
+      <p class="subtitle">{{ genreName ? 'Canciones de ' + genreName : 'Califica tus canciones favoritas con estrellas
+        &#9733;' }}</p>
     </div>
     <div class="filter-buttons">
       <a routerLink="/categories" class="filter-button">Todos</a>
@@ -25,7 +26,7 @@
       <div class="track-image">
         <img [src]="song.coverURL" [alt]="song.title" />
         <div class="play-overlay">
-          <button class="play-btn">
+          <button class="play-btn" (click)="playSong(song)">
             <i class="fa-solid fa-play"></i>
           </button>
         </div>
@@ -58,11 +59,8 @@
         </div>
 
         <div class="rating-section">
-          <app-song-rating
-            [songId]="song.idSong"
-            [currentRating]="song.averageRating || 0"
-            [ratingCount]="song.ratingCount || 0"
-            (ratingChanged)="onRatingChanged(song.idSong, $event)">
+          <app-song-rating [songId]="song.idSong" [currentRating]="song.averageRating || 0"
+            [ratingCount]="song.ratingCount || 0" (ratingChanged)="onRatingChanged(song.idSong, $event)">
           </app-song-rating>
         </div>
 
@@ -76,6 +74,9 @@
           <button class="action-btn">
             <i class="fa-solid fa-share"></i> Compartir
           </button>
+          <button class="action-btn" (click)="openReportModal(song.idSong)">
+            <i class="fa-solid fa-flag"></i> Reportar
+          </button>
         </div>
       </div>
     </div>
@@ -87,10 +88,5 @@
   </div>
 </div>
 
-<app-report-modal
-  *ngIf="showReportModal() && selectedTrackId()"
-  [contentType]="'SONG'"
-  [contentId]="selectedTrackId()!"
-  (close)="closeReportModal()"
-  (submitted)="onReportSubmitted()"
-></app-report-modal>
+<app-report-modal *ngIf="showReportModal() && selectedTrackId()" [contentType]="'SONG'" [contentId]="selectedTrackId()!"
+  (close)="closeReportModal()" (submitted)="onReportSubmitted()"></app-report-modal>

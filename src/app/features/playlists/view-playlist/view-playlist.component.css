@@ -57,11 +57,13 @@
   background-color: #c0c0c0;
 }
 
-.add-song, .songs-list {
+.add-song,
+.songs-list {
   margin-bottom: 2rem;
 }
 
-.add-song h3, .songs-list h3 {
+.add-song h3,
+.songs-list h3 {
   font-family: 'Raleway', sans-serif;
   font-size: 1.5rem;
   font-weight: 600;
@@ -152,7 +154,8 @@
   opacity: 0.6;
 }
 
-.loading, .error-message {
+.loading,
+.error-message {
   text-align: center;
   margin: 3rem 0;
   font-family: 'Montserrat', sans-serif;
@@ -161,4 +164,10 @@
 .error-message {
   color: #dc3545;
   font-size: 1rem;
+}
+
+.song-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }

@@ -19,10 +19,20 @@ export class PlaylistService {
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
-    return new HttpHeaders({
+    const userId = localStorage.getItem('userId');
+    let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      Authorization: token ? `Bearer ${token}` : '',
     });
+
+    if (token) {
+      headers = headers.set('Authorization', `Bearer ${token}`);
+    }
+
+    if (userId) {
+      headers = headers.set('idUser', userId);
+    }
+
+    return headers;
   }
 
   createPlaylist(request: PlaylistRequestDto): Observable<PlaylistResponseDto> {
