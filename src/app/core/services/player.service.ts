@@ -237,7 +237,7 @@ export class PlayerService {
       const willShow = !state.showPlaylistSidebar;
       return {
         ...state,
-        showCoverExpanded: willShow ? true : state.showCoverExpanded, // Forzar cover si se abre
+        // NO forzar cover, solo abrir/cerrar sidebar
         showPlaylistSidebar: willShow,
         showCommentsSidebar: willShow ? false : state.showCommentsSidebar // Exclusividad
       };
@@ -249,7 +249,7 @@ export class PlayerService {
       const willShow = !state.showCommentsSidebar;
       return {
         ...state,
-        showCoverExpanded: willShow ? true : state.showCoverExpanded, // Forzar cover si se abre
+        // NO forzar cover, solo abrir/cerrar sidebar
         showCommentsSidebar: willShow,
         showPlaylistSidebar: willShow ? false : state.showPlaylistSidebar // Exclusividad
       };
