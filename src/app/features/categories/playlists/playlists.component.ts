@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 import { PlaylistService } from '../../../core/services/playlist.service';
 import { PlaylistResponseDto } from '../../../core/models/playlist.model';
 
@@ -38,7 +39,33 @@ export class CategoriesPlaylistsComponent implements OnInit {
     }
   ];
 
-  constructor(private playlistService: PlaylistService) {}
+  constructor(private playlistService: PlaylistService, private router: Router) {}
+
+  openPlaylist(playlist: PlaylistResponseDto) {
+    // Robustly get playlist id (some payloads might use different property names)
+    const rawId: any = (playlist as any).id ?? (playlist as any).idPlaylist ?? (playlist as any).id_playlist;
+    const idNum = Number(rawId);
+    if (!Number.isFinite(idNum)) {
+      console.error('Invalid playlist id for navigation', playlist);
+      return;
+    }
+    // Pass the current route as `from` so the playlist view can navigate back
+    this.router.navigate(['/playlists', idNum], { state: { from: this.router.url } });
+  }
+
+  // Gradientes para playlists en tonos azules
+  private readonly playlistGradients = [
+    'linear-gradient(135deg, #0a6e99 0%, #084f6a 100%)',
+    'linear-gradient(135deg, #3498db 0%, #2874a6 100%)',
+    'linear-gradient(135deg, #5dade2 0%, #1f618d 100%)',
+    'linear-gradient(135deg, #85c1e9 0%, #2980b9 100%)',
+    'linear-gradient(135deg, #1e90ff 0%, #0066cc 100%)',
+    'linear-gradient(135deg, #4a90e2 0%, #2e5c8a 100%)',
+  ];
+
+  getPlaylistGradient(index: number): string {
+    return this.playlistGradients[index % this.playlistGradients.length];
+  }
 
   ngOnInit(): void {
     this.loadPlaylists();

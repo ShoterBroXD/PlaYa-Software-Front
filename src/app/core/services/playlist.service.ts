@@ -15,7 +15,7 @@ import {
 export class PlaylistService {
   private readonly API_URL = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
@@ -39,6 +39,13 @@ export class PlaylistService {
 
   addSongToPlaylist(playlistId: number, request: AddSongToPlaylistDto): Observable<string> {
     return this.http.post<string>(`${this.API_URL}/playlists/${playlistId}/songs`, request, {
+      headers: this.getHeaders(),
+      responseType: 'text' as 'json',
+    });
+  }
+
+  addSongsToPlaylist(playlistId: number, songIds: number[]): Observable<string> {
+    return this.http.post<string>(`${this.API_URL}/playlists/${playlistId}/songs/bulk`, { songIds }, {
       headers: this.getHeaders(),
       responseType: 'text' as 'json',
     });

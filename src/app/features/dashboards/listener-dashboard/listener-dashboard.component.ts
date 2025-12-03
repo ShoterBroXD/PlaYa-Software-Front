@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { SongService } from '../../../core/services/song.service';
+import { CommunityService } from '../../../core/services/community.service';
 
 interface TrendingGenre {
   name: string;
@@ -17,41 +20,59 @@ interface TrendingCommunity {
 @Component({
   selector: 'app-listener-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './listener-dashboard.component.html',
   styleUrl: './listener-dashboard.component.css',
 })
-export class ListenerDashboardComponent {
+export class ListenerDashboardComponent implements OnInit {
   private authService = inject(AuthService);
+  private songService = inject(SongService);
+  private communityService = inject(CommunityService);
+  private router = inject(Router);
+
   userName = computed(() => this.authService.getCurrentUser()?.name || 'Usuario');
   welcomeSubtitle = 'Listo para descubrir nuevos gustos?';
   illustration = '/assets/img/images/sing-girl.png';
 
-  trendingGenres: TrendingGenre[] = [
-    { name: 'Genero 01', description: 'Beats electronicos para subir la energia.' },
-    { name: 'Genero 02', description: 'Ritmos urbanos para tu dia.' },
-    { name: 'Genero 03', description: 'Canciones para relajarte y crear.' },
-    { name: 'Genero 04', description: 'Los clasicos que nunca fallan.' },
-  ];
+  trendingGenres: any[] = [];
+  trendingCommunities: any[] = [];
 
-  trendingCommunities: TrendingCommunity[] = [
-    {
-      name: 'Michael Jackson Fans',
-      topic: 'Escucharon la nueva mezcla del super bowl?',
-      time: 'Hace 1 hora',
-      excerpt: 'Jackson vuelve con nuevas mezclas y rarezas de estudio, que opinas?',
-    },
-    {
-      name: 'Artistas tendencia',
-      topic: 'Cual es tu artista tendencia global para este verano en PlaYa?',
-      time: 'Hace 3 horas',
-      excerpt: 'Descubre que artistas lideran la conversacion en la plataforma.',
-    },
-    {
-      name: 'Chris & Friends',
-      topic: 'Este artista emergente es muy genial',
-      time: 'Hace 6 horas',
-      excerpt: 'Conecta y comparte recomendaciones con la comunidad.',
-    },
-  ];
+  ngOnInit() {
+    this.loadGenres();
+    this.loadCommunities();
+  }
+
+  loadGenres() {
+    this.songService.getGenres().subscribe({
+      next: (genres) => {
+        // Tomar solo los primeros 4 para mostrar en el dashboard
+        this.trendingGenres = genres.slice(0, 4);
+      },
+      error: (err) => console.error('Error loading genres', err)
+    });
+  }
+
+  loadCommunities() {
+    this.communityService.getRecommendedCommunities().subscribe({
+      next: (communities) => {
+        // Mapear la respuesta al formato de la vista si es necesario
+        this.trendingCommunities = communities.map(c => ({
+          name: c.name,
+          topic: c.description, // Usamos descripcion como topic
+          time: 'Reciente', // Placeholder
+          excerpt: c.description,
+          id: c.idCommunity
+        })).slice(0, 3);
+      },
+      error: (err) => console.error('Error loading communities', err)
+    });
+  }
+
+  navigateToGenre(genreId: number) {
+    this.router.navigate(['/categories/tracks', genreId]);
+  }
+
+  navigateToCommunity(communityId: number) {
+    this.router.navigate(['/communities', communityId]);
+  }
 }

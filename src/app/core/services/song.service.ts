@@ -27,9 +27,9 @@ export class SongService {
     console.log('Song payload:', JSON.stringify(song, null, 2));
     console.log('User ID (header):', userId);
 
-    const headers = new HttpHeaders().set('iduser', userId.toString());
+    // const headers = new HttpHeaders().set('iduser', userId.toString());
 
-    return this.http.post<SongResponseDto>(this.apiUrl, song, { headers }).pipe(
+    return this.http.post<SongResponseDto>(this.apiUrl, song).pipe(
       timeout(this.HTTP_TIMEOUT),
       catchError((error) => {
         console.error('Error en createSong:', error);
@@ -81,13 +81,13 @@ export class SongService {
    * Crear un comentario en una canción
    */
   createSongComment(songId: number, content: string, userId: number, idParentComment?: number): Observable<CommentResponseDto> {
-    const headers = new HttpHeaders().set('iduser', userId.toString());
+    // const headers = new HttpHeaders().set('iduser', userId.toString());
     const body = {
       idSong: songId,
       content,
       parentComment: idParentComment || null
     };
-    return this.http.post<CommentResponseDto>(`${this.commentsApiUrl}`, body, { headers }).pipe(
+    return this.http.post<CommentResponseDto>(`${this.commentsApiUrl}`, body).pipe(
       timeout(this.HTTP_TIMEOUT),
       catchError(this.handleError)
     );

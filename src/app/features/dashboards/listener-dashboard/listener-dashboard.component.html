@@ -7,8 +7,8 @@
         <p class="subtitle">{{ welcomeSubtitle }}</p>
       </div>
       <div class="hero-actions">
-        <button class="cta secondary">Explorar</button>
-        <button class="cta primary">Premium</button>
+        <button class="cta secondary" routerLink="/categories">Explorar</button>
+        <button class="cta primary" routerLink="/premium">Premium</button>
       </div>
     </header>
 
@@ -18,13 +18,13 @@
           <p class="section-eyebrow">Recomendado para ti</p>
           <h2>Generos en tendencia</h2>
         </div>
-        <button class="cta text">Ver todo</button>
+        <button class="cta text" routerLink="/categories">Ver todo</button>
       </div>
       <div class="genre-grid">
-        <article class="genre-card" *ngFor="let genre of trendingGenres">
+        <article class="genre-card" *ngFor="let genre of trendingGenres" (click)="navigateToGenre(genre.idGenre)" style="cursor: pointer;">
           <div class="genre-card__placeholder"></div>
           <h3>{{ genre.name }}</h3>
-          <p>{{ genre.description }}</p>
+          <p>{{ genre.description || 'Explorar ' + genre.name }}</p>
         </article>
       </div>
     </section>
@@ -35,7 +35,7 @@
           <p class="section-eyebrow">Lo que se habla</p>
           <h2>Comunidades en tendencia</h2>
         </div>
-        <button class="cta text">Ver todas</button>
+        <button class="cta text" routerLink="/communities">Ver todas</button>
       </div>
       <div class="community-list">
         <article class="community-card" *ngFor="let community of trendingCommunities">
@@ -50,7 +50,7 @@
             <p class="topic">{{ community.topic }}</p>
             <p class="excerpt">{{ community.excerpt }}</p>
           </div>
-          <button class="cta icon" aria-label="Ir a comunidad">
+          <button class="cta icon" aria-label="Ir a comunidad" (click)="navigateToCommunity(community.id)">
             <span>&rsaquo;</span>
           </button>
         </article>
