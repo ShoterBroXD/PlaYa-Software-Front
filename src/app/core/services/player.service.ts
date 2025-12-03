@@ -60,7 +60,7 @@ export class PlayerService {
   ) {
     // Crear audio element
     this.audio = new Audio();
-    
+
     // Listeners para actualizar estado
     this.audio.addEventListener('timeupdate', () => {
       this.updateCurrentTime(this.audio!.currentTime);
@@ -94,7 +94,7 @@ export class PlayerService {
 
   togglePlayPause() {
     const isPlaying = this.isPlaying();
-    
+
     if (isPlaying) {
       this.audio?.pause();
     } else {
@@ -133,7 +133,7 @@ export class PlayerService {
   previousTrack() {
     const state = this.playerState();
     const queue = state.queue;
-    
+
     // Si ya pasaron más de 3 segundos, reiniciar canción actual
     if (state.currentTime > 3) {
       this.seek(0);
@@ -171,7 +171,7 @@ export class PlayerService {
 
   setVolume(volume: number) {
     const clampedVolume = Math.max(0, Math.min(100, volume));
-    
+
     this.playerState.update(state => ({
       ...state,
       volume: clampedVolume
@@ -194,7 +194,7 @@ export class PlayerService {
       const modes: Array<'none' | 'one' | 'all'> = ['none', 'one', 'all'];
       const currentIndex = modes.indexOf(state.repeatMode);
       const nextMode = modes[(currentIndex + 1) % modes.length];
-      
+
       return {
         ...state,
         repeatMode: nextMode
@@ -204,7 +204,7 @@ export class PlayerService {
 
   private handleTrackEnded() {
     const state = this.playerState();
-    
+
     if (state.repeatMode === 'one') {
       this.seek(0);
       this.audio?.play();
@@ -316,7 +316,7 @@ export class PlayerService {
     this.playerState.update(state => {
       const newQueue = state.queue.filter((_, i) => i !== index);
       let newIndex = state.currentIndex;
-      
+
       if (index < state.currentIndex) {
         newIndex--;
       } else if (index === state.currentIndex) {

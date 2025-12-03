@@ -1,5 +1,5 @@
-<aside 
-  *ngIf="playerService.showPlaylistSidebar()" 
+<aside
+  *ngIf="playerService.showPlaylistSidebar()"
   class="playlist-sidebar"
 >
   <div class="sidebar-header">
@@ -8,7 +8,7 @@
   </div>
 
   <div class="playlist-container">
-    <div 
+    <div
       *ngFor="let track of playerService.queue(); let i = index"
       class="song-item"
       [class.current]="isCurrentTrack(track)"
