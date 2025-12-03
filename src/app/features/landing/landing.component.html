@@ -1,40 +1,7 @@
 ﻿<div class="landing-container">
     <!-- Navbar -->
     <header>
-        <nav class="navbar">
-            <!-- Logo -->
-            <div class="img-logo">
-                <img src="/assets/img/images/logo-playa.png" alt="Logo de PlaYA!" />
-            </div>
-
-                        <!-- Search Form -->
-            <form class="search-form" (ngSubmit)="onSearch()" role="search"
-                [attr.aria-label]="'landing.hero.searchButton' | translate">
-                <input type="search" [(ngModel)]="searchQuery" name="search"
-                    [placeholder]="'landing.hero.search' | translate"
-                    [attr.aria-label]="'landing.hero.searchButton' | translate" />
-                <button type="submit" [attr.aria-label]="'landing.hero.searchButton' | translate">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-
-            <!-- Navigation Links -->
-            <ul class="nav-links">
-                <li><a href="#categorias">{{ 'nav.categories' | translate }}</a></li>
-                <li><a href="#biblioteca">{{ 'nav.library' | translate }}</a></li>
-                <li><a href="#comunidades">{{ 'nav.communities' | translate }}</a></li>
-            </ul>
-
-            <!-- Auth Buttons -->
-            <div class="auth-buttons">
-                <button class="btn login primary" (click)="navigateToLogin()">
-                    {{ 'landing.hero.login' | translate }}
-                </button>
-                <button class="btn signup primary" (click)="navigateToRegister()">
-                    {{ 'landing.hero.createAccount' | translate }}
-                </button>
-            </div>
-        </nav>
+        <app-public-navbar></app-public-navbar>
     </header>
 
     <!-- Hero Section -->
@@ -95,7 +62,8 @@
                 <i class="fas fa-crown fa-3x"></i>
                 <h3>{{ 'landing.features.premium.title' | translate }}</h3>
                 <p>{{ 'landing.features.premium.description' | translate }}</p>
-            </div>        </div>
+            </div>
+        </div>
     </section>
 
     <!-- CTA Section -->
@@ -139,8 +107,3 @@
         </div>
     </footer>
 </div>
-
-
-
-
-

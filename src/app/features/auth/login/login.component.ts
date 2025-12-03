@@ -113,7 +113,7 @@ export class LoginComponent {
    * Cancelar y volver al landing
    */
   onCancel(): void {
-    this.router.navigate(['/landing']);
+    this.router.navigate(['/']);
   }
 
   private getDashboardRoute(

@@ -13,6 +13,11 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/landing/landing.component').then((m) => m.LandingComponent),
   },
+  {
+    path: 'about',
+    loadComponent: () =>
+      import('./features/about/about.component').then((m) => m.AboutComponent),
+  },
 
   // Auth Routes (sin navbar autenticado)
   {

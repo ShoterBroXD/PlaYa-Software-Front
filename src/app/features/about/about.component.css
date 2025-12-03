@@ -1,0 +1,157 @@
+.about-container {
+    min-height: 100vh;
+    background-color: #ffffff;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.about-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 4rem 2rem;
+}
+
+.header-section {
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+.header-section h1 {
+    font-size: 3rem;
+    color: #05255a;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+}
+
+.header-section .subtitle {
+    font-size: 1.1rem;
+    color: #05255a;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.columns-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 2rem;
+    position: relative;
+    margin-bottom: 4rem;
+}
+
+.column {
+    flex: 1;
+    text-align: center;
+    padding: 0 1rem;
+}
+
+.column h2 {
+    font-size: 2rem;
+    color: #0A1128;
+    margin-bottom: 1rem;
+    font-weight: 700;
+}
+
+.column .description {
+    color: #333;
+    margin-bottom: 2rem;
+    line-height: 1.5;
+    font-size: 0.95rem;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.features-list {
+    text-align: left;
+    max-width: 350px;
+    margin: 0 auto 3rem;
+}
+
+.features-list h3 {
+    color: #0a6e99;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.features-list ul {
+    list-style: none;
+    padding: 0;
+}
+
+.features-list ul li {
+    margin-bottom: 0.8rem;
+    color: #05255a;
+    position: relative;
+    padding-left: 1.5rem;
+}
+
+.features-list ul li::before {
+    content: '•';
+    color: #0a6e99;
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+    font-size: 1.2rem;
+    line-height: 1;
+}
+
+.divider {
+    width: 1px;
+    background-color: #ccc;
+    align-self: stretch;
+}
+
+.illustration {
+    margin-top: 2rem;
+    min-height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.illustration img {
+    max-width: 100%;
+    height: auto;
+    max-height: 250px;
+}
+
+.cta-section {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.btn.primary {
+    padding: 0.8rem 2.5rem;
+    border-radius: 5px;
+    font-weight: 600;
+    font-size: 1rem;
+    background-color: #0a6e99;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn.primary:hover {
+    background-color: #084f6a;
+}
+
+@media (max-width: 768px) {
+    .columns-container {
+        flex-direction: column;
+        gap: 4rem;
+    }
+
+    .divider {
+        display: none;
+    }
+
+    .header-section h1 {
+        font-size: 2rem;
+    }
+}
