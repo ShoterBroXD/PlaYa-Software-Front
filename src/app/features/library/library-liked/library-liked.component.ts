@@ -57,11 +57,25 @@ export class LibraryLikedComponent implements OnInit {
   }
 
   private normalizeSong(raw: any): any {
+    // Extraer nombre del artista de diferentes estructuras posibles
+    let artistName = 'Artista'; // Valor por defecto más limpio
+    if (raw?.artist?.name) {
+      artistName = raw.artist.name;
+    } else if (raw?.user?.name) {
+      artistName = raw.user.name;
+    } else if (raw?.artistName) {
+      artistName = raw.artistName;
+    } else if (raw?.artist && typeof raw.artist === 'string') {
+      artistName = raw.artist;
+    }
+
+    const uploadYear = raw?.uploadDate ? new Date(raw.uploadDate).getFullYear().toString() : new Date().getFullYear().toString();
+
     return {
       idSong: raw?.idSong ?? raw?.id ?? 0,
       title: raw?.title ?? raw?.name ?? 'Sin título',
-      artist: raw?.artist ?? raw?.artistName ?? 'Artista desconocido',
-      year: raw?.uploadDate ? new Date(raw.uploadDate).getFullYear().toString() : '2024',
+      artist: artistName,
+      year: uploadYear,
       image: raw?.coverURL ?? raw?.cover ?? '/assets/img/images/img-placeholder.svg',
       fileURL: raw?.fileURL ?? raw?.url ?? '',
       description: raw?.description ?? ''

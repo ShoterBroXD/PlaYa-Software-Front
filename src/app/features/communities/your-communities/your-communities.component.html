@@ -1,43 +1,75 @@
 <div class="communities-page">
-  <section class="content-section">
-    <div class="section-header">
-      <p class="section-title">Tus comunidades</p>
-    </div>
-    <div class="communities-row">
-      <div class="community-wrapper" *ngFor="let c of yourCommunities">
-        <div class="community-card">
-          <div class="card-content">
-            <img [src]="c.image" [alt]="c.name" class="community-icon">
-            <div class="community-text">
-              <p class="community-title">{{ c.name }}</p>
-              <p class="community-details">{{ c.followers }} seguidores</p>
-              <p class="community-description">{{ c.description }}</p>
-            </div>
-          </div>
-          <button class="btn-join" [routerLink]="['/communities', c.id]">Ver</button>
-        </div>
-      </div>
-    </div>
-  </section>
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="loading-container">
+    <p>Cargando tus comunidades...</p>
+  </div>
 
-  <section class="content-section">
-    <div class="section-header">
-      <p class="section-title">Las más activas</p>
+  <!-- Error State -->
+  <div *ngIf="error && !isLoading" class="error-container">
+    <p>{{ error }}</p>
+  </div>
+
+  <!-- Empty State - No hay comunidades -->
+  <div *ngIf="!isLoading && !error && yourCommunities.length === 0" class="empty-state">
+    <div class="empty-state-content">
+      <i class="fa-solid fa-users empty-icon"></i>
+      <h2>¡Aún no te has unido a ninguna comunidad!</h2>
+      <p>Explora comunidades y únete a las que más te interesen</p>
+      <button class="btn-explore" [routerLink]="['/communities/explore']">
+        Explorar Comunidades
+      </button>
     </div>
-    <div class="communities-row">
-      <div class="community-wrapper" *ngFor="let c of mostActive">
-        <div class="community-card">
-          <div class="card-content">
-            <img [src]="c.image" [alt]="c.name" class="community-icon">
-            <div class="community-text">
-              <p class="community-title">{{ c.name }}</p>
-              <p class="community-details">{{ c.followers }} seguidores</p>
-              <p class="community-description">{{ c.description }}</p>
+  </div>
+
+  <!-- Content -->
+  <div *ngIf="!isLoading && !error && yourCommunities.length > 0">
+    <div class="page-header">
+      <h1>Comunidades</h1>
+      <button class="btn-create-small" [routerLink]="['/communities/create']">
+        + Crear Comunidad
+      </button>
+    </div>
+
+    <section class="content-section">
+      <div class="section-header">
+        <p class="section-title">Tus comunidades</p>
+      </div>
+      <div class="communities-row">
+        <div class="community-wrapper" *ngFor="let c of yourCommunities">
+          <div class="community-card">
+            <div class="card-content">
+              <img [src]="c.image" [alt]="c.name" class="community-icon">
+              <div class="community-text">
+                <p class="community-title">{{ c.name }}</p>
+                <p class="community-details">{{ c.followers }} seguidores</p>
+                <p class="community-description">{{ c.description }}</p>
+              </div>
             </div>
+            <button class="btn-join" [routerLink]="['/communities', c.id]">Ver</button>
           </div>
-          <button class="btn-join" [routerLink]="['/communities', c.id]">Unirse</button>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <section class="content-section" *ngIf="mostActive.length > 0">
+      <div class="section-header">
+        <p class="section-title">Las más activas</p>
+      </div>
+      <div class="communities-row">
+        <div class="community-wrapper" *ngFor="let c of mostActive">
+          <div class="community-card">
+            <div class="card-content">
+              <img [src]="c.image" [alt]="c.name" class="community-icon">
+              <div class="community-text">
+                <p class="community-title">{{ c.name }}</p>
+                <p class="community-details">{{ c.followers }} seguidores</p>
+                <p class="community-description">{{ c.description }}</p>
+              </div>
+            </div>
+            <button class="btn-join" [routerLink]="['/communities', c.id]">Unirse</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
 </div>
