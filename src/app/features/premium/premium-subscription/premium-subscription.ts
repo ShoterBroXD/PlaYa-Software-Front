@@ -63,7 +63,7 @@ export class PremiumSubscriptionComponent implements OnInit {
     private premiumService: PremiumService,
     private authService: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loadPremiumData();
@@ -147,7 +147,14 @@ export class PremiumSubscriptionComponent implements OnInit {
         this.checkCurrentStatus();
         // Redirigir después de 2 segundos
         setTimeout(() => {
-          this.router.navigate(['/dashboard']);
+          const userType = this.authService.resolveUserType();
+          if (userType === 'ARTIST') {
+            this.router.navigate(['/dashboard-artista']);
+          } else if (userType === 'LISTENER') {
+            this.router.navigate(['/dashboard-usuario']);
+          } else {
+            this.router.navigate(['/home']);
+          }
         }, 2000);
       },
       error: (error) => {
