@@ -5,6 +5,8 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 import { PlaylistService } from '../../../core/services/playlist.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { PlaylistResponseDto, SongResponseDto } from '../../../core/models/playlist.model';
+import { PlayerService } from '../../../core/services/player.service';
+import { Track } from '../../../core/models/player.model';
 
 @Component({
   selector: 'app-view-playlist',
@@ -19,12 +21,14 @@ export class ViewPlaylistComponent implements OnInit {
   loading = false;
   errorMessage = '';
   playlistId: number;
+  isOwner = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private playlistService: PlaylistService,
     private authService: AuthService,
+    private playerService: PlayerService,
     private fb: FormBuilder
   ) {
     this.playlistId = +this.route.snapshot.paramMap.get('id')!;
@@ -45,12 +49,32 @@ export class ViewPlaylistComponent implements OnInit {
     this.loading = true;
     this.playlistService.getPlaylistById(this.playlistId).subscribe({
       next: (data) => {
-        this.playlist = this.normalizePlaylist(data);
+        const playlist = this.normalizePlaylist(data);
+
+        // Verificación de privacidad en el frontend
+        const currentUserId = this.authService.getUserId();
+
+        // Determinar si el usuario actual es el dueño
+        this.isOwner = currentUserId === playlist.idUser;
+
+        if (!playlist.visible && !this.isOwner) {
+          this.errorMessage = 'Esta playlist es privada y no tienes permiso para verla.';
+          this.loading = false;
+          return;
+        }
+
+        this.playlist = playlist;
         this.loading = false;
       },
       error: (error) => {
         console.error('Error cargando playlist', error);
-        this.errorMessage = 'Error al cargar la playlist.';
+        if (error.status === 403) {
+          this.errorMessage = 'No tienes permiso para ver esta playlist.';
+        } else if (error.status === 404) {
+          this.errorMessage = 'La playlist no existe.';
+        } else {
+          this.errorMessage = 'Error al cargar la playlist. Intenta nuevamente.';
+        }
         this.loading = false;
       },
     });
@@ -82,6 +106,22 @@ export class ViewPlaylistComponent implements OnInit {
         alert('Error al remover la canción.');
       },
     });
+  }
+
+  playSong(song: SongResponseDto) {
+    const track: Track = {
+      id: song.idSong,
+      title: song.title,
+      artist: 'Artista desconocido', // La info del artista no siempre viene completa en playlist
+      album: this.playlist?.name || 'Playlist',
+      duration: 0, // TODO: Parsear duración si viene en string
+      coverImage: song.coverURL || '',
+      audioUrl: song.fileURL,
+      likes: 0,
+      comments: 0
+    };
+
+    this.playerService.playTrack(track);
   }
 
   sharePlaylist(): void {

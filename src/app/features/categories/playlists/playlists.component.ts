@@ -40,18 +40,14 @@ export class CategoriesPlaylistsComponent implements OnInit {
     }
   ];
 
-  constructor(private playlistService: PlaylistService, private router: Router) {}
+  constructor(private playlistService: PlaylistService, private router: Router) { }
 
   openPlaylist(playlist: PlaylistResponseDto) {
-    // Robustly get playlist id (some payloads might use different property names)
-    const rawId: any = (playlist as any).id ?? (playlist as any).idPlaylist ?? (playlist as any).id_playlist;
-    const idNum = Number(rawId);
-    if (!Number.isFinite(idNum)) {
+    if (playlist && playlist.id) {
+      this.router.navigate(['/playlists', playlist.id], { state: { from: this.router.url } });
+    } else {
       console.error('Invalid playlist id for navigation', playlist);
-      return;
     }
-    // Pass the current route as `from` so the playlist view can navigate back
-    this.router.navigate(['/playlists', idNum], { state: { from: this.router.url } });
   }
 
   // Gradientes para playlists en tonos azules
@@ -79,8 +75,9 @@ export class CategoriesPlaylistsComponent implements OnInit {
 
     this.playlistService.getAllPlaylists().subscribe({
       next: (data) => {
-        if (data && data.length) {
-          this.playlists = data;
+        const normalized = this.normalizePlaylists(data);
+        if (normalized && normalized.length) {
+          this.playlists = normalized;
           this.loadSongCounts();
         } else {
           this.useFallback('Aún no hay playlists públicas. Mira estas sugerencias.');
@@ -106,15 +103,24 @@ export class CategoriesPlaylistsComponent implements OnInit {
 
   loadSongCounts(): void {
     this.playlists.forEach(playlist => {
-      const rawId: any = (playlist as any).id ?? (playlist as any).idPlaylist ?? (playlist as any).id_playlist;
-      const id = Number(rawId);
+      // Optimización: Si ya tenemos las canciones, usar ese dato
+      if (playlist.songs && playlist.songs.length > 0) {
+        this.playlistCounts.set(playlist.id, playlist.songs.length);
+        return;
+      }
+
+      const id = playlist.id;
+      // Solo intentar cargar si tenemos un ID válido
       if (Number.isFinite(id)) {
         this.playlistService.getSongCountByPlaylistId(id).subscribe({
           next: (count) => {
             this.playlistCounts.set(id, count);
           },
           error: (err) => {
-            console.error('Error loading song count for playlist', id, err);
+            // Silenciar error 403 si ocurre y no hacer nada
+            if (err.status !== 403) {
+              console.warn('Error loading song count for playlist', id, err);
+            }
           }
         });
       }
@@ -122,8 +128,56 @@ export class CategoriesPlaylistsComponent implements OnInit {
   }
 
   getSongCount(playlist: PlaylistResponseDto): number {
-    const rawId: any = (playlist as any).id ?? (playlist as any).idPlaylist ?? (playlist as any).id_playlist;
-    const id = Number(rawId);
-    return this.playlistCounts.get(id) ?? playlist.songs?.length ?? 0;
+    return this.playlistCounts.get(playlist.id) ?? playlist.songs?.length ?? 0;
+  }
+
+  // Normalization methods
+  private normalizePlaylists(data: PlaylistResponseDto[] | any): PlaylistResponseDto[] {
+    if (!Array.isArray(data)) {
+      return [];
+    }
+    return data.map((raw, index) => this.normalizePlaylist(raw, index));
+  }
+
+  private normalizePlaylist(raw: any, index: number): PlaylistResponseDto {
+    const normalizedSongs = this.normalizeSongs(
+      raw?.songs ??
+      raw?.songResponses ??
+      raw?.tracks ??
+      raw?.songList ??
+      []
+    );
+
+    return {
+      id: this.ensureNumber(raw?.id ?? raw?.idPlaylist ?? raw?.playlistId, index),
+      idUser: this.ensureNumber(raw?.idUser ?? raw?.userId ?? raw?.ownerId, 0),
+      name: raw?.name ?? raw?.title ?? 'Playlist sin nombre',
+      description: raw?.description ?? raw?.details ?? '',
+      creationDate: raw?.creationDate ?? raw?.createdAt ?? new Date().toISOString(),
+      visible: raw?.visible ?? raw?.isPublic ?? true,
+      songs: normalizedSongs
+    };
+  }
+
+  private normalizeSongs(rawSongs: any): any[] {
+    if (!Array.isArray(rawSongs)) {
+      return [];
+    }
+
+    return rawSongs.map((song) => ({
+      idSong: this.ensureNumber(song?.idSong ?? song?.id ?? song?.songId, 0),
+      idUser: this.ensureNumber(song?.idUser ?? song?.userId ?? song?.artistId, 0),
+      title: song?.title ?? song?.name ?? 'Canción sin título',
+      description: song?.description ?? '',
+      coverURL: song?.coverURL ?? song?.cover ?? song?.imageURL ?? '',
+      fileURL: song?.fileURL ?? song?.url ?? '',
+      visibility: song?.visibility ?? 'public',
+      uploadDate: song?.uploadDate ?? song?.date ?? new Date().toISOString()
+    }));
+  }
+
+  private ensureNumber(value: any, fallback: number): number {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : fallback;
   }
 }

@@ -21,12 +21,15 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         router.navigate(['/login']);
       }
 
-      console.error('HTTP Error Interceptor', {
-        url: req.url,
-        status: error.status,
-        message: errorMessage,
-        response: error.error
-      });
+      // Silenciar logs de consola para errores 403 (Forbidden)
+      if (error.status !== 403) {
+        console.error('HTTP Error Interceptor', {
+          url: req.url,
+          status: error.status,
+          message: errorMessage,
+          response: error.error
+        });
+      }
 
       const enhancedError = new HttpErrorResponse({
         error: normalizeErrorBody(error, errorMessage, backendPayload),

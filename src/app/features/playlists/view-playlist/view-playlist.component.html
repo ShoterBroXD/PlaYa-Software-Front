@@ -6,7 +6,7 @@
   </div>
   <p>{{ playlist.description || 'Sin descripción' }}</p>
 
-  <div class="add-song">
+  <div class="add-song" *ngIf="isOwner">
     <h3>Agregar Canción</h3>
     <form [formGroup]="addSongForm" (ngSubmit)="addSong()">
       <input type="number" formControlName="songId" placeholder="ID de la canción" class="form-control" />
@@ -22,9 +22,14 @@
         <h4>{{ song.title }}</h4>
         <p>{{ song.description }}</p>
       </div>
-      <button (click)="removeSong(song.idSong)" class="btn-icon" title="Remover canción">
-        <img src="/assets/img/icons/icon_trash.svg" alt="Eliminar" />
-      </button>
+      <div class="song-actions">
+        <button *ngIf="isOwner" (click)="removeSong(song.idSong)" class="btn-icon" title="Remover canción">
+          <img src="/assets/img/icons/icon_trash.svg" alt="Eliminar" />
+        </button>
+        <button class="btn-icon play-btn" (click)="playSong(song)" title="Reproducir">
+          <img src="/assets/img/icons/icon_play.svg" alt="Play" style="width: 24px; height: 24px;" />
+        </button>
+      </div>
     </div>
   </div>
 </div>
