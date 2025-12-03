@@ -381,3 +381,95 @@
     display: none;
   }
 }
+
+/* Modal de compartir */
+.share-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.share-modal {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  min-width: 280px;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.share-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #05255a;
+  margin: 0 0 1rem 0;
+  text-align: center;
+}
+
+.share-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.share-option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  color: #666;
+  text-align: left;
+}
+
+.share-option:hover {
+  background: #f3f4f6;
+}
+
+.share-option i {
+  font-size: 1.5rem;
+  width: 24px;
+  text-align: center;
+}
+
+.share-option:nth-child(1) i { color: #1877f2; } /* Facebook */
+.share-option:nth-child(2) i { color: #1da1f2; } /* Twitter */
+.share-option:nth-child(3) i { color: #25d366; } /* WhatsApp */
+.share-option:nth-child(4) i { color: #0088cc; } /* Telegram */
+.share-option:nth-child(5) i {
+  background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+} /* Instagram */

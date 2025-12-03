@@ -10,6 +10,8 @@ import { PlayerService } from '../../core/services/player.service';
   styleUrls: ['./footer-player.component.css']
 })
 export class FooterPlayerComponent {
+  showShareModal = false;
+
   constructor(public playerService: PlayerService) {}
 
   // Formatear tiempo
@@ -74,5 +76,50 @@ export class FooterPlayerComponent {
 
   addToPlaylist() {
     this.playerService.addToPlaylist();
+  }
+
+  shareTrack() {
+    this.showShareModal = true;
+  }
+
+  closeShareModal() {
+    this.showShareModal = false;
+  }
+
+  shareOn(platform: string) {
+    const track = this.playerService.currentTrack();
+    if (!track) return;
+
+    const shareUrl = `${window.location.origin}/song/${track.id}`;
+    const text = `Escucha "${track.title}" de ${track.artist} en PlaYa`;
+
+    let url = '';
+
+    switch(platform) {
+      case 'facebook':
+        url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+        break;
+      case 'twitter':
+        url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`;
+        break;
+      case 'whatsapp':
+        url = `https://wa.me/?text=${encodeURIComponent(text + ' ' + shareUrl)}`;
+        break;
+      case 'telegram':
+        url = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
+        break;
+      case 'instagram':
+        // Instagram no tiene share directo, copiar al portapapeles
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          alert('¡Enlace copiado! Pégalo en Instagram.');
+        });
+        this.closeShareModal();
+        return;
+    }
+
+    if (url) {
+      window.open(url, '_blank', 'width=600,height=400');
+      this.closeShareModal();
+    }
   }
 }

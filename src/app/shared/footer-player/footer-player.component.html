@@ -1,19 +1,19 @@
 <footer *ngIf="playerService.hasTrack()" class="player-footer">
   <!-- Barra de progreso (top border) -->
-  <input 
-    type="range" 
-    class="song-progress" 
+  <input
+    type="range"
+    class="song-progress"
     [value]="playerService.progress()"
     (click)="onProgressClick($event)"
-    min="0" 
-    max="100" 
+    min="0"
+    max="100"
   />
 
   <div class="footer-components">
     <!-- Sección 1: Info de la canción -->
     <section class="song-info">
-      <div 
-        class="cover-thumbnail" 
+      <div
+        class="cover-thumbnail"
         (click)="toggleCover()"
         [style.cursor]="'pointer'"
       >
@@ -28,11 +28,40 @@
           <span class="track-artist">{{ playerService.currentTrack()!.artist }}</span>
         </div>
       </div>
-      <!-- Botón de compartir (placeholder) -->
-      <button class="btn-share" aria-label="Compartir">
+      <!-- Botón de compartir -->
+      <button class="btn-share" (click)="shareTrack()" aria-label="Compartir">
         <i class="fas fa-share-alt"></i>
       </button>
     </section>
+
+    <!-- Modal de compartir -->
+    <div class="share-modal-overlay" *ngIf="showShareModal" (click)="closeShareModal()">
+      <div class="share-modal" (click)="$event.stopPropagation()">
+        <h3 class="share-title">Compartir en</h3>
+        <div class="share-options">
+          <button class="share-option" (click)="shareOn('facebook')">
+            <i class="fab fa-facebook"></i>
+            <span>Facebook</span>
+          </button>
+          <button class="share-option" (click)="shareOn('twitter')">
+            <i class="fab fa-twitter"></i>
+            <span>Twitter</span>
+          </button>
+          <button class="share-option" (click)="shareOn('whatsapp')">
+            <i class="fab fa-whatsapp"></i>
+            <span>WhatsApp</span>
+          </button>
+          <button class="share-option" (click)="shareOn('telegram')">
+            <i class="fab fa-telegram"></i>
+            <span>Telegram</span>
+          </button>
+          <button class="share-option" (click)="shareOn('instagram')">
+            <i class="fab fa-instagram"></i>
+            <span>Instagram</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- Sección 2: Controles de reproducción -->
     <section class="player-controls">
@@ -44,13 +73,13 @@
           'fa-volume-mute': playerService.volume() === 0
         }"></i>
       </button>
-      <input 
-        type="range" 
-        class="volume-slider" 
+      <input
+        type="range"
+        class="volume-slider"
         [value]="playerService.volume()"
         (input)="onVolumeChange($event)"
-        min="0" 
-        max="100" 
+        min="0"
+        max="100"
       />
 
       <!-- Agregar a playlist -->
@@ -74,23 +103,23 @@
       </button>
 
       <!-- Shuffle -->
-      <button 
-        class="control-btn" 
-        [class.active]="playerService.isShuffle()" 
-        (click)="toggleShuffle()" 
+      <button
+        class="control-btn"
+        [class.active]="playerService.isShuffle()"
+        (click)="toggleShuffle()"
         aria-label="Aleatorio"
       >
         <i class="fas fa-random"></i>
       </button>
 
       <!-- Repeat -->
-      <button 
-        class="control-btn" 
-        [class.active]="playerService.repeatMode() !== 'none'" 
-        (click)="toggleRepeat()" 
+      <button
+        class="control-btn"
+        [class.active]="playerService.repeatMode() !== 'none'"
+        (click)="toggleRepeat()"
         aria-label="Repetir"
       >
-        <i 
+        <i
           class="fas"
           [class.fa-redo]="playerService.repeatMode() === 'all' || playerService.repeatMode() === 'none'"
           [class.fa-redo-alt]="playerService.repeatMode() === 'one'"
@@ -102,10 +131,10 @@
     <!-- Sección 3: Reacciones y controles de vista -->
     <section class="player-reactions">
       <!-- Like -->
-      <button 
-        class="reaction-btn" 
+      <button
+        class="reaction-btn"
         [class.liked]="playerService.currentTrack()!.isLiked"
-        (click)="toggleLike()" 
+        (click)="toggleLike()"
         aria-label="Me gusta"
       >
         <i class="fas fa-heart"></i>
@@ -113,10 +142,10 @@
       </button>
 
       <!-- Comentarios -->
-      <button 
-        class="reaction-btn" 
+      <button
+        class="reaction-btn"
         [class.active]="playerService.showCommentsSidebar()"
-        (click)="toggleComments()" 
+        (click)="toggleComments()"
         aria-label="Comentarios"
       >
         <i class="fas fa-comment"></i>
@@ -124,10 +153,10 @@
       </button>
 
       <!-- Playlist/Cola -->
-      <button 
-        class="reaction-btn reaction-btn-outline" 
+      <button
+        class="reaction-btn reaction-btn-outline"
         [class.active]="playerService.showPlaylistSidebar()"
-        (click)="togglePlaylist()" 
+        (click)="togglePlaylist()"
         aria-label="Lista de reproducción"
       >
         <i class="fas fa-list"></i>
