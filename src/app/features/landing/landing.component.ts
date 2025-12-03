@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PublicNavbarComponent } from '../../shared/public-navbar/public-navbar.component';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -7,14 +8,14 @@ import { TranslateModule } from '@ngx-translate/core';
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, RouterModule, FormsModule, TranslateModule],
+  imports: [CommonModule, RouterModule, FormsModule, TranslateModule, PublicNavbarComponent],
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.css'],
 })
 export class LandingComponent {
   searchQuery: string = '';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   navigateToLogin(): void {
     this.router.navigate(['/auth/login']);

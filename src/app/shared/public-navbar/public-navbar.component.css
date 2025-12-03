@@ -1,0 +1,139 @@
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background-color: #ffffff;
+}
+
+.navbar .img-logo {
+    flex-shrink: 0;
+}
+
+.navbar .img-logo img {
+    width: 150px;
+    height: auto;
+    cursor: pointer;
+}
+
+.navbar .search-form {
+    position: relative;
+    width: 300px;
+}
+
+.navbar .search-form input {
+    width: 100%;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    font-size: 0.85rem;
+    color: #777;
+    transition: border-color 0.3s ease;
+}
+
+.navbar .search-form input::placeholder {
+    color: #aaa;
+}
+
+.navbar .search-form input:focus {
+    outline: none;
+    border-color: #0a6e99;
+    color: #05255a;
+}
+
+.navbar .search-form button {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    color: #0a6e99;
+    padding: 0;
+}
+
+.navbar .nav-links {
+    list-style: none;
+    display: flex;
+    gap: 1.5rem;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar .nav-links li a {
+    text-decoration: none;
+    color: #000;
+    font-size: 0.9rem;
+    transition: color 0.3s;
+}
+
+.navbar .nav-links li a:hover {
+    color: #0a6e99;
+}
+
+.navbar .auth-buttons {
+    display: flex;
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+.navbar .auth-buttons .btn {
+    padding: 0.7rem 1.5rem;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    text-decoration: none;
+}
+
+.navbar .auth-buttons .btn.signup {
+    background-color: #0a6e99;
+    color: white;
+}
+
+.navbar .auth-buttons .btn.signup:hover {
+    background-color: #084f6a;
+}
+
+.navbar .auth-buttons .btn.login {
+    background-color: white;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+.navbar .auth-buttons .btn.login:hover {
+    background-color: #f0f0f0;
+}
+
+@media (max-width: 1024px) {
+    .navbar {
+        flex-wrap: wrap;
+        padding: 1rem;
+    }
+
+    .navbar .search-form {
+        order: 3;
+        flex: 1 1 100%;
+        margin: 1rem 0 0 0;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar .nav-links {
+        display: none;
+    }
+
+    .navbar .auth-buttons {
+        gap: 10px;
+    }
+
+    .navbar .auth-buttons .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}

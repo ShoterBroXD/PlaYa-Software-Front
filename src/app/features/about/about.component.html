@@ -1,0 +1,77 @@
+<div class="about-container">
+    <app-public-navbar></app-public-navbar>
+
+    <main class="about-content">
+        <div class="header-section">
+            <h1>¿Cómo funciona PlaYa!?</h1>
+            <p class="subtitle">
+                Conecta con nuevos talentos. Apoya, comenta y haz parte de una comunidad musical independiente,
+                compartiendo tus ideas con los miles de artistas que buscan sobresalir en este ámbito.
+            </p>
+        </div>
+
+        <div class="columns-container">
+            <!-- Para Artistas -->
+            <div class="column artist-column">
+                <h2>Para Artistas</h2>
+                <p class="description">
+                    Sube tu música fácilmente, recibe retroalimentación y crece junto a una comunidad apasionada por lo
+                    emergente.
+                </p>
+
+                <div class="features-list">
+                    <h3>Disfruta de:</h3>
+                    <ul>
+                        <li>Perfil personalizado de artista</li>
+                        <li>Subida de canciones y álbumes</li>
+                        <li>Estadísticas de oyentes y feedback</li>
+                        <li>Participación en comunidades temáticas</li>
+                    </ul>
+                </div>
+
+                <div class="illustration">
+                    <!-- Placeholder image, using hero-dj as fallback or if specific assets missing -->
+                    <img src="/assets/img/images/artist-singing.png" alt="Ilustración Artista"
+                        onerror="this.style.display='none'" />
+                    <!-- Fallback icon if image fails -->
+                    <i class="fas fa-microphone-alt fa-5x" style="color: #0a6e99; margin-top: 2rem;"></i>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="divider"></div>
+
+            <!-- Para Oyentes -->
+            <div class="column listener-column">
+                <h2>Para Oyentes</h2>
+                <p class="description">
+                    Descubre nuevos sonidos, comenta tus favoritos y apoya a tus artistas independientes favoritos.
+                </p>
+
+                <div class="features-list">
+                    <h3>Disfruta de:</h3>
+                    <ul>
+                        <li>Reproductor integrado</li>
+                        <li>Listas de descubrimiento personalizadas</li>
+                        <li>Espacios para comentar y valorar canciones</li>
+                        <li>Comunidades para compartir tus gustos</li>
+                    </ul>
+                </div>
+
+                <div class="illustration">
+                    <!-- Placeholder image -->
+                    <img src="/assets/img/images/listener-violin.png" alt="Ilustración Oyente"
+                        onerror="this.style.display='none'" />
+                    <!-- Fallback icon if image fails -->
+                    <i class="fas fa-headphones-alt fa-5x" style="color: #0a6e99; margin-top: 2rem;"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="cta-section">
+            <button class="btn primary" (click)="navigateToRegister()">
+                Escuchar ahora <i class="fas fa-chevron-right"></i>
+            </button>
+        </div>
+    </main>
+</div>

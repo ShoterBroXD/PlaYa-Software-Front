@@ -34,20 +34,21 @@
 .tabs {
     display: flex;
     justify-content: center;
-    margin-left: auto; 
+    margin-left: auto;
     margin-right: auto;
     /* gap: 1rem;  */
     margin-bottom: 1.5rem;
-    background-color: #f4f4f4; 
+    background-color: #f4f4f4;
     /* padding: 1rem; */
-    border-radius: 8px; 
+    border-radius: 8px;
     width: fit-content;
     border: solid 2px #f2f2f2ad;
 }
 
 .tab-btn {
     padding: 0.75rem 2rem;
-     background-color: transparent;/* f2f2f2 */
+    background-color: transparent;
+    /* f2f2f2 */
     color: #333;
     border: none;
     cursor: pointer;
@@ -232,6 +233,8 @@
     font-family: var(--font-primary);
     color: var(--gray-600);
     margin-bottom: 0;
+    display: block;
+    width: 100%;
 }
 
 .auth-footer .link-primary {
@@ -256,6 +259,14 @@
 .auth-footer .link-secondary:hover {
     color: var(--primary-color);
     text-decoration: underline;
+}
+
+/* Wrapper para el link de volver */
+.back-link-wrapper {
+    margin-top: 1.5rem;
+    text-align: center;
+    display: block;
+    width: 100%;
 }
 
 /* Responsive */

@@ -13,7 +13,7 @@
     </div> -->
 
     <!-- Formulario Usuario *ngIf="activeTab === 'usuario'" -->
-    <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()" class="login-form"> 
+    <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()" class="login-form">
         <label for="usuarioEmail">Correo electrónico</label>
         <input id="usuarioEmail" type="email" formControlName="email" placeholder="Coloque su correo..."
             class="form-control" [class.error]="usuarioEmail?.invalid && usuarioEmail?.touched">
@@ -68,14 +68,14 @@
             <span *ngIf="artistaPassword?.errors?.['minlength']">Mínimo 6 caracteres</span>
         </div> -->
 
-        <!-- Error general -->
-        <!-- <div class="alert-error" *ngIf="errorMessage">
+    <!-- Error general -->
+    <!-- <div class="alert-error" *ngIf="errorMessage">
             <i class="fas fa-exclamation-circle"></i>
             {{ errorMessage }}
         </div> -->
 
-        <!-- Botones -->
-        <!-- <div class="button-container">
+    <!-- Botones -->
+    <!-- <div class="button-container">
             <button type="button" class="btn cancel secondary" (click)="onCancel()">
                 Cancelar
             </button>
@@ -95,5 +95,8 @@
     </p>
     <p class="auth-footer">
         <a routerLink="/auth/get-token" class="link-secondary">¿Olvidaste tu contraseña?</a>
+    </p>
+    <p class="auth-footer back-link-wrapper">
+        <a routerLink="/" class="link-secondary">Volver al inicio</a>
     </p>
 </div>
