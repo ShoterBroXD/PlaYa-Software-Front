@@ -24,7 +24,7 @@ export class LikeService {
     return this.http.post<string>(
       `${this.apiUrl}/${songId}/like`,
       {},
-      { 
+      {
         headers: this.getHeaders(userId),
         responseType: 'text' as 'json'
       }
@@ -34,7 +34,7 @@ export class LikeService {
   unlikeSong(songId: number, userId: number): Observable<string> {
     return this.http.delete<string>(
       `${this.apiUrl}/${songId}/like`,
-      { 
+      {
         headers: this.getHeaders(userId),
         responseType: 'text' as 'json'
       }
@@ -42,8 +42,15 @@ export class LikeService {
   }
 
   toggleLike(songId: number, userId: number, isLiked: boolean): Observable<string> {
-    return isLiked 
+    return isLiked
       ? this.unlikeSong(songId, userId)
       : this.likeSong(songId, userId);
+  }
+
+  getLikedSongsByUser(userId: number): Observable<any[]> {
+    return this.http.get<any[]>(
+      `${this.apiUrl}/liked/user/${userId}`,
+      { headers: this.getHeaders(userId) }
+    );
   }
 }

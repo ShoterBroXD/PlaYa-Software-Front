@@ -4,7 +4,6 @@
     <h2>{{ playlist.name }}</h2>
     <button (click)="sharePlaylist()" class="btn primary">Compartir</button>
   </div>
-
   <p>{{ playlist.description || 'Sin descripción' }}</p>
 
   <div class="add-song">
@@ -23,7 +22,9 @@
         <h4>{{ song.title }}</h4>
         <p>{{ song.description }}</p>
       </div>
-      <button (click)="removeSong(song.idSong)" class="btn danger">Remover</button>
+      <button (click)="removeSong(song.idSong)" class="btn-icon" title="Remover canción">
+        <img src="/assets/img/icons/icon_trash.svg" alt="Eliminar" />
+      </button>
     </div>
   </div>
 </div>

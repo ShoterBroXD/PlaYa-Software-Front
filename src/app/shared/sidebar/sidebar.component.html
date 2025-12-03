@@ -6,11 +6,11 @@
 
   <!-- Items superiores -->
   <div class="sidebar-above">
-    <a 
-      *ngFor="let item of config.topItems" 
+    <a
+      *ngFor="let item of config.topItems"
       [routerLink]="item.route"
       routerLinkActive="active"
-      [routerLinkActiveOptions]="{exact: item.route === '/library'}"
+      [routerLinkActiveOptions]="{exact: true}"
       class="sidebar-item"
       (click)="handleItemClick(item.route, $event)"
     >
@@ -22,8 +22,8 @@
 
   <!-- Items inferiores -->
   <div class="sidebar-below">
-    <a 
-      *ngFor="let item of config.bottomItems" 
+    <a
+      *ngFor="let item of config.bottomItems"
       [routerLink]="item.route === '/logout' ? null : item.route"
       [routerLinkActive]="item.route !== '/logout' ? 'active' : ''"
       class="sidebar-item"

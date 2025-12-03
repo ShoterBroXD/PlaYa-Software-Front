@@ -1,8 +1,8 @@
 <div class="categories-page">
   <div class="header">
     <div class="title-row">
-      <h1 class="page-title">Pistas</h1>
-      <p class="subtitle">Califica tus canciones favoritas con estrellas &#9733;</p>
+      <h1 class="page-title">{{ genreName ? genreName : 'Pistas' }}</h1>
+      <p class="subtitle">{{ genreName ? 'Canciones de ' + genreName : 'Califica tus canciones favoritas con estrellas &#9733;' }}</p>
     </div>
     <div class="filter-buttons">
       <a routerLink="/categories" class="filter-button">Todos</a>
@@ -18,7 +18,6 @@
 
   <div class="error-container" *ngIf="error && !isLoading">
     <p>{{ error }}</p>
-    <p class="hint">Mostrando datos de ejemplo</p>
   </div>
 
   <div class="track-list" *ngIf="!isLoading && songs.length">

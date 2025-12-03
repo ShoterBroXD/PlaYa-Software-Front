@@ -1,2 +1,138 @@
 /* Importar estilos compartidos desde library-main */
 @import '../library-main/library-main.component.css';
+
+/* Loading state */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-family: 'Montserrat', sans-serif;
+  color: #666;
+}
+
+/* Error message */
+.error-message {
+  text-align: center;
+  padding: 3rem;
+  font-family: 'Montserrat', sans-serif;
+  color: #dc3545;
+}
+
+/* Artists grid */
+.artists-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+.artist-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid #e0e0e0;
+}
+
+.artist-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(10, 110, 153, 0.15);
+  border-color: #0a6e99;
+}
+
+.artist-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0a6e99, #05255a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+}
+
+.artist-avatar i {
+  font-size: 2rem;
+  color: #fff;
+}
+
+.artist-info {
+  text-align: center;
+}
+
+.artist-name {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #05255a;
+  margin: 0 0 0.3rem 0;
+}
+
+.artist-email {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.85rem;
+  color: #666;
+  margin: 0;
+  word-break: break-word;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.empty-icon {
+  font-size: 4rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.empty-text {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.empty-subtext {
+  font-size: 1rem;
+  color: #999;
+  margin-bottom: 2rem;
+}
+
+.btn-explore {
+  background-color: #0a6e99;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 0.75rem 2rem;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-explore:hover {
+  background-color: #084f6a;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(10, 110, 153, 0.3);
+}
+
+@media (max-width: 768px) {
+  .artists-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+
+  .artist-avatar {
+    width: 60px;
+    height: 60px;
+  }
+
+  .artist-avatar i {
+    font-size: 1.5rem;
+  }
+}

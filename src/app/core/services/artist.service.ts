@@ -11,12 +11,12 @@ export class ArtistService {
   private apiUrl = `${environment.apiUrl}/users`;
   private statsUrl = `${environment.apiUrl}/stats`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     if (!token) {
-      console.warn( 'No hay token en localStorage - Usuario no autenticado');
+      console.warn('No hay token en localStorage - Usuario no autenticado');
     }
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`,
@@ -29,7 +29,7 @@ export class ArtistService {
    */
   filterArtists(filter: ArtistFilter): Observable<Artist[]> {
     let params = new HttpParams();
-    
+
     if (filter.role) {
       params = params.set('role', filter.role);
     }
@@ -49,9 +49,11 @@ export class ArtistService {
   /**
    * Obtener artistas nuevos (últimos 14 días)
    */
-  getNewArtists(): Observable<Artist[]> {
+  getNewArtists(limit: number = 10): Observable<Artist[]> {
+    const params = new HttpParams().set('limit', limit.toString());
     return this.http.get<Artist[]>(`${this.apiUrl}/nuevos`, {
-      headers: this.getHeaders()
+      headers: this.getHeaders(),
+      params
     });
   }
 
@@ -60,7 +62,7 @@ export class ArtistService {
    */
   getEmergingArtists(limit: number = 20): Observable<Artist[]> {
     const params = new HttpParams().set('limit', limit.toString());
-    
+
     return this.http.get<Artist[]>(`${this.apiUrl}/emerging`, {
       headers: this.getHeaders(),
       params
@@ -74,7 +76,7 @@ export class ArtistService {
     const params = new HttpParams()
       .set('days', days.toString())
       .set('limit', limit.toString());
-    
+
     return this.http.get<Artist[]>(`${this.apiUrl}/active-artists`, {
       headers: this.getHeaders(),
       params
@@ -86,7 +88,7 @@ export class ArtistService {
    */
   getArtistsWithoutPlays(limit: number = 10): Observable<Artist[]> {
     const params = new HttpParams().set('limit', limit.toString());
-    
+
     return this.http.get<Artist[]>(`${this.apiUrl}/needs-support`, {
       headers: this.getHeaders(),
       params
@@ -105,11 +107,11 @@ export class ArtistService {
    */
   getArtistsByGenreDiversity(userId?: number, limit: number = 20): Observable<Artist[]> {
     let params = new HttpParams().set('limit', limit.toString());
-    
+
     if (userId) {
       params = params.set('userId', userId.toString());
     }
-    
+
     return this.http.get<Artist[]>(`${this.apiUrl}/discover-diverse`, {
       headers: this.getHeaders(),
       params
@@ -130,7 +132,7 @@ export class ArtistService {
    */
   getArtistPopularity(genreId?: number, startDate?: string, endDate?: string): Observable<ArtistPopularity[]> {
     let params = new HttpParams();
-    
+
     if (genreId) {
       params = params.set('idGenre', genreId.toString());
     }

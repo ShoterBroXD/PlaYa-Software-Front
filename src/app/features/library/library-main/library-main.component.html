@@ -8,46 +8,27 @@
     <h2 class="section-subtitle">Tu música</h2>
     <div *ngIf="loading" class="loading">Cargando tus canciones...</div>
     <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
-    <div class="library-grid" *ngIf="!loading && userSongs.length > 0">
+    <div class="library-grid" *ngIf="!loading && userSongs && userSongs.length > 0">
       <div class="card-library" *ngFor="let song of userSongs" (click)="playSong(song, userSongs)">
         <img [src]="song.coverURL || '/assets/img/images/img-placeholder.svg'" [alt]="song.title" class="card-img">
         <div class="card-info">
-          <p class="song-title">{{ song.title }}</p>
-          <p class="song-details">{{ song.artist?.name || 'Artista' }} · {{ song.uploadDate ? (song.uploadDate | date: 'yyyy') : '2025' }}</p>
+          <div class="info-top">
+            <p class="song-title">{{ song.title }}</p>
+            <button class="add-btn" (click)="openAddToPlaylistModal($event, song.idSong)" title="Añadir a playlist">
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+          <p class="song-details">{{ song.artist?.name || 'Artista' }} · {{ song.uploadDate ? (song.uploadDate | date:
+            'yyyy') : '2025' }}</p>
         </div>
       </div>
     </div>
-    <div *ngIf="!loading && userSongs.length === 0" class="empty-state">
+    <div *ngIf="!loading && (!userSongs || userSongs.length === 0)" class="empty-state">
       <p>Aún no has subido ninguna canción</p>
       <a [routerLink]="['/upload']" class="btn-upload">Subir música</a>
     </div>
   </section>
 
-  <!-- Escuchado recientemente -->
-  <section class="library-section">
-    <h2 class="section-subtitle">Escuchado recientemente</h2>
-    <div class="library-grid">
-      <div class="card-library" *ngFor="let song of recentlyPlayed" (click)="playSongOld(song, recentlyPlayed)">
-        <img [src]="song.image" [alt]="song.title" class="card-img">
-        <div class="card-info">
-          <p class="song-title">{{ song.title }}</p>
-          <p class="song-details">{{ song.artist }} · {{ song.year }}</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Me gusta -->
-  <section class="library-section">
-    <h2 class="section-subtitle">Me gusta</h2>
-    <div class="library-grid">
-      <div class="card-library" *ngFor="let song of likedSongs" (click)="playSongOld(song, likedSongs)">
-        <img [src]="song.image" [alt]="song.title" class="card-img">
-        <div class="card-info">
-          <p class="song-title">{{ song.title }}</p>
-          <p class="song-details">{{ song.artist }} · {{ song.year }}</p>
-        </div>
-      </div>
-    </div>
-  </section>
+  <app-add-to-playlist-modal [isOpen]="isModalOpen" [songIds]="selectedSongIds" (closeModal)="closeModal()"
+    (added)="onSongsAdded()"></app-add-to-playlist-modal>
 </div>

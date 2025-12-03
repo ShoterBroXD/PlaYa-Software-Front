@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { RouterLink, RouterLinkActive, Router } from '@angular/router';
 import { SidebarConfig } from '../models/sidebar.model';
 import { AuthService } from '../../core/services/auth.service';
@@ -9,7 +9,7 @@ import { PlayerService } from '../../core/services/player.service';
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, NgIf, RouterLink, RouterLinkActive],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
 })

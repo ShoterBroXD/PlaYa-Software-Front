@@ -24,7 +24,7 @@ export class FollowService {
     return this.http.post<string>(
       `${this.apiUrl}/${followerId}/follow/${artistId}`,
       {},
-      { 
+      {
         headers: this.getHeaders(),
         responseType: 'text' as 'json'
       }
@@ -34,7 +34,7 @@ export class FollowService {
   unfollowArtist(followerId: number, artistId: number): Observable<string> {
     return this.http.delete<string>(
       `${this.apiUrl}/${followerId}/unfollow/${artistId}`,
-      { 
+      {
         headers: this.getHeaders(),
         responseType: 'text' as 'json'
       }
@@ -73,11 +73,15 @@ export class FollowService {
     return new Observable(observer => {
       this.getFollowing(followerId).subscribe({
         next: (follows) => {
-          const isFollowing = follows.some(f => f.artist.idUser === artistId);
+          const isFollowing = follows.some(f => f.artist && f.artist.idUser === artistId);
           observer.next(isFollowing);
           observer.complete();
         },
-        error: (error) => observer.error(error)
+        error: (error) => {
+          // Si hay error (404, etc.), asumir que no está siguiendo
+          observer.next(false);
+          observer.complete();
+        }
       });
     });
   }

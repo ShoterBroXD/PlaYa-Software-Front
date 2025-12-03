@@ -1,6 +1,6 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, ActivatedRoute } from '@angular/router';
 import { SongService } from '../../../core/services/song.service';
 import { SongResponseDto } from '../../../core/models/song.model';
 import { SongRatingComponent } from '../../../shared/components/song-rating/song-rating.component';
@@ -17,7 +17,7 @@ export class CategoriesTracksComponent implements OnInit {
   songs: SongResponseDto[] = [];
   isLoading = true;
   error: string | null = null;
-  
+
   // Tracks de ejemplo para UI
   tracks = [
     { id: 1, artist: 'Messi', title: 'Mundial (track)', duration: '1:23', image: '/assets/img/icons/pop.png' },
@@ -30,10 +30,21 @@ export class CategoriesTracksComponent implements OnInit {
   selectedTrackId = signal<number | null>(null);
   openDropdowns = signal<Set<number>>(new Set());
 
-  constructor(private songService: SongService) {}
+  genreId: number | null = null;
+  genreName: string = '';
+
+  constructor(
+    private songService: SongService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.loadPublicSongs();
+    // Obtener el parámetro de género de la ruta
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('genreId');
+      this.genreId = id ? Number(id) : null;
+      this.loadPublicSongs();
+    });
   }
 
   loadPublicSongs() {
@@ -43,7 +54,17 @@ export class CategoriesTracksComponent implements OnInit {
     this.songService.getPublicSongs().subscribe({
       next: (songs) => {
         if (songs && songs.length) {
-          this.songs = songs;
+          // Filtrar por género si hay un genreId
+          if (this.genreId) {
+            this.songs = songs.filter(song => song.genre?.idGenre === this.genreId);
+            this.genreName = this.songs[0]?.genre?.name || '';
+
+            if (this.songs.length === 0) {
+              this.error = `No hay canciones disponibles para este género.`;
+            }
+          } else {
+            this.songs = songs;
+          }
         } else {
           this.songs = this.buildFallbackSongs();
         }
@@ -61,7 +82,7 @@ export class CategoriesTracksComponent implements OnInit {
   onRatingChanged(songId: number, event: { rating: number; averageRating: number }) {
     console.log(`Canción ${songId} calificada con ${event.rating} estrellas`);
     console.log(`Nuevo promedio: ${event.averageRating}`);
-    
+
     // Actualizar la canción en el array local
     const song = this.songs.find(s => s.idSong === songId);
     if (song) {

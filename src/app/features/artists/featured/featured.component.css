@@ -1,13 +1,15 @@
 .featured-container {
-    max-width: 900px;
+    max-width: 1400px;
     margin: 0 auto;
     color: #0b2239;
 }
 
 h2 {
-    font-weight: 700;
-    margin-bottom: 20px;
-    font-size: 24px;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    color: #05255a;
 }
 
 .artists-list {
@@ -112,7 +114,7 @@ h2 {
     .artist-card {
         width: 100%;
     }
-    
+
     .artist-description {
         max-width: none;
     }

@@ -52,15 +52,15 @@ export class CreatePlaylistComponent {
     this.loading = true;
     this.errorMessage = '';
 
-    const user = this.authService.getCurrentUser();
-    if (!user || !user.idUser) {
+    const userId = this.authService.getUserId();
+    if (!userId) {
       this.errorMessage = 'Usuario no autenticado.';
       this.loading = false;
       return;
     }
 
     const request = {
-      idUser: user.idUser,
+      idUser: userId,
       ...this.playlistForm.value,
     };
 

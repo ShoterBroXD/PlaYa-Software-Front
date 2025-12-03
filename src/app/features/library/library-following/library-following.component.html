@@ -4,9 +4,30 @@
     <p class="library-subtitle">Siguiendo</p>
   </div>
 
-  <div class="empty-state" *ngIf="!hasFollowing">
+  <div *ngIf="loading" class="loading">
+    <p>Cargando artistas...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <div class="artists-grid" *ngIf="!loading && hasFollowing">
+    <div class="artist-card" *ngFor="let artist of followingArtists" (click)="viewArtist(artist)">
+      <div class="artist-avatar">
+        <i class="fa-solid fa-user"></i>
+      </div>
+      <div class="artist-info">
+        <p class="artist-name">{{ artist.name }}</p>
+        <p class="artist-email">{{ artist.email }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!loading && !hasFollowing && !errorMessage">
     <i class="fa-solid fa-user-plus empty-icon"></i>
-    <p class="empty-text">Aún no sigues a ningún artista!</p>
-    <button class="btn-explore">Explorar artistas</button>
+    <p class="empty-text">¡Aún no sigues a ningún artista!</p>
+    <p class="empty-subtext">Descubre nuevos artistas y síguelos para estar al día</p>
+    <button class="btn-explore" (click)="exploreArtists()">Explorar artistas</button>
   </div>
 </div>

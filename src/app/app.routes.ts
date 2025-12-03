@@ -25,16 +25,16 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/auth/register/register.component').then((m) => m.RegisterComponent),
   },
-    {
-      path: 'auth/get-token',
-      loadComponent: () =>
-        import('./features/auth/get-token/get-token.component').then((m) => m.GetTokenComponent),
-    },
-    {
-      path: 'auth/reset-password',
-      loadComponent: () =>
-        import('./features/auth/reset-password/reset-password.component').then((m) => m.ResetPasswordComponent),
-    },
+  {
+    path: 'auth/get-token',
+    loadComponent: () =>
+      import('./features/auth/get-token/get-token.component').then((m) => m.GetTokenComponent),
+  },
+  {
+    path: 'auth/reset-password',
+    loadComponent: () =>
+      import('./features/auth/reset-password/reset-password.component').then((m) => m.ResetPasswordComponent),
+  },
 
   // Protected Routes (CON navbar autenticado via MainLayout)
   {
@@ -70,6 +70,10 @@ export const routes: Routes = [
           },
           {
             path: 'tracks',
+            loadComponent: () => import('./features/categories/tracks/tracks.component').then(m => m.CategoriesTracksComponent),
+          },
+          {
+            path: 'tracks/:genreId',
             loadComponent: () => import('./features/categories/tracks/tracks.component').then(m => m.CategoriesTracksComponent),
           },
           {
@@ -184,17 +188,17 @@ export const routes: Routes = [
       },
       {
         path: 'search',
-        loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent), // Placeholder
+        loadComponent: () => import('./features/search/search.component').then((m) => m.SearchComponent),
       },
       {
         path: 'messages',
-        loadComponent: () => import('./features/home/home.component').then((m) => m.HomeComponent), // Placeholder
+        loadComponent: () => import('./features/messages/messages.component').then((m) => m.MessagesComponent),
       },
       {
         path: 'configuration',
         loadComponent: () => import('./features/configuration/configuration.component').then((m) => m.ConfigurationComponent),
-       },
-       {
+      },
+      {
         path: 'premium',
         loadComponent: () => import('./features/premium/premium-subscription/premium-subscription').then(m => m.PremiumSubscriptionComponent),
       },
