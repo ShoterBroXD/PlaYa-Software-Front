@@ -1,12 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { 
-  User, 
-  UserUpdateRequest, 
-  UpdateLanguageRequest, 
+import { map } from 'rxjs/operators';
+import {
+  User,
+  UserUpdateRequest,
+  UpdateLanguageRequest,
   UpdatePrivacyRequest,
-  UserPreferencesRequest 
+  UserPreferencesRequest
 } from '../models/user.model';
 import { environment } from '../../../environments/environment';
 
@@ -37,7 +38,11 @@ export class UserService {
    */
   updateUserLanguage(id: number, language: 'Español' | 'Inglés' | 'Português'): Observable<void> {
     const payload: UpdateLanguageRequest = { language };
-    return this.http.put<void>(`${this.apiUrl}/${id}/settings/language`, payload);
+    return this.http.put<void>(`${this.apiUrl}/${id}/settings/language`, payload, {
+      responseType: 'text' as 'json'
+    }).pipe(
+      map(() => void 0)
+    );
   }
 
   /**
