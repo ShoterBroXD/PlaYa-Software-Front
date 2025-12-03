@@ -1,0 +1,35 @@
+<div class="modal-overlay" *ngIf="isOpen()" (click)="close()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <h2>Añadir a Playlist</h2>
+            <button class="close-btn" (click)="close()">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <div *ngIf="loading()" class="loading-state">
+                <i class="fas fa-spinner fa-spin"></i> Cargando playlists...
+            </div>
+
+            <div *ngIf="!loading() && playlists().length === 0" class="empty-state">
+                <p>No tienes playlists creadas.</p>
+                <button class="create-btn" (click)="createNewPlaylist()">
+                    <i class="fas fa-plus"></i> Crear Nueva Playlist
+                </button>
+            </div>
+
+            <div *ngIf="!loading() && playlists().length > 0" class="playlists-list">
+                <div *ngFor="let playlist of playlists()" class="playlist-item" (click)="selectPlaylist(playlist)">
+                    <div class="playlist-info">
+                        <span class="playlist-name">{{ playlist.name }}</span>
+                        <span class="playlist-count">{{ getSongCount(playlist) }} canciones</span>
+                    </div>
+                    <i class="fas fa-chevron-right"></i>
+                </div>
+            </div>
+            <!-- <div *ngIf="errorMessage()" class="error-message">{{ errorMessage() }}</div>
+            <div *ngIf="successMessage()" class="success-message">{{ successMessage() }}</div> -->
+        </div>
+    </div>
+</div>

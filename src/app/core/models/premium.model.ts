@@ -12,6 +12,20 @@ export interface PremiumStatus {
   status: string;
   renewalDate?: string;
 }
+export interface PremiumPlan {
+  type: 'FREE' | 'PREMIUM';
+  name: string;
+  price: string;
+  benefits: string[];
+}
+
+export interface PremiumStatus {
+  userId: number;
+  isPremium: boolean;
+  planType: string;
+  status: string;
+  renewalDate?: string;
+}
 
 export interface SubscriptionRequest {
   paymentMethod: string;
@@ -23,5 +37,6 @@ export interface SubscriptionResponse {
   status: string;
   planType: string;
   message: string;
+  token?: string;
   benefits: string[];
 }

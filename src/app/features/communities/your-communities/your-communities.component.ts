@@ -37,8 +37,17 @@ export class YourCommunitiesComponent implements OnInit {
     }
 
     this.isLoading = true;
+    console.log('Loading communities for user:', userId);
+
     this.communityService.getUserCommunities(userId).subscribe({
       next: (communities: CommunityResponseDto[]) => {
+        console.log('Communities received:', communities);
+        console.log('Total communities:', communities.length);
+
+        communities.forEach(c => {
+          console.log('Community:', c.name, 'Members:', c.members);
+        });
+
         const mapped = communities.map(c => ({
           id: c.idCommunity,
           name: c.name,

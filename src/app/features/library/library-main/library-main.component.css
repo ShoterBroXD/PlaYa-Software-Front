@@ -79,15 +79,50 @@
   padding: 0;
 }
 
+.info-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.25rem;
+}
+
 .song-title {
   font-family: 'Montserrat', sans-serif;
   font-size: 0.95rem;
   font-weight: 600;
   color: #333;
-  margin: 0 0 0.25rem 0;
+  margin: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  flex: 1;
+  margin-right: 8px;
+}
+
+.add-btn {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  /* Oculto por defecto */
+}
+
+.card-library:hover .add-btn {
+  opacity: 1;
+  /* Visible al hover */
+}
+
+.add-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #0a6e99;
+  transform: scale(1.1);
 }
 
 .song-details {

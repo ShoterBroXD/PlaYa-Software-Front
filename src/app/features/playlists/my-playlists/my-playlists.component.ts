@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { PlaylistService } from '../../../core/services/playlist.service';
+import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { PlaylistResponseDto, SongResponseDto } from '../../../core/models/playlist.model';
+import { switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-my-playlists',
@@ -14,6 +17,7 @@ import { PlaylistResponseDto, SongResponseDto } from '../../../core/models/playl
 })
 export class MyPlaylistsComponent implements OnInit {
   playlists: PlaylistResponseDto[] = [];
+  playlistCounts: Map<number, number> = new Map();
   loading = false;
   errorMessage = '';
   isUsingFallback = false;
@@ -41,30 +45,66 @@ export class MyPlaylistsComponent implements OnInit {
 
   constructor(
     private playlistService: PlaylistService,
-    private authService: AuthService
-  ) {}
+    private authService: AuthService,
+    private router: Router
+  ) { }
 
-  ngOnInit(): void {
-    this.loadPlaylists();
-  }
-
-  loadPlaylists(): void {
-    this.loading = true;
-    this.errorMessage = '';
-    this.isUsingFallback = false;
-
-    const userId = this.resolveUserId();
-    if (!userId) {
-      this.useFallback('No se pudo identificar al usuario. Mostrando playlists de ejemplo.');
+  openPlaylist(playlist: PlaylistResponseDto) {
+    const id = this.ensureNumber(playlist?.id ?? (playlist as any)?.idPlaylist ?? (playlist as any)?.playlistId, 0);
+    if (!id) {
+      console.error('Invalid playlist id for navigation', playlist);
       return;
     }
+    this.router.navigate(['/playlists', id], { state: { from: this.router.url } });
+  }
 
-    this.playlistService.getPlaylistsByUser(userId).subscribe({
+  loadSongCounts(): void {
+    this.playlists.forEach(playlist => {
+      const id = this.ensureNumber(playlist?.id ?? (playlist as any)?.idPlaylist, 0);
+      if (id) {
+        this.playlistService.getSongCountByPlaylistId(id).subscribe({
+          next: (count) => {
+            this.playlistCounts.set(id, count);
+          },
+          error: (err) => {
+            console.error('Error loading song count for playlist', id, err);
+          }
+        });
+      }
+    });
+  }
+
+  getSongCount(playlist: PlaylistResponseDto): number {
+    const id = this.ensureNumber(playlist?.id ?? (playlist as any)?.idPlaylist, 0);
+    return this.playlistCounts.get(id) ?? playlist.songs?.length ?? 0;
+  }
+
+  ngOnInit(): void {
+    this.authService.currentUser$.pipe(
+      switchMap((user: any) => {
+        this.loading = true;
+        this.errorMessage = '';
+        this.isUsingFallback = false;
+
+        const userId = user?.idUser || this.resolveUserId();
+
+        if (userId) {
+          return this.playlistService.getPlaylistsByUser(userId);
+        } else {
+          this.useFallback('No se pudo identificar al usuario. Mostrando playlists de ejemplo.');
+          return of([] as PlaylistResponseDto[]);
+        }
+      })
+    ).subscribe({
       next: (data) => {
+        // Si data es vacío y estamos usando fallback, no sobrescribir
+        if (this.isUsingFallback) return;
+
         const normalized = this.normalizePlaylists(data);
         if (normalized.length) {
           this.playlists = normalized;
           this.errorMessage = '';
+          this.loadSongCounts();
         } else {
           this.useFallback('Todavía no tienes playlists. Aquí tienes algunas sugerencias.');
         }
@@ -76,6 +116,12 @@ export class MyPlaylistsComponent implements OnInit {
       },
     });
   }
+
+  // loadPlaylists ya no es necesario como método público separado
+  loadPlaylists(userId: number | null = null): void {
+    // Deprecated
+  }
+
 
   deletePlaylist(id: number): void {
     if (confirm('¿Estás seguro de que quieres eliminar esta playlist?')) {

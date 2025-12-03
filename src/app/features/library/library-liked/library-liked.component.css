@@ -1,2 +1,36 @@
 /* Importar estilos compartidos desde library-main */
 @import '../library-main/library-main.component.css';
+
+/* Loading state */
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-family: 'Montserrat', sans-serif;
+  color: #666;
+}
+
+/* Error message */
+.error-message {
+  text-align: center;
+  padding: 3rem;
+  font-family: 'Montserrat', sans-serif;
+  color: #dc3545;
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  font-family: 'Montserrat', sans-serif;
+  color: #999;
+}
+
+.empty-state p:first-child {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: #666;
+}
+
+.empty-state p:last-child {
+  font-size: 1rem;
+}

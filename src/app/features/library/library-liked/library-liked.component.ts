@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { LikeService } from '../../../core/services/like.service';
+import { AuthService } from '../../../core/services/auth.service';
+import { PlayerService } from '../../../core/services/player.service';
+import { Track } from '../../../core/models/player.model';
 
 @Component({
   selector: 'app-library-liked',
@@ -8,21 +12,90 @@ import { CommonModule } from '@angular/common';
   templateUrl: './library-liked.component.html',
   styleUrls: ['./library-liked.component.css']
 })
-export class LibraryLikedComponent {
-  likedSongs = [
-    { title: 'Música 01', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg' },
-    { title: 'Música 02', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg' },
-    { title: 'Música 03', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg' },
-    { title: 'Música 04', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg' },
-    { title: 'Música 05', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg' },
-    { title: 'Música 06', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg' },
-    { title: 'Música 07', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg' },
-    { title: 'Música 08', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg' },
-    { title: 'Música 09', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg' },
-    { title: 'Música 10', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg' }
-  ];
+export class LibraryLikedComponent implements OnInit {
+  likedSongs: any[] = [];
+  loading = false;
+  errorMessage = '';
 
-  playSong(song: any) {
-    console.log('Playing:', song.title);
+  constructor(
+    private likeService: LikeService,
+    private authService: AuthService,
+    private playerService: PlayerService
+  ) {}
+
+  ngOnInit(): void {
+    this.loadLikedSongs();
+  }
+
+  loadLikedSongs(): void {
+    const userId = this.authService.getUserId();
+    if (!userId) {
+      this.errorMessage = 'Usuario no autenticado';
+      return;
+    }
+
+    this.loading = true;
+    this.likeService.getLikedSongsByUser(userId).subscribe({
+      next: (songs) => {
+        this.likedSongs = songs.map(song => this.normalizeSong(song));
+        this.loading = false;
+      },
+      error: (error) => {
+        console.error('Error cargando canciones favoritas:', error);
+
+        // Si es error 403 o 404, probablemente el endpoint no está implementado
+        if (error.status === 403 || error.status === 404) {
+          this.errorMessage = 'La función de canciones favoritas aún no está disponible en el backend.';
+        } else {
+          this.errorMessage = 'Error al cargar las canciones favoritas';
+        }
+
+        this.loading = false;
+        this.likedSongs = []; // Asegurar array vacío
+      }
+    });
+  }
+
+  private normalizeSong(raw: any): any {
+    // Extraer nombre del artista de diferentes estructuras posibles
+    let artistName = 'Artista'; // Valor por defecto más limpio
+    if (raw?.artist?.name) {
+      artistName = raw.artist.name;
+    } else if (raw?.user?.name) {
+      artistName = raw.user.name;
+    } else if (raw?.artistName) {
+      artistName = raw.artistName;
+    } else if (raw?.artist && typeof raw.artist === 'string') {
+      artistName = raw.artist;
+    }
+
+    const uploadYear = raw?.uploadDate ? new Date(raw.uploadDate).getFullYear().toString() : new Date().getFullYear().toString();
+
+    return {
+      idSong: raw?.idSong ?? raw?.id ?? 0,
+      title: raw?.title ?? raw?.name ?? 'Sin título',
+      artist: artistName,
+      year: uploadYear,
+      image: raw?.coverURL ?? raw?.cover ?? '/assets/img/images/img-placeholder.svg',
+      fileURL: raw?.fileURL ?? raw?.url ?? '',
+      description: raw?.description ?? ''
+    };
+  }
+
+  playSong(song: any): void {
+    if (song.fileURL) {
+      const track: Track = {
+        id: song.idSong,
+        title: song.title,
+        artist: song.artist,
+        coverImage: song.image,
+        audioUrl: song.fileURL,
+        duration: 0, // Se obtendrá del audio element
+        isLiked: false,
+        likes: 0,
+        comments: 0
+      };
+      this.playerService.playTrack(track);
+    }
   }
 }

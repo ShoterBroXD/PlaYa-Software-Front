@@ -4,7 +4,20 @@
     <p class="library-subtitle">Me gusta</p>
   </div>
 
-  <div class="library-grid">
+  <div *ngIf="loading" class="loading">
+    <p>Cargando canciones favoritas...</p>
+  </div>
+
+  <div *ngIf="errorMessage" class="error-message">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <div *ngIf="!loading && likedSongs.length === 0 && !errorMessage" class="empty-state">
+    <p>No tienes canciones favoritas aún.</p>
+    <p>Explora música y marca tus canciones favoritas con ❤️</p>
+  </div>
+
+  <div class="library-grid" *ngIf="!loading && likedSongs.length > 0">
     <div class="card-library" *ngFor="let song of likedSongs" (click)="playSong(song)">
       <img [src]="song.image" [alt]="song.title" class="card-img">
       <div class="card-info">

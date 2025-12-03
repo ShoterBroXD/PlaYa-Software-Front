@@ -15,7 +15,7 @@ import {
 export class PlaylistService {
   private readonly API_URL = environment.apiUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
@@ -44,6 +44,13 @@ export class PlaylistService {
     });
   }
 
+  addSongsToPlaylist(playlistId: number, songIds: number[]): Observable<string> {
+    return this.http.post<string>(`${this.API_URL}/playlists/${playlistId}/songs/bulk`, { songIds }, {
+      headers: this.getHeaders(),
+      responseType: 'text' as 'json',
+    });
+  }
+
   removeSongFromPlaylist(playlistId: number, songId: number): Observable<string> {
     return this.http.delete<string>(`${this.API_URL}/playlists/${playlistId}/songs/${songId}`, {
       headers: this.getHeaders(),
@@ -67,6 +74,12 @@ export class PlaylistService {
     return this.http.delete<string>(`${this.API_URL}/playlists/${id}`, {
       headers: this.getHeaders(),
       responseType: 'text' as 'json',
+    });
+  }
+
+  getSongCountByPlaylistId(id: number): Observable<number> {
+    return this.http.get<number>(`${this.API_URL}/playlists/${id}/count`, {
+      headers: this.getHeaders(),
     });
   }
 }

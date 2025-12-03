@@ -1,20 +1,82 @@
 .view-playlist-container {
-  padding: 20px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
+}
+
+.header h2 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #05255a;
+  margin: 0;
+}
+
+.header p {
+  font-family: 'Montserrat', sans-serif;
+  color: #666;
+  margin: 0.5rem 0 1.5rem;
+  font-size: 1rem;
+}
+
+.btn {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  border: none;
+  border-radius: 25px;
+  padding: 0.75rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn.primary {
+  background-color: #0a6e99;
+  color: #fff;
+}
+
+.btn.primary:hover {
+  background-color: #084f6a;
+  transform: translateY(-2px);
+}
+
+.btn.secondary {
+  background-color: #e0e0e0;
+  color: #05255a;
+}
+
+.btn.secondary:hover {
+  background-color: #c0c0c0;
 }
 
 .add-song, .songs-list {
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
+}
+
+.add-song h3, .songs-list h3 {
+  font-family: 'Raleway', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #05255a;
+  margin-bottom: 1rem;
+}
+
+.add-song form {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }
 
 .songs-list {
-  max-height: 400px;
+  max-height: 500px;
   overflow-y: auto;
 }
 
@@ -22,24 +84,43 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #eee;
+  padding: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  transition: background-color 0.2s ease;
+}
+
+.song-item:hover {
+  background-color: #f8f9fa;
 }
 
 .song-info h4 {
-  margin: 0;
+  margin: 0 0 0.3rem 0;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  color: #05255a;
+  font-size: 1.1rem;
 }
 
 .song-info p {
-  margin: 5px 0;
+  margin: 0;
   color: #666;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.9rem;
 }
 
 .form-control {
-  padding: 8px;
-  margin-right: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  min-width: 200px;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: #0a6e99;
 }
 
 .btn.danger {
@@ -49,13 +130,35 @@
 
 .btn.danger:hover {
   background-color: #b02a37;
+  transform: translateY(-2px);
+}
+
+.btn-icon {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  outline: none;
+  transition: opacity 0.2s ease;
+}
+
+.btn-icon img {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+.btn-icon:hover {
+  opacity: 0.6;
 }
 
 .loading, .error-message {
   text-align: center;
-  margin: 20px 0;
+  margin: 3rem 0;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .error-message {
   color: #dc3545;
+  font-size: 1rem;
 }

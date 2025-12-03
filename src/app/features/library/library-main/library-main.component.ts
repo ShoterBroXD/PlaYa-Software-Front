@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, OnInit, signal } from '@angular/core';
+import { CommonModule, NgIf, NgFor } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { PlayerService } from '../../../core/services/player.service';
 import { Track } from '../../../core/models/player.model';
 import { SongService } from '../../../core/services/song.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { SongResponseDto } from '../../../core/models/song.model';
+import { switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { AddToPlaylistModalComponent } from '../../../shared/components/add-to-playlist-modal/add-to-playlist-modal.component';
 
 @Component({
   selector: 'app-library-main',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, NgIf, NgFor, RouterLink, AddToPlaylistModalComponent],
   templateUrl: './library-main.component.html',
   styleUrls: ['./library-main.component.css']
 })
@@ -19,43 +22,35 @@ export class LibraryMainComponent implements OnInit {
   loading = false;
   errorMessage = '';
 
-  recentlyPlayed = [
-    { id: 1, title: 'Música 01', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg', duration: 210, audioUrl: '/assets/audio/sample.mp3' },
-    { id: 2, title: 'Música 02', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg', duration: 195, audioUrl: '/assets/audio/sample.mp3' },
-    { id: 3, title: 'Música 03', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg', duration: 225, audioUrl: '/assets/audio/sample.mp3' },
-    { id: 4, title: 'Música 04', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg', duration: 180, audioUrl: '/assets/audio/sample.mp3' },
-    { id: 5, title: 'Música 05', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg', duration: 240, audioUrl: '/assets/audio/sample.mp3' }
-  ];
-
-  likedSongs = [
-    { id: 6, title: 'Música 01', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg', duration: 200, audioUrl: '/assets/audio/sample.mp3' },
-    { id: 7, title: 'Música 02', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg', duration: 190, audioUrl: '/assets/audio/sample.mp3' },
-    { id: 8, title: 'Música 03', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg', duration: 215, audioUrl: '/assets/audio/sample.mp3' },
-    { id: 9, title: 'Música 04', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg', duration: 205, audioUrl: '/assets/audio/sample.mp3' },
-    { id: 10, title: 'Música 05', artist: 'Artista', year: '2024', image: '/assets/img/images/img-placeholder.svg', duration: 230, audioUrl: '/assets/audio/sample.mp3' }
-  ];
+  // Modal state
+  isModalOpen = signal(false);
+  selectedSongIds: number[] = [];
 
   constructor(
     private playerService: PlayerService,
     private songService: SongService,
     private authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
-    this.loadUserSongs();
-  }
-
-  loadUserSongs() {
-    const userId = this.authService.getUserId();
-    if (!userId) {
-      console.error('Usuario no autenticado');
-      return;
-    }
-
-    this.loading = true;
-    this.songService.getSongsByUser(userId).subscribe({
+    this.authService.currentUser$.pipe(
+      switchMap((user: any) => {
+        if (user && user.idUser) {
+          this.loading = true;
+          return this.songService.getSongsByUser(user.idUser);
+        } else {
+          // Si no hay usuario en el stream, intentar resolverlo localmente
+          const localId = this.authService.getUserId();
+          if (localId) {
+            this.loading = true;
+            return this.songService.getSongsByUser(localId);
+          }
+          return of([] as SongResponseDto[]); // Retornar array vacío si no hay usuario
+        }
+      })
+    ).subscribe({
       next: (songs) => {
-        this.userSongs = songs;
+        this.userSongs = songs || [];
         this.loading = false;
         console.log('Canciones del usuario cargadas:', songs);
       },
@@ -105,35 +100,19 @@ export class LibraryMainComponent implements OnInit {
     this.playerService.playTrack(track, queue, index);
   }
 
-  playSongOld(song: any, list: any[]) {
-    // Método para las canciones mock (recentlyPlayed, likedSongs)
-    const track: Track = {
-      id: song.id,
-      title: song.title,
-      artist: song.artist,
-      album: song.year,
-      duration: song.duration,
-      coverImage: song.image,
-      audioUrl: song.audioUrl,
-      likes: Math.floor(Math.random() * 1000),
-      comments: Math.floor(Math.random() * 50),
-      isLiked: false
-    };
+  openAddToPlaylistModal(event: Event, songId: number) {
+    event.stopPropagation(); // Evitar que se reproduzca la canción al hacer click
+    this.selectedSongIds = [songId];
+    this.isModalOpen.set(true);
+  }
 
-    const queue: Track[] = list.map(s => ({
-      id: s.id,
-      title: s.title,
-      artist: s.artist,
-      album: s.year,
-      duration: s.duration,
-      coverImage: s.image,
-      audioUrl: s.audioUrl,
-      likes: Math.floor(Math.random() * 1000),
-      comments: Math.floor(Math.random() * 50),
-      isLiked: false
-    }));
+  closeModal() {
+    this.isModalOpen.set(false);
+    this.selectedSongIds = [];
+  }
 
-    const index = list.findIndex(s => s.id === song.id);
-    this.playerService.playTrack(track, queue, index);
+  onSongsAdded() {
+    console.log('Canciones añadidas a playlist');
+    // Opcional: Mostrar notificación
   }
 }
