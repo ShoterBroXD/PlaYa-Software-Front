@@ -80,10 +80,7 @@ export const routes: Routes = [
             path: 'playlists',
             loadComponent: () => import('./features/categories/playlists/playlists.component').then(m => m.CategoriesPlaylistsComponent),
           },
-          {
-            path: 'albums',
-            loadComponent: () => import('./features/categories/albums/albums.component').then(m => m.CategoriesAlbumsComponent),
-          },
+
         ]
       },
       {
@@ -204,6 +201,7 @@ export const routes: Routes = [
       },
     ]
   },
+
 
   // Redirect
   {

@@ -8,7 +8,7 @@
       <a routerLink="/categories" class="filter-button">Todos</a>
       <a routerLink="/categories/tracks" class="filter-button">Pistas</a>
       <a routerLink="/categories/playlists" class="filter-button active">Listas</a>
-      <a routerLink="/categories/albums" class="filter-button">Álbumes</a>
+
     </div>
   </div>
 
@@ -17,19 +17,13 @@
     <p>Cargando playlists...</p>
   </div>
 
-  <div
-    *ngIf="errorMessage && !loading"
-    [ngClass]="{ 'error-container': !isFallback, 'info-container': isFallback }"
-  >
+  <div *ngIf="errorMessage && !loading" [ngClass]="{ 'error-container': !isFallback, 'info-container': isFallback }">
     <p>{{ errorMessage }}</p>
   </div>
 
   <div *ngIf="!loading" class="categories-grid">
-    <div
-      class="category-card playlist-card"
-      *ngFor="let p of playlists; let i = index"
-      [routerLink]="['/playlists', p.id]"
-      [style.background]="getPlaylistGradient(i)">
+    <div class="category-card playlist-card" *ngFor="let p of playlists; let i = index"
+      [routerLink]="['/playlists', p.id]" [style.background]="getPlaylistGradient(i)">
       <div class="category-content">
         <h3 class="category-title">{{ p.name }}</h3>
         <p class="category-count">{{ getSongCount(p) }} pistas</p>
