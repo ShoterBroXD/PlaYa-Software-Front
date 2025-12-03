@@ -205,6 +205,9 @@ export class ConfigurationComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error al actualizar idioma:', error);
+          console.error('Error status:', error.status);
+          console.error('Error message:', error.error?.message || error.message);
+          console.error('Error details:', error.error);
           this.showMessage('error', 'Error al actualizar el idioma');
           this.isSaving.set(false);
         }

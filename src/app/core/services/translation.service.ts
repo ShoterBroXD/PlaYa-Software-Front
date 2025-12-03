@@ -98,7 +98,12 @@ export class TranslationService {
     // Convertir el idioma del backend al código de idioma
     const langCode = this.languageMap[backendLanguage];
 
+    console.log('saveLanguagePreference - backendLanguage:', backendLanguage);
+    console.log('saveLanguagePreference - langCode:', langCode);
+    console.log('saveLanguagePreference - userId:', userId);
+
     if (!langCode) {
+      console.error('Invalid language:', backendLanguage);
       throw new Error('Invalid language');
     }
 
@@ -107,9 +112,7 @@ export class TranslationService {
 
     // Luego guardar en el backend
     return this.userService.updateUserLanguage(userId, backendLanguage);
-  }
-
-  /**
+  }  /**
    * Obtiene el idioma actual en formato de código ('es', 'en', 'pt')
    */
   getCurrentLanguage(): string {

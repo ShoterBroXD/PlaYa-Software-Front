@@ -91,20 +91,18 @@
                 <label>
                     {{ 'config.extra.language' | translate }}
                     <select [(ngModel)]="idiomaApp" (ngModelChange)="onInputChange()">
-                        <option>{{ 'config.extra.spanish' | translate }}</option>
-                        <option>{{ 'config.extra.english' | translate }}</option>
-                        <option>{{ 'config.extra.portuguese' | translate }}</option>
+                        <option value="Español">{{ 'config.extra.spanish' | translate }}</option>
+                        <option value="Inglés">{{ 'config.extra.english' | translate }}</option>
+                        <option value="Português">{{ 'config.extra.portuguese' | translate }}</option>
                     </select>
                 </label>
                 <label>
                     {{ 'config.extra.theme' | translate }}
                     <select [(ngModel)]="colorApp" (ngModelChange)="onInputChange()">
-                        <option>{{ 'config.extra.light' | translate }}</option>
-                        <option>{{ 'config.extra.dark' | translate }}</option>
+                        <option value="Claro">{{ 'config.extra.light' | translate }}</option>
+                        <option value="Oscuro">{{ 'config.extra.dark' | translate }}</option>
                     </select>
-                </label>
-
-                <h3>{{ 'config.privacy.title' | translate }}</h3>
+                </label>                <h3>{{ 'config.privacy.title' | translate }}</h3>
                 <label>
                     {{ 'config.privacy.visibleProfile' | translate }}
                     <input type="checkbox" [(ngModel)]="perfilVisible" (ngModelChange)="onInputChange()" />
