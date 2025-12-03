@@ -22,6 +22,8 @@ export class ThreadService {
    * Crear un nuevo hilo en una comunidad
    */
   createThread(thread: ThreadRequestDto): Observable<ThreadResponseDto> {
+    console.log('ThreadService.createThread - Datos enviados:', thread);
+    console.log('ThreadService.createThread - URL:', this.apiUrl);
     return this.http.post<ThreadResponseDto>(this.apiUrl, thread).pipe(
       catchError(this.handleError)
     );
@@ -40,7 +42,9 @@ export class ThreadService {
    * Obtener todos los hilos de una comunidad
    */
   getThreadsByCommunityId(communityId: number): Observable<ThreadResponseDto[]> {
-    return this.http.get<ThreadResponseDto[]>(`${environment.apiUrl}/communities/${communityId}/threads`).pipe(
+    const url = `${environment.apiUrl}/communities/${communityId}/threads`;
+    console.log('ThreadService.getThreadsByCommunityId - URL:', url);
+    return this.http.get<ThreadResponseDto[]>(url).pipe(
       catchError(this.handleError)
     );
   }
