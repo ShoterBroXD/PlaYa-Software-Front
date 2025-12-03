@@ -31,7 +31,7 @@ export const CATEGORIES_SIDEBAR_CONFIG: SidebarConfig = {
     { label: 'Categorías', icon: 'grid', route: '/categories' },
     { label: 'Pistas', icon: 'music', route: '/categories/tracks' },
     { label: 'Listas', icon: 'list', route: '/categories/playlists' },
-    { label: 'Álbumes', icon: 'album', route: '/categories/albums' }
+
   ],
   bottomItems: [
     { label: 'Configuración', icon: 'cog', route: '/configuration' },

@@ -10,7 +10,7 @@
       <a routerLink="/categories" class="filter-button active">Todos</a>
       <a routerLink="/categories/tracks" class="filter-button">Pistas</a>
       <a routerLink="/categories/playlists" class="filter-button">Listas</a>
-      <a routerLink="/categories/albums" class="filter-button">Álbumes</a>
+
     </div>
   </div>
 
@@ -28,10 +28,7 @@
 
   <!-- Grid de géneros -->
   <section *ngIf="!isLoading && !error" class="categories-grid">
-    <div
-      class="category-card"
-      *ngFor="let genre of genres"
-      (click)="navigateToGenre(genre.idGenre)"
+    <div class="category-card" *ngFor="let genre of genres" (click)="navigateToGenre(genre.idGenre)"
       [style.background]="getGenreGradient(genre.name)">
       <div class="category-content">
         <h3 class="category-title">{{ genre.name }}</h3>
