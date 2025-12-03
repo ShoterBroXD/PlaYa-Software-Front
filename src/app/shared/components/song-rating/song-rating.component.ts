@@ -36,6 +36,65 @@ export class SongRatingComponent implements OnInit {
       ratingCount: this.ratingCount,
       isAuthenticated: this.isAuthenticated
     });
+
+    // Cargar la calificación del usuario si está autenticado
+    if (this.isAuthenticated) {
+      // Primero cargar desde localStorage (instantáneo)
+      this.loadUserRatingFromLocalStorage();
+      // Luego verificar con el backend (ahora que está implementado)
+      this.loadUserRating();
+    }
+  }
+
+  private loadUserRatingFromLocalStorage() {
+    const userId = this.authService.getUserId();
+    if (!userId) return;
+
+    const key = `song_rating_${userId}_${this.songId}`;
+    const savedRating = localStorage.getItem(key);
+
+    if (savedRating) {
+      const rating = parseInt(savedRating, 10);
+      if (rating > 0 && rating <= 5) {
+        this.userRating = rating;
+        console.log(`Calificación cargada desde localStorage: ${rating} estrellas`);
+      }
+    }
+  }
+
+  private saveUserRatingToLocalStorage(rating: number) {
+    const userId = this.authService.getUserId();
+    if (!userId) return;
+
+    const key = `song_rating_${userId}_${this.songId}`;
+    localStorage.setItem(key, rating.toString());
+    console.log(`Calificación guardada en localStorage: ${rating} estrellas`);
+  }
+
+  private loadUserRating() {
+    this.songService.getUserRating(this.songId).subscribe({
+      next: (rating) => {
+        if (rating !== null && rating > 0) {
+          // Backend devolvió una calificación válida
+          this.userRating = rating;
+          console.log(`Usuario ya calificó esta canción con ${rating} estrellas (desde backend)`);
+          // Sincronizar con localStorage
+          this.saveUserRatingToLocalStorage(rating);
+        } else {
+          // Backend devolvió null (204 No Content - usuario no ha calificado)
+          // Si localStorage ya tiene un valor, MANTENERLO
+          if (this.userRating > 0) {
+            console.log(`Backend no tiene calificación, manteniendo localStorage: ${this.userRating} estrellas`);
+          } else {
+            console.log('Usuario no ha calificado esta canción');
+          }
+        }
+      },
+      error: (error) => {
+        // Error de red o servidor, mantener valor de localStorage
+        console.log('Error al cargar calificación del backend, manteniendo valor actual:', this.userRating);
+      }
+    });
   }
 
   onStarHover(rating: number) {
@@ -77,6 +136,9 @@ export class SongRatingComponent implements OnInit {
         this.ratingCount = response.ratingCount || 1;
         this.isSubmitting = false;
 
+        // Guardar en localStorage para persistencia
+        this.saveUserRatingToLocalStorage(rating);
+
         // Emitir evento con la nueva calificación
         this.ratingChanged.emit({
           rating: rating,
@@ -100,13 +162,19 @@ export class SongRatingComponent implements OnInit {
   }
 
   getStarClass(star: number): string {
+    // Si está hovering, mostrar preview amarillo
     if (this.hoverRating > 0) {
       return star <= this.hoverRating ? 'star-filled' : 'star-empty';
     }
+
+    // Si el usuario ya calificó, mostrar su calificación en amarillo
     if (this.userRating > 0) {
       return star <= this.userRating ? 'star-user-rated' : 'star-empty';
     }
-    return star <= Math.round(this.currentRating) ? 'star-filled' : 'star-empty';
+
+    // Si el usuario NO ha calificado, mostrar TODAS las estrellas en gris
+    // (sin importar el promedio de calificaciones de otros usuarios)
+    return 'star-empty';
   }
 
   getRatingText(): string {

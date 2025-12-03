@@ -126,6 +126,30 @@ export class SongService {
   }
 
   /**
+   * Obtener la calificación del usuario actual para una canción
+   */
+  getUserRating(songId: number): Observable<number | null> {
+    return this.http.get<number>(`${this.apiUrl}/${songId}/user-rating`).pipe(
+      timeout(this.HTTP_TIMEOUT),
+      map(rating => rating), // El backend devuelve Integer directamente
+      catchError((error) => {
+        // Si el usuario no ha calificado, el backend devuelve 204 No Content
+        if (error.status === 204) {
+          console.log(`Usuario no ha calificado la canción ${songId}`);
+          return new Observable<null>(observer => {
+            observer.next(null);
+            observer.complete();
+          });
+        }
+        // Para otros errores, también retornar null para no romper la UI
+        console.error('Error obteniendo calificación del usuario:', error);
+        return new Observable<null>(observer => {
+          observer.next(null);
+          observer.complete();
+        });
+      })
+    );
+  }  /**
    * Reportar una canción (solo admin)
    */
   reportSong(id: number): Observable<string> {
