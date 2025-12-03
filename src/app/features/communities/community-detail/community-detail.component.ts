@@ -235,18 +235,19 @@ export class CommunityDetailComponent implements OnInit {
     console.log('Cargando publicaciones de la comunidad:', this.communityId);
     console.log('isUserMember:', this.isUserMember);
 
-    // Por ahora, no intentar cargar desde el backend si da error
-    // Los posts se crearán cuando el usuario publique algo nuevo
-    this.posts = [];
-    this.community.postsCount = '0';
-    console.log('Posts inicializados vacíos - el usuario puede crear nuevos');
-    this.cdr.detectChanges();
-
-    /* Comentado temporalmente hasta que el backend esté configurado
     this.threadService.getThreadsByCommunityId(this.communityId).subscribe({
       next: (threads: ThreadResponseDto[]) => {
-        console.log('Publicaciones recibidas:', threads);
+        console.log('✅ Publicaciones recibidas del backend:', threads);
         this.threads = threads;
+
+        // Si no hay threads, inicializar vacío
+        if (!threads || threads.length === 0) {
+          this.posts = [];
+          this.community.postsCount = '0';
+          console.log('No hay publicaciones en esta comunidad aún');
+          this.cdr.detectChanges();
+          return;
+        }
 
         this.posts = threads.map(thread => {
           const member = this.members.find(m => m.id === thread.idUser);
@@ -263,22 +264,26 @@ export class CommunityDetailComponent implements OnInit {
         });
 
         this.community.postsCount = this.posts.length.toString();
-        console.log('Posts procesados:', this.posts.length);
+        console.log('✅ Posts procesados:', this.posts.length);
         this.cdr.detectChanges();
       },
       error: (error) => {
-        console.error('Error cargando publicaciones:', error);
-        if (error.message.includes('403')) {
-          console.warn('Error 403: Usuario no tiene permisos para ver publicaciones');
-          this.posts = [];
-        } else {
-          console.error('Error al cargar publicaciones:', error.message);
-          this.posts = [];
+        console.error('❌ Error cargando publicaciones:', error);
+        console.error('Detalles del error:', error.message);
+
+        // Si hay error, inicializar vacío pero permitir crear nuevos
+        this.posts = [];
+        this.community.postsCount = '0';
+
+        // Solo mostrar alerta si es un error grave (no 404)
+        if (error.status && error.status !== 404) {
+          console.warn('⚠️ No se pudieron cargar las publicaciones desde el servidor');
+          console.warn('Puedes crear nuevas publicaciones que se guardarán correctamente');
         }
+
         this.cdr.detectChanges();
       }
     });
-    */
   }
 
   togglePostForm() {
@@ -293,18 +298,27 @@ export class CommunityDetailComponent implements OnInit {
   }
 
   createPost() {
+    console.log('=== createPost INICIADO ===');
+    console.log('currentUserId:', this.currentUserId);
+    console.log('communityId:', this.communityId);
+    console.log('isUserMember:', this.isUserMember);
+    console.log('newPost:', this.newPost);
+
     if (!this.currentUserId || !this.communityId) {
-      alert('Debes iniciar sesion para publicar');
+      alert('Debes iniciar sesión para publicar');
+      console.error('Faltan datos de usuario o comunidad');
       return;
     }
 
     if (!this.newPost.title.trim() || !this.newPost.content.trim()) {
       alert('Por favor completa todos los campos');
+      console.error('Campos vacíos');
       return;
     }
 
     if (!this.isUserMember) {
       alert('Debes unirte a la comunidad para poder publicar');
+      console.error('Usuario no es miembro');
       return;
     }
 
@@ -317,37 +331,55 @@ export class CommunityDetailComponent implements OnInit {
       content: this.newPost.content.trim()
     };
 
+    console.log('Datos del thread a enviar:', threadData);
+
     this.threadService.createThread(threadData).subscribe({
       next: (thread: ThreadResponseDto) => {
-        console.log('Thread creado:', thread);
+        console.log('✅ Thread creado exitosamente:', thread);
 
-        // Anadir el nuevo post a la lista local
+        // Añadir el nuevo post a la lista local
         const user = this.members.find(m => m.id === this.currentUserId);
-        this.posts.unshift({
+        const newPost = {
           id: thread.idThread,
-          author: user?.name || 'Usuario',
+          author: user?.name || 'Tú',
           time: 'Justo ahora',
           content: thread.content,
           title: thread.title,
           likes: 0,
           comments: 0,
           avatar: '/assets/img/icons/user.png'
-        });
+        };
+
+        this.posts.unshift(newPost);
+        console.log('Post añadido a la lista local:', newPost);
 
         // Actualizar contador
         this.community.postsCount = this.posts.length.toString();
+        console.log('Contador actualizado:', this.community.postsCount);
 
         // Limpiar formulario
         this.newPost = { title: '', content: '' };
         this.showPostForm = false;
         this.isCreatingPost = false;
 
+        alert('✅ Publicación creada exitosamente');
         this.cdr.detectChanges();
+        console.log('=== createPost COMPLETADO ===');
       },
       error: (error) => {
-        console.error('Error creando post:', error);
-        alert('Error al crear la publicacion. Por favor, intenta de nuevo.');
+        console.error('❌ Error creando post:', error);
+        console.error('Error completo:', JSON.stringify(error, null, 2));
+
+        let errorMessage = 'Error al crear la publicación. ';
+        if (error.message) {
+          errorMessage += error.message;
+        } else if (error.error) {
+          errorMessage += JSON.stringify(error.error);
+        }
+
+        alert(errorMessage);
         this.isCreatingPost = false;
+        this.cdr.detectChanges();
       }
     });
   }
