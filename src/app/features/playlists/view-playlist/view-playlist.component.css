@@ -89,10 +89,25 @@
   padding: 1rem;
   border-bottom: 1px solid #e0e0e0;
   transition: background-color 0.2s ease;
+  gap: 1rem;
 }
 
 .song-item:hover {
   background-color: #f8f9fa;
+}
+
+.song-cover {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  background-color: #f0f0f0;
+  flex-shrink: 0;
+}
+
+.song-info {
+  flex: 1;
+  min-width: 0;
 }
 
 .song-info h4 {
@@ -101,6 +116,9 @@
   font-weight: 600;
   color: #05255a;
   font-size: 1.1rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .song-info p {
@@ -108,6 +126,9 @@
   color: #666;
   font-family: 'Montserrat', sans-serif;
   font-size: 0.9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .form-control {

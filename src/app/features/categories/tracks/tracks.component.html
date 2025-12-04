@@ -21,63 +21,36 @@
     <p>{{ error }}</p>
   </div>
 
-  <div class="track-list" *ngIf="!isLoading && songs.length">
-    <div class="track-card" *ngFor="let song of songs">
-      <div class="track-image">
-        <img [src]="song.coverURL" [alt]="song.title" />
-        <div class="play-overlay">
-          <button class="play-btn" (click)="playSong(song)">
-            <i class="fa-solid fa-play"></i>
-          </button>
+  <div class="song-grid" *ngIf="!isLoading && songs.length">
+    <div class="card-song" *ngFor="let song of songs" (click)="playSong(song)">
+      <img [src]="song.coverURL || '/assets/img/images/img-placeholder.svg'" [alt]="song.title" class="card-img">
+      <div class="card-info">
+        <div class="info-top">
+          <p class="song-title">{{ song.title }}</p>
+          <div class="dropdown-menu">
+            <button class="menu-btn" (click)="toggleDropdown($event, song.idSong)" title="Más opciones">
+              <img src="/assets/img/icons/icon-three-dots.svg" alt="Menú" />
+            </button>
+            <div class="dropdown-content" [class.show]="isDropdownOpen(song.idSong)">
+              <button class="dropdown-item" (click)="toggleLike(song.idSong); $event.stopPropagation()">
+                <i class="fa-solid fa-heart"></i> Me gusta
+              </button>
+              <button class="dropdown-item" (click)="openAddToPlaylistModal(song.idSong); $event.stopPropagation()">
+                <i class="fa-solid fa-list"></i> Añadir a playlist
+              </button>
+              <button class="dropdown-item" (click)="shareSong(song.idSong); $event.stopPropagation()">
+                <i class="fa-solid fa-share"></i> Compartir
+              </button>
+              <button class="dropdown-item" (click)="openRatingModal(song.idSong); $event.stopPropagation()">
+                <i class="fa-solid fa-star"></i> Ratear
+              </button>
+              <button class="dropdown-item report-btn" (click)="openReportModal(song.idSong); $event.stopPropagation()">
+                <i class="fa-solid fa-flag"></i> Reportar
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div class="track-content">
-        <div class="track-header">
-          <h3 class="track-title">{{ song.title }}</h3>
-          <span class="track-id">#{{ song.idSong }}</span>
-        </div>
-
-        <p class="track-artist">
-          <i class="fa-solid fa-user"></i> {{ song.artist?.name || 'Artista desconocido' }}
-        </p>
-
-        <p class="track-description" *ngIf="song.description">
-          {{ song.description }}
-        </p>
-
-        <div class="track-meta">
-          <span class="meta-item">
-            <i class="fa-solid fa-clock"></i> {{ formatDuration(song.duration || 0) }}
-          </span>
-          <span class="meta-item">
-            <i class="fa-solid fa-calendar"></i> {{ formatDate(song.uploadDate) }}
-          </span>
-          <span class="meta-item" [class.visibility-public]="song.visibility === 'public'">
-            <i class="fa-solid fa-eye"></i> {{ song.visibility === 'public' ? 'Publico' : 'Privado' }}
-          </span>
-        </div>
-
-        <div class="rating-section">
-          <app-song-rating [songId]="song.idSong" [currentRating]="song.averageRating || 0"
-            [ratingCount]="song.ratingCount || 0" (ratingChanged)="onRatingChanged(song.idSong, $event)">
-          </app-song-rating>
-        </div>
-
-        <div class="track-actions">
-          <button class="action-btn">
-            <i class="fa-solid fa-heart"></i> Me gusta
-          </button>
-          <button class="action-btn">
-            <i class="fa-solid fa-list"></i> Agregar a playlist
-          </button>
-          <button class="action-btn">
-            <i class="fa-solid fa-share"></i> Compartir
-          </button>
-          <button class="action-btn" (click)="openReportModal(song.idSong)">
-            <i class="fa-solid fa-flag"></i> Reportar
-          </button>
-        </div>
+        <p class="song-details">{{ song.artist?.name || 'Artista' }} · {{ song.uploadDate ? (song.uploadDate | date: 'yyyy') : '2025' }}</p>
       </div>
     </div>
   </div>
@@ -88,5 +61,55 @@
   </div>
 </div>
 
+<app-add-to-playlist-modal [isOpen]="isModalOpen" [songIds]="selectedSongIds" (closeModal)="closeModal()"
+  (added)="onSongsAdded()"></app-add-to-playlist-modal>
+
 <app-report-modal *ngIf="showReportModal() && selectedTrackId()" [contentType]="'SONG'" [contentId]="selectedTrackId()!"
   (close)="closeReportModal()" (submitted)="onReportSubmitted()"></app-report-modal>
+
+<!-- Rating modal -->
+<div class="modal-overlay" *ngIf="showRatingModal()" (click)="closeRatingModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Calificar canción</h3>
+      <button class="close-btn" (click)="closeRatingModal()">&times;</button>
+    </div>
+    <div class="modal-body" *ngIf="selectedSong">
+      <app-song-rating 
+        [songId]="selectedSong.idSong" 
+        [currentRating]="selectedSong.averageRating || 0"
+        [ratingCount]="selectedSong.ratingCount || 0" 
+        (ratingChanged)="onRatingChanged(selectedSong.idSong, $event)">
+      </app-song-rating>
+    </div>
+  </div>
+</div>
+
+<!-- Share modal -->
+<div class="share-modal-overlay" *ngIf="showShareModal" (click)="closeShareModal()">
+  <div class="share-modal" (click)="$event.stopPropagation()">
+    <h3 class="share-title">Compartir en</h3>
+    <div class="share-options">
+      <button class="share-option" (click)="shareOn('facebook')">
+        <i class="fab fa-facebook"></i>
+        <span>Facebook</span>
+      </button>
+      <button class="share-option" (click)="shareOn('twitter')">
+        <i class="fab fa-twitter"></i>
+        <span>Twitter</span>
+      </button>
+      <button class="share-option" (click)="shareOn('whatsapp')">
+        <i class="fab fa-whatsapp"></i>
+        <span>WhatsApp</span>
+      </button>
+      <button class="share-option" (click)="shareOn('telegram')">
+        <i class="fab fa-telegram"></i>
+        <span>Telegram</span>
+      </button>
+      <button class="share-option" (click)="shareOn('instagram')">
+        <i class="fab fa-instagram"></i>
+        <span>Instagram</span>
+      </button>
+    </div>
+  </div>
+</div>

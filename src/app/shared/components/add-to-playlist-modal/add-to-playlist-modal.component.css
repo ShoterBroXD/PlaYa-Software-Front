@@ -4,29 +4,45 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.7);
+    background-color: rgba(0, 0, 0, 0.5);
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
-    backdrop-filter: blur(5px);
+    z-index: 10000;
+    animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
 .modal-content {
-    background-color: #1e1e1e;
+    background-color: #fff;
     border-radius: 12px;
     width: 90%;
-    max-width: 400px;
-    max-height: 80vh;
+    max-width: 320px;
+    max-height: 500px;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }
 
 .modal-header {
-    padding: 16px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #e0e0e0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -35,20 +51,30 @@
 .modal-header h2 {
     margin: 0;
     font-size: 1.2rem;
-    color: #fff;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    color: #05255a;
 }
 
 .close-btn {
     background: none;
     border: none;
-    color: #aaa;
-    font-size: 1.2rem;
+    color: #666;
+    font-size: 1.5rem;
     cursor: pointer;
-    transition: color 0.2s;
+    transition: all 0.2s;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    line-height: 1;
 }
 
 .close-btn:hover {
-    color: #fff;
+    background-color: rgba(0, 0, 0, 0.05);
+    color: #333;
 }
 
 .modal-body {
@@ -59,63 +85,91 @@
 
 .loading-state,
 .empty-state {
-    padding: 40px 20px;
+    padding: 2rem 1.5rem;
     text-align: center;
-    color: #aaa;
+    color: #666;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.loading-state i {
+    font-size: 1.5rem;
+    color: #0a6e99;
+    margin-bottom: 0.5rem;
 }
 
 .create-btn {
-    margin-top: 15px;
-    background-color: #1db954;
+    margin-top: 1rem;
+    background-color: #0a6e99;
     color: white;
     border: none;
-    padding: 10px 20px;
-    border-radius: 20px;
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
     cursor: pointer;
-    font-weight: bold;
-    transition: transform 0.2s;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .create-btn:hover {
-    transform: scale(1.05);
-    background-color: #1ed760;
+    background-color: #085a7d;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(10, 110, 153, 0.2);
 }
 
 .playlists-list {
     display: flex;
     flex-direction: column;
+    padding: 0.5rem 0;
 }
 
 .playlist-item {
-    padding: 15px 20px;
+    padding: 1rem 1.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     cursor: pointer;
     transition: background-color 0.2s;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
 }
 
 .playlist-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: #f8f9fa;
 }
 
 .playlist-info {
     display: flex;
     flex-direction: column;
+    flex: 1;
 }
 
 .playlist-name {
-    color: #fff;
-    font-weight: 500;
-    margin-bottom: 4px;
+    color: #333;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
 }
 
 .playlist-count {
-    color: #aaa;
-    font-size: 0.85rem;
+    color: #666;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.8rem;
 }
 
 .playlist-item i {
-    color: #aaa;
+    color: #999;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.playlist-item:hover i {
+    color: #0a6e99;
+    transform: translateX(2px);
 }

@@ -3,15 +3,18 @@ import { CommonModule } from '@angular/common';
 import { RouterLink, ActivatedRoute } from '@angular/router';
 import { SongService } from '../../../core/services/song.service';
 import { PlayerService } from '../../../core/services/player.service';
+import { LikeService } from '../../../core/services/like.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { SongResponseDto } from '../../../core/models/song.model';
 import { Track } from '../../../core/models/player.model';
 import { SongRatingComponent } from '../../../shared/components/song-rating/song-rating.component';
 import { ReportModalComponent } from '../../../shared/components/report-modal/report-modal.component';
+import { AddToPlaylistModalComponent } from '../../../shared/components/add-to-playlist-modal/add-to-playlist-modal.component';
 
 @Component({
   selector: 'app-categories-tracks',
   standalone: true,
-  imports: [CommonModule, RouterLink, SongRatingComponent, ReportModalComponent],
+  imports: [CommonModule, RouterLink, SongRatingComponent, ReportModalComponent, AddToPlaylistModalComponent],
   templateUrl: './tracks.component.html',
   styleUrls: ['./tracks.component.css']
 })
@@ -29,8 +32,16 @@ export class CategoriesTracksComponent implements OnInit {
 
   // Modal y UI state
   showReportModal = signal(false);
+  showRatingModal = signal(false);
+  showShareModal = false;
   selectedTrackId = signal<number | null>(null);
+  selectedShareTrackId: number | null = null;
   openDropdowns = signal<Set<number>>(new Set());
+  isModalOpen = signal(false);
+  selectedSongIds: number[] = [];
+  
+  // Map para rastrear el estado de likes de cada canción
+  songLikes = new Map<number, boolean>();
 
   genreId: number | null = null;
   genreName: string = '';
@@ -38,6 +49,8 @@ export class CategoriesTracksComponent implements OnInit {
   constructor(
     private songService: SongService,
     private playerService: PlayerService,
+    private likeService: LikeService,
+    private authService: AuthService,
     private route: ActivatedRoute
   ) { }
 
@@ -143,11 +156,14 @@ export class CategoriesTracksComponent implements OnInit {
     });
   }
 
-  toggleDropdown(trackId: number) {
+  toggleDropdown(event: Event, trackId: number) {
+    event.stopPropagation();
     const open = this.openDropdowns();
     if (open.has(trackId)) {
       open.delete(trackId);
     } else {
+      // Cerrar otros dropdowns
+      open.clear();
       open.add(trackId);
     }
     this.openDropdowns.set(new Set(open));
@@ -157,9 +173,122 @@ export class CategoriesTracksComponent implements OnInit {
     return this.openDropdowns().has(trackId);
   }
 
+  get selectedSong(): SongResponseDto | undefined {
+    const id = this.selectedTrackId();
+    return id ? this.songs.find(s => s.idSong === id) : undefined;
+  }
+
+  toggleLike(trackId: number) {
+    const userId = this.authService.getUserId();
+    if (!userId) {
+      console.error('Usuario no autenticado');
+      return;
+    }
+
+    // Obtener el estado actual del like
+    const isLiked = this.songLikes.get(trackId) ?? false;
+    
+    // Optimistic update
+    this.songLikes.set(trackId, !isLiked);
+
+    // Llamar al backend con los 3 parámetros
+    this.likeService.toggleLike(trackId, userId, isLiked).subscribe({
+      next: (response) => {
+        console.log('Like toggled:', response);
+      },
+      error: (err) => {
+        console.error('Error toggling like:', err);
+        // Revertir el cambio en caso de error
+        this.songLikes.set(trackId, isLiked);
+      }
+    });
+    this.closeAllDropdowns();
+  }
+
+  openAddToPlaylistModal(songId: number) {
+    this.selectedSongIds = [songId];
+    this.isModalOpen.set(true);
+    this.closeAllDropdowns();
+  }
+
+  closeModal() {
+    this.isModalOpen.set(false);
+    this.selectedSongIds = [];
+  }
+
+  onSongsAdded() {
+    console.log('Canciones añadidas a playlist');
+  }
+
+  closeAllDropdowns() {
+    this.openDropdowns.set(new Set());
+  }
+
+  shareSong(trackId: number) {
+    this.selectedShareTrackId = trackId;
+    this.showShareModal = true;
+    this.closeAllDropdowns();
+  }
+
+  closeShareModal() {
+    this.showShareModal = false;
+    this.selectedShareTrackId = null;
+  }
+
+  shareOn(platform: string) {
+    if (!this.selectedShareTrackId) return;
+    
+    const song = this.songs.find(s => s.idSong === this.selectedShareTrackId);
+    if (!song) return;
+
+    const shareUrl = `${window.location.origin}/song/${song.idSong}`;
+    const text = `Escucha "${song.title}" de ${song.artist?.name || 'Artista'} en PlaYa`;
+
+    let url = '';
+
+    switch(platform) {
+      case 'facebook':
+        url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+        break;
+      case 'twitter':
+        url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(shareUrl)}`;
+        break;
+      case 'whatsapp':
+        url = `https://wa.me/?text=${encodeURIComponent(text + ' ' + shareUrl)}`;
+        break;
+      case 'telegram':
+        url = `https://t.me/share/url?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(text)}`;
+        break;
+      case 'instagram':
+        // Instagram no tiene share directo, copiar al portapapeles
+        navigator.clipboard.writeText(shareUrl).then(() => {
+          alert('¡Enlace copiado! Pégalo en Instagram.');
+        });
+        this.closeShareModal();
+        return;
+    }
+
+    if (url) {
+      window.open(url, '_blank', 'width=600,height=400');
+      this.closeShareModal();
+    }
+  }
+
+  openRatingModal(trackId: number) {
+    this.selectedTrackId.set(trackId);
+    this.showRatingModal.set(true);
+    this.closeAllDropdowns();
+  }
+
+  closeRatingModal() {
+    this.showRatingModal.set(false);
+    this.selectedTrackId.set(null);
+  }
+
   openReportModal(trackId: number) {
     this.selectedTrackId.set(trackId);
     this.showReportModal.set(true);
+    this.closeAllDropdowns();
   }
 
   closeReportModal() {
