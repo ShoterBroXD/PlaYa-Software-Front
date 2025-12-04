@@ -11,121 +11,123 @@
     </nav>-->
 
     <main class="main-content">
-        <h1>{{ 'config.title' | translate }}</h1>
-
-        <!-- Mensajes de estado -->
-        <div class="message-container" *ngIf="saveMessage()">
-            <div class="message"
-                 [class.success]="saveMessage()?.type === 'success'"
-                 [class.error]="saveMessage()?.type === 'error'"
-                 [class.info]="saveMessage()?.type === 'info'">
-                {{ saveMessage()?.text }}
-            </div>
-        </div>
-
+        <h1>Configuración</h1>
         <section class="perfil">
             <div class="avatar"></div>
             <div class="datos-perfil">
-                <input type="text" [placeholder]="'config.profile.username' | translate" [(ngModel)]="usuario" (ngModelChange)="onInputChange()" />
-                <input type="email" [placeholder]="'config.profile.email' | translate" [(ngModel)]="correo" (ngModelChange)="onInputChange()" />
-                <button class="btn btn-password" (click)="cambiarPassword()">{{ 'config.profile.changePassword' | translate }}</button>
+                <input type="text" placeholder="Nombre de usuario" [(ngModel)]="usuario" />
+                <input type="email" placeholder="Correo de Usuario" [(ngModel)]="correo" />
+                <button class="btn btn-password" (click)="cambiarPassword()">Cambiar Contraseña</button>
             </div>
-            <textarea [placeholder]="'config.profile.bio' | translate" [(ngModel)]="biografia" (ngModelChange)="onInputChange()"></textarea>
-        </section><section class="settings">
+            <textarea placeholder="Biografía" [(ngModel)]="biografia"></textarea>
+        </section>
+
+        <section class="settings">
             <div class="preferences">
-                <h3>{{ 'config.playback.title' | translate }}</h3>
+                <h3>Preferencia de Reproducción</h3>
                 <label>
-                    {{ 'config.playback.audioQuality' | translate }}
-                    <select [(ngModel)]="calidadAudio" (ngModelChange)="onInputChange()">
-                        <option>{{ 'config.playback.low' | translate }}</option>
-                        <option>{{ 'config.playback.medium' | translate }}</option>
-                        <option>{{ 'config.playback.high' | translate }}</option>
+                    Calidad de Audio
+                    <select [(ngModel)]="calidadAudio">
+                        <option>Baja</option>
+                        <option>Media</option>
+                        <option>Alta</option>
                     </select>
                 </label>
                 <label>
-                    {{ 'config.playback.wifiDownload' | translate }}
-                    <input type="checkbox" [(ngModel)]="descargarWiFi" (ngModelChange)="onInputChange()" />
+                    Descargar con WiFi
+                    <input type="checkbox" [(ngModel)]="descargarWiFi" />
                 </label>
                 <label>
-                    {{ 'config.playback.dataSaver' | translate }}
-                    <input type="checkbox" [(ngModel)]="ahorroDatos" (ngModelChange)="onInputChange()" />
+                    Modo de Ahorro de Datos
+                    <input type="checkbox" [(ngModel)]="ahorroDatos" />
                 </label>
 
-                <h3>{{ 'config.notifications.title' | translate }}</h3>
-                <label>
-                    {{ 'config.notifications.newSongs' | translate }}
-                    <input type="checkbox" [(ngModel)]="notifNuevasCanciones" (ngModelChange)="onInputChange()" />
+                <label class="master-switch-label">
+                    <h3>Notificaciones</h3>
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="notificacionesActivas" (change)="toggleAllNotifications()" />
+                        <span class="slider"></span>
+                    </label>
                 </label>
-                <label>
-                    {{ 'config.notifications.messages' | translate }}
-                    <input type="checkbox" [(ngModel)]="notifMensajes" (ngModelChange)="onInputChange()" />
+                <label class="switch-label">
+                    <span>Nuevas canciones de artistas seguidos</span>
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="notifNuevasCanciones" />
+                        <span class="slider"></span>
+                    </label>
                 </label>
-                <label>
-                    {{ 'config.notifications.releases' | translate }}
-                    <input type="checkbox" [(ngModel)]="notifRecordatorios" (ngModelChange)="onInputChange()" />
+                <label class="switch-label">
+                    <span>Mensajes / Comentarios</span>
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="notifMensajes" />
+                        <span class="slider"></span>
+                    </label>
                 </label>
-                <label>
-                    {{ 'config.notifications.recommendations' | translate }}
-                    <input type="checkbox" [(ngModel)]="notifRecomendaciones" (ngModelChange)="onInputChange()" />
+                <label class="switch-label">
+                    <span>Recordatorio de lanzamientos</span>
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="notifRecordatorios" />
+                        <span class="slider"></span>
+                    </label>
+                </label>
+                <label class="switch-label">
+                    <span>Recomendaciones personalizadas</span>
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="notifRecomendaciones" />
+                        <span class="slider"></span>
+                    </label>
                 </label>
             </div>
 
             <div class="account">
-                <h3>{{ 'config.account.title' | translate }}</h3>
+                <h3>Cuenta</h3>
                 <label>
-                    {{ 'config.account.type' | translate }}
-                    <select [(ngModel)]="tipoCuenta" disabled>
-                        <option>{{ 'config.account.listener' | translate }}</option>
-                        <option>{{ 'config.account.artist' | translate }}</option>
+                    Tipo de cuenta
+                    <select [(ngModel)]="tipoCuenta">
+                        <option>Oyente</option>
+                        <option>Artista</option>
                     </select>
                 </label>
                 <div class="button-row">
-                    <button class="btn">{{ 'config.account.linkSocial' | translate }}</button>
+                    <button class="btn">Vincular redes sociales</button>
                     <button class="btn-preferences" (click)="openMusicPreferences()">
                         <i class="fas fa-sliders-h"></i>
                         Ajustar preferencias
                     </button>
                 </div>
 
-                <h3>{{ 'config.extra.title' | translate }}</h3>
+                <h3>Extra</h3>
                 <label>
-                    {{ 'config.extra.language' | translate }}
-                    <select [(ngModel)]="idiomaApp" (ngModelChange)="onInputChange()">
-                        <option value="Español">{{ 'config.extra.spanish' | translate }}</option>
-                        <option value="Inglés">{{ 'config.extra.english' | translate }}</option>
-                        <option value="Português">{{ 'config.extra.portuguese' | translate }}</option>
+                    Idioma de la App
+                    <select [(ngModel)]="idiomaApp">
+                        <option>Español</option>
+                        <option>Inglés</option>
                     </select>
                 </label>
                 <label>
-                    {{ 'config.extra.theme' | translate }}
-                    <select [(ngModel)]="colorApp" (ngModelChange)="onInputChange()">
-                        <option value="Claro">{{ 'config.extra.light' | translate }}</option>
-                        <option value="Oscuro">{{ 'config.extra.dark' | translate }}</option>
+                    Color de la App
+                    <select [(ngModel)]="colorApp">
+                        <option>Claro</option>
+                        <option>Oscuro</option>
                     </select>
-                </label>                <h3>{{ 'config.privacy.title' | translate }}</h3>
+                </label>
+
+                <h3>Privacidad y Seguridad</h3>
                 <label>
-                    {{ 'config.privacy.visibleProfile' | translate }}
-                    <input type="checkbox" [(ngModel)]="perfilVisible" (ngModelChange)="onInputChange()" />
+                    Perfil visible
+                    <input type="checkbox" [(ngModel)]="perfilVisible" />
                 </label>
                 <label>
-                    {{ 'config.privacy.visiblePlaylists' | translate }}
-                    <input type="checkbox" [(ngModel)]="playlistVisible" (ngModelChange)="onInputChange()" />
-                </label>
-                <label>
-                    {{ 'config.privacy.visibleHistory' | translate }}
-                    <input type="checkbox" [(ngModel)]="historyVisible" (ngModelChange)="onInputChange()" />
+                    Playlist Visibles
+                    <input type="checkbox" [(ngModel)]="playlistVisible" />
                 </label>
             </div>
         </section>
 
         <!-- Botón de guardar cambios -->
         <div class="save-section">
-            <button
-                class="btn btn-save"
-                (click)="guardarCambios()"
-                [disabled]="!hasUnsavedChanges() || isSaving()">
-                <span *ngIf="!isSaving()">{{ 'config.actions.save' | translate }}</span>
-                <span *ngIf="isSaving()">{{ 'config.actions.saving' | translate }}</span>
+            <button class="btn btn-save" (click)="guardarCambios()">
+                Guardar Cambios
             </button>
         </div>
     </main>
@@ -134,7 +136,7 @@
 <!-- Overlay de cambio de contraseña -->
 <div class="overlay" *ngIf="showPasswordOverlay()" (click)="closePasswordOverlay()">
     <div class="overlay-content" (click)="$event.stopPropagation()">
-        <app-change-password
+        <app-change-password 
             (close)="closePasswordOverlay()"
             (success)="onPasswordChangeSuccess()">
         </app-change-password>
