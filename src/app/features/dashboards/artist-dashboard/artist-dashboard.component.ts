@@ -32,6 +32,13 @@ export class ArtistDashboardComponent implements OnInit {
   isLoadingSongs = false;
   songsError: string | null = null;
 
+  // Límite configurable de canciones a mostrar (cambia este valor según necesites)
+  maxSongsToShow = 5;
+
+  // Getter para obtener las canciones limitadas
+  get displayedSongs(): SongResponseDto[] {
+    return this.uploadedSongs.slice(0, this.maxSongsToShow);
+  }
   ngOnInit() {
     this.loadUserSongs();
   }

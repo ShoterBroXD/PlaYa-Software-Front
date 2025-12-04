@@ -18,6 +18,7 @@
     <h3>Canciones ({{ playlist.songs?.length || 0 }})</h3>
     <div *ngIf="playlist.songs?.length === 0">No hay canciones en esta playlist.</div>
     <div class="song-item" *ngFor="let song of playlist.songs">
+      <img [src]="song.coverURL || '/assets/img/images/img-placeholder.svg'" [alt]="song.title" class="song-cover">
       <div class="song-info">
         <h4>{{ song.title }}</h4>
         <p>{{ song.description }}</p>

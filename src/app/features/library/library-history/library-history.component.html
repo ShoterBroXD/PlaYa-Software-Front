@@ -15,7 +15,31 @@
     <div class="card-library" *ngFor="let song of history" (click)="playSong(song)">
       <img [src]="song.image" [alt]="song.title" class="card-img">
       <div class="card-info">
-        <p class="song-title">{{ song.title }}</p>
+        <div class="info-top">
+          <p class="song-title">{{ song.title }}</p>
+          <div class="dropdown-menu">
+            <button class="menu-btn" (click)="toggleDropdown($event, song.id)" title="Más opciones">
+              <img src="/assets/img/icons/icon-three-dots.svg" alt="Menú" />
+            </button>
+            <div class="dropdown-content" [class.show]="isDropdownOpen(song.id)">
+              <button class="dropdown-item" (click)="toggleLike(song.id); $event.stopPropagation()">
+                <i class="fa-solid fa-heart"></i> Me gusta
+              </button>
+              <button class="dropdown-item" (click)="openAddToPlaylistModal($event, song.id)">
+                <i class="fa-solid fa-list"></i> Añadir a playlist
+              </button>
+              <button class="dropdown-item" (click)="shareSong(song.id); $event.stopPropagation()">
+                <i class="fa-solid fa-share"></i> Compartir
+              </button>
+              <button class="dropdown-item" (click)="openRatingModal(song.id); $event.stopPropagation()">
+                <i class="fa-solid fa-star"></i> Ratear
+              </button>
+              <button class="dropdown-item report-btn" (click)="openReportModal(song.id); $event.stopPropagation()">
+                <i class="fa-solid fa-flag"></i> Reportar
+              </button>
+            </div>
+          </div>
+        </div>
         <p class="song-details">{{ song.artist }} · {{ song.year }}</p>
       </div>
     </div>
@@ -25,5 +49,53 @@
     <i class="fa-solid fa-clock-rotate-left empty-icon"></i>
     <p class="empty-text">Tu historial está vacío</p>
     <p class="empty-subtext">Las canciones que escuches aparecerán aquí</p>
+  </div>
+
+  <app-add-to-playlist-modal [isOpen]="isModalOpen" [songIds]="selectedSongIds" (closeModal)="closeModal()"
+    (added)="onSongsAdded()"></app-add-to-playlist-modal>
+
+  <!-- Modal de Reporte -->
+  <app-report-modal *ngIf="showReportModal() && selectedTrackId()" [contentType]="'SONG'"
+    [contentId]="selectedTrackId()!" (close)="closeReportModal()" (submitted)="onReportSubmitted()">
+  </app-report-modal>
+
+  <!-- Modal de Calificación -->
+  <div class="modal-overlay" *ngIf="showRatingModal()" (click)="closeRatingModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>Calificar canción</h3>
+        <button class="close-btn" (click)="closeRatingModal()">&times;</button>
+      </div>
+      <div class="modal-body" *ngIf="selectedSong">
+        <app-song-rating [songId]="selectedSong.id" [currentRating]="0"
+          [ratingCount]="0" (ratingChanged)="onRatingChanged(selectedSong.id, $event)">
+        </app-song-rating>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Compartir -->
+  <div *ngIf="showShareModal" class="share-modal-overlay" (click)="closeShareModal()">
+    <div class="share-modal-content" (click)="$event.stopPropagation()">
+      <button class="share-close-btn" (click)="closeShareModal()">&times;</button>
+      <h3>Compartir</h3>
+      <div class="share-options">
+        <button class="share-option" (click)="shareOn('facebook')">
+          <i class="fa-brands fa-facebook"></i> Facebook
+        </button>
+        <button class="share-option" (click)="shareOn('twitter')">
+          <i class="fa-brands fa-twitter"></i> Twitter
+        </button>
+        <button class="share-option" (click)="shareOn('whatsapp')">
+          <i class="fa-brands fa-whatsapp"></i> WhatsApp
+        </button>
+        <button class="share-option" (click)="shareOn('telegram')">
+          <i class="fa-brands fa-telegram"></i> Telegram
+        </button>
+        <button class="share-option" (click)="shareOn('instagram')">
+          <i class="fa-brands fa-instagram"></i> Instagram (copiar enlace)
+        </button>
+      </div>
+    </div>
   </div>
 </div>
