@@ -8,6 +8,8 @@ import { UserConfiguration } from '../../core/models/configuration.model';
 import { TranslationService } from '../../core/services/translation.service';
 import { TranslateModule } from '@ngx-translate/core';
 import { MusicPreferencesComponent } from './components/music-preferences/music-preferences.component';
+import { NotificationService } from '../../core/services/notification.service';
+import { NotificationPreferences } from '../../core/models/notification.model';
 
 @Component({
   selector: 'app-configuration',
@@ -20,6 +22,7 @@ export class ConfigurationComponent implements OnInit {
   private authService = inject(AuthService);
   private userService = inject(UserService);
   private translationService = inject(TranslationService);
+  private notificationService = inject(NotificationService);
 
   // Datos del usuario actual
   userId: number | null = null;
@@ -37,6 +40,7 @@ export class ConfigurationComponent implements OnInit {
   notifMensajes = true;
   notifRecordatorios = true;
   notifRecomendaciones = true;
+  notificacionesActivas = true;
 
   // Configuraciones de cuenta
   tipoCuenta = 'Oyente';
@@ -60,6 +64,7 @@ export class ConfigurationComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadUserData();
+    this.loadNotificationPreferences();
   }
 
   /**
@@ -230,6 +235,35 @@ export class ConfigurationComponent implements OnInit {
       });
     }
 
+    // Actualizar preferencias de notificaciones
+    const notificationsChanged =
+      this.notifNuevasCanciones !== this.initialConfig?.notifNuevasCanciones ||
+      this.notifMensajes !== this.initialConfig?.notifMensajes ||
+      this.notifRecordatorios !== this.initialConfig?.notifRecordatorios ||
+      this.notifRecomendaciones !== this.initialConfig?.notifRecomendaciones;
+
+    if (notificationsChanged) {
+      totalRequests++;
+      const preferences: NotificationPreferences = {
+        enableNewReleases: this.notifNuevasCanciones,
+        enableFollowers: this.notifMensajes,
+        enableSystems: this.notifRecordatorios,
+        enableComments: this.notifRecomendaciones
+      };
+
+      this.notificationService.updatePreferences(preferences).subscribe({
+        next: () => {
+          successCount++;
+          this.checkSaveCompletion(successCount, totalRequests);
+        },
+        error: (error) => {
+          console.error('Error al actualizar preferencias de notificaciones:', error);
+          this.showMessage('error', 'Error al actualizar las notificaciones');
+          this.isSaving.set(false);
+        }
+      });
+    }
+
     // Si no hubo cambios en campos con backend
     if (totalRequests === 0) {
       this.showMessage('info', 'No hay cambios para guardar');
@@ -267,6 +301,41 @@ export class ConfigurationComponent implements OnInit {
    */
   onInputChange(): void {
     this.hasUnsavedChanges.set(this.detectChanges());
+  }
+
+  /**
+   * Cargar preferencias de notificaciones desde el backend
+   */
+  private loadNotificationPreferences(): void {
+    this.notificationService.getPreferences().subscribe({
+      next: (preferences) => {
+        this.notifNuevasCanciones = preferences.enableNewReleases;
+        this.notifMensajes = preferences.enableFollowers;
+        this.notifRecordatorios = preferences.enableSystems;
+        this.notifRecomendaciones = preferences.enableComments;
+        // Si todas están en false, el switch master está apagado
+        this.notificacionesActivas = preferences.enableNewReleases || preferences.enableFollowers || 
+                                      preferences.enableSystems || preferences.enableComments;
+        this.saveInitialConfig();
+      },
+      error: (error) => {
+        console.error('Error al cargar preferencias de notificaciones:', error);
+      }
+    });
+  }
+
+  /**
+   * Toggle todas las notificaciones
+   */
+  toggleAllNotifications(): void {
+    this.notificationService.toggleNotifications().subscribe({
+      next: () => {
+        this.loadNotificationPreferences();
+      },
+      error: (error) => {
+        console.error('Error al hacer toggle de notificaciones:', error);
+      }
+    });
   }
 
   /**

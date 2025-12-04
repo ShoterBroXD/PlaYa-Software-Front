@@ -51,22 +51,40 @@
                     <input type="checkbox" [(ngModel)]="ahorroDatos" (ngModelChange)="onInputChange()" />
                 </label>
 
-                <h3>{{ 'config.notifications.title' | translate }}</h3>
-                <label>
-                    {{ 'config.notifications.newSongs' | translate }}
-                    <input type="checkbox" [(ngModel)]="notifNuevasCanciones" (ngModelChange)="onInputChange()" />
+                <label class="master-switch-label">
+                    <h3>{{ 'config.notifications.title' | translate }}</h3>
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="notificacionesActivas" (change)="toggleAllNotifications()" />
+                        <span class="slider"></span>
+                    </label>
                 </label>
-                <label>
-                    {{ 'config.notifications.messages' | translate }}
-                    <input type="checkbox" [(ngModel)]="notifMensajes" (ngModelChange)="onInputChange()" />
+                <label class="switch-label">
+                    <span>{{ 'config.notifications.newSongs' | translate }}</span>
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="notifNuevasCanciones" (ngModelChange)="onInputChange()" />
+                        <span class="slider"></span>
+                    </label>
                 </label>
-                <label>
-                    {{ 'config.notifications.releases' | translate }}
-                    <input type="checkbox" [(ngModel)]="notifRecordatorios" (ngModelChange)="onInputChange()" />
+                <label class="switch-label">
+                    <span>{{ 'config.notifications.messages' | translate }}</span>
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="notifMensajes" (ngModelChange)="onInputChange()" />
+                        <span class="slider"></span>
+                    </label>
                 </label>
-                <label>
-                    {{ 'config.notifications.recommendations' | translate }}
-                    <input type="checkbox" [(ngModel)]="notifRecomendaciones" (ngModelChange)="onInputChange()" />
+                <label class="switch-label">
+                    <span>{{ 'config.notifications.releases' | translate }}</span>
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="notifRecordatorios" (ngModelChange)="onInputChange()" />
+                        <span class="slider"></span>
+                    </label>
+                </label>
+                <label class="switch-label">
+                    <span>{{ 'config.notifications.recommendations' | translate }}</span>
+                    <label class="switch">
+                        <input type="checkbox" [(ngModel)]="notifRecomendaciones" (ngModelChange)="onInputChange()" />
+                        <span class="slider"></span>
+                    </label>
                 </label>
             </div>
 
