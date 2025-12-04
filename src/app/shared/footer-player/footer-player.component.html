@@ -30,7 +30,7 @@
       </div>
       <!-- Botón de compartir -->
       <button class="btn-share" (click)="shareTrack()" aria-label="Compartir">
-        <i class="fas fa-share-alt"></i>
+        <img src="assets/img/icons/share.svg" alt="Compartir">
       </button>
     </section>
 
@@ -67,11 +67,22 @@
     <section class="player-controls">
       <!-- Volumen -->
       <button class="control-btn" aria-label="Volumen">
-        <i class="fas" [ngClass]="{
-          'fa-volume-up': playerService.volume() > 50,
-          'fa-volume-down': playerService.volume() > 0 && playerService.volume() <= 50,
-          'fa-volume-mute': playerService.volume() === 0
-        }"></i>
+        <img 
+          *ngIf="playerService.volume() > 50" 
+          src="assets/img/icons/vol-up.svg" 
+          alt="Volumen alto"
+        >
+        <img 
+          *ngIf="playerService.volume() > 0 && playerService.volume() <= 50" 
+          src="assets/img/icons/vol-down.svg" 
+          alt="Volumen bajo"
+        >
+        <img 
+          *ngIf="playerService.volume() === 0" 
+          src="assets/img/icons/vol-down.svg" 
+          alt="Volumen silenciado"
+          style="opacity: 0.5"
+        >
       </button>
       <input
         type="range"
@@ -84,22 +95,31 @@
 
       <!-- Agregar a playlist -->
       <button class="control-btn" (click)="addToPlaylist()" aria-label="Agregar a playlist">
-        <i class="fas fa-list-ul"></i>
+        <img src="assets/img/icons/add-list.svg" alt="Agregar a playlist">
       </button>
 
       <!-- Anterior -->
       <button class="control-btn" (click)="previousTrack()" aria-label="Anterior">
-        <i class="fas fa-step-backward"></i>
+        <img src="assets/img/icons/previus-song-icon.svg" alt="Anterior">
       </button>
 
       <!-- Play/Pause -->
       <button class="control-btn control-btn-primary" (click)="togglePlayPause()" aria-label="Play/Pause">
-        <i class="fas" [ngClass]="playerService.isPlaying() ? 'fa-pause' : 'fa-play'"></i>
+        <img 
+          *ngIf="!playerService.isPlaying()" 
+          src="assets/img/icons/icon_play_tracks.svg" 
+          alt="Reproducir"
+        >
+        <img 
+          *ngIf="playerService.isPlaying()" 
+          src="assets/img/icons/icon_pause.svg" 
+          alt="Pausar"
+        >
       </button>
 
       <!-- Siguiente -->
       <button class="control-btn" (click)="nextTrack()" aria-label="Siguiente">
-        <i class="fas fa-step-forward"></i>
+        <img src="assets/img/icons/next-song-icon.svg" alt="Siguiente">
       </button>
 
       <!-- Shuffle -->
@@ -109,7 +129,16 @@
         (click)="toggleShuffle()"
         aria-label="Aleatorio"
       >
-        <i class="fas fa-random"></i>
+        <img 
+          *ngIf="!playerService.isShuffle()" 
+          src="assets/img/icons/suffle-none.svg" 
+          alt="Aleatorio desactivado"
+        >
+        <img 
+          *ngIf="playerService.isShuffle()" 
+          src="assets/img/icons/suffle-focus.svg" 
+          alt="Aleatorio activado"
+        >
       </button>
 
       <!-- Repeat -->
@@ -119,12 +148,21 @@
         (click)="toggleRepeat()"
         aria-label="Repetir"
       >
-        <i
-          class="fas"
-          [class.fa-redo]="playerService.repeatMode() === 'all' || playerService.repeatMode() === 'none'"
-          [class.fa-redo-alt]="playerService.repeatMode() === 'one'"
-        ></i>
-        <span *ngIf="playerService.repeatMode() === 'one'" class="repeat-badge">1</span>
+        <img 
+          *ngIf="playerService.repeatMode() === 'none'" 
+          src="assets/img/icons/reapeat-none.svg" 
+          alt="Sin repetir"
+        >
+        <img 
+          *ngIf="playerService.repeatMode() === 'one'" 
+          src="assets/img/icons/reapeat-one.svg" 
+          alt="Repetir una"
+        >
+        <img 
+          *ngIf="playerService.repeatMode() === 'all'" 
+          src="assets/img/icons/reapeat-all.svg" 
+          alt="Repetir todas"
+        >
       </button>
     </section>
 
@@ -148,7 +186,7 @@
         (click)="toggleComments()"
         aria-label="Comentarios"
       >
-        <i class="fas fa-comment"></i>
+        <img src="assets/img/icons/comment-icon.svg" alt="Comentarios">
         <span>{{ playerService.currentTrack()!.comments }}</span>
       </button>
 
@@ -159,7 +197,7 @@
         (click)="togglePlaylist()"
         aria-label="Lista de reproducción"
       >
-        <i class="fas fa-list"></i>
+        <img src="assets/img/icons/icon_list_white.svg" alt="Lista de reproducción">
         <span>{{ playerService.queue().length }}</span>
       </button>
 

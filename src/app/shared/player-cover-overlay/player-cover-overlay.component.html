@@ -1,13 +1,30 @@
+
 <div 
   *ngIf="playerService.showCoverExpanded() && playerService.currentTrack()" 
   class="cover-overlay"
+  [class.has-sidebar]="playerService.showPlaylistSidebar() || playerService.showCommentsSidebar()"
   (click)="closeCover()"
 >
-  <div class="cover-container">
-    <img 
-      [src]="playerService.currentTrack()!.coverImage" 
-      [alt]="playerService.currentTrack()!.title"
-      class="cover-image"
-    >
+  <div class="cover-content-row">
+    <div class="cover-container">
+      <img 
+        [src]="playerService.currentTrack()!.coverImage" 
+        [alt]="playerService.currentTrack()!.title"
+        class="cover-image"
+      >
+    </div>
+    <div class="song-info-panel">
+      <h2 class="song-title">{{ playerService.currentTrack()!.title }}</h2>
+      <div *ngIf="playerService.currentTrack()!.artist" class="song-artist">
+        <strong>Artista:</strong> {{ playerService.currentTrack()!.artist }}
+      </div>
+      <div *ngIf="playerService.currentTrack()!.album" class="song-album">
+        <strong>Álbum:</strong> {{ playerService.currentTrack()!.album }}
+      </div>
+      <div *ngIf="playerService.currentTrack()!.duration" class="song-duration">
+        <strong>Duración:</strong> {{ playerService.currentTrack()!.duration | number:'1.0-0' }}s
+      </div>
+      <!-- Puedes agregar más campos si tienes info, por ejemplo género, likes, etc. -->
+    </div>
   </div>
 </div>
