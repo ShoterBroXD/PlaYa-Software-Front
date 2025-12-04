@@ -12,10 +12,135 @@
 
   <div class="nav-center">
     <div class="search-wrapper">
-      <input type="text" [placeholder]="'nav.search' | translate" class="search-input" [value]="query()" (input)="query.set($any($event.target).value)" />
+      <input 
+        type="text" 
+        [placeholder]="'nav.search' | translate" 
+        class="search-input" 
+        [value]="query()" 
+        (input)="onSearchInput($event)"
+        (focus)="onSearchFocus()"
+        (blur)="onSearchBlur()"
+      />
       <button class="search-button" (click)="search()" [attr.aria-label]="'nav.search' | translate">
         <img src="/assets/img/icons/search.svg" [alt]="'nav.search' | translate" />
       </button>
+      
+      <!-- Dropdown de resultados -->
+      <div class="search-dropdown" *ngIf="showDropdown() && searchResults()">
+        <div class="search-loading" *ngIf="isSearching()">Buscando...</div>
+        
+        <div class="search-results" *ngIf="!isSearching()">
+          <!-- Géneros -->
+          <div class="result-section" *ngIf="searchResults()?.genres && searchResults()!.genres.length > 0">
+            <div class="section-header">
+              <h4>Géneros</h4>
+              <button class="see-all-btn" (click)="navigateToGenres()">Ver todos</button>
+            </div>
+            <div class="result-items">
+              <div 
+                *ngFor="let genre of searchResults()!.genres" 
+                class="result-item"
+                [routerLink]="['/categories']"
+                (click)="closeDropdown()">
+                <span class="result-icon">🎵</span>
+                <span class="result-text">{{ genre.name }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Artistas -->
+          <div class="result-section" *ngIf="searchResults()?.artists && searchResults()!.artists.length > 0">
+            <div class="section-header">
+              <h4>Artistas</h4>
+              <button class="see-all-btn" (click)="navigateToArtists()">Ver todos</button>
+            </div>
+            <div class="result-items">
+              <div 
+                *ngFor="let artist of searchResults()!.artists" 
+                class="result-item"
+                [routerLink]="['/artists/profile', artist.id]"
+                (click)="closeDropdown()">
+                <span class="result-icon">🎤</span>
+                <div class="result-info">
+                  <span class="result-text">{{ artist.name }}</span>
+                  <span class="result-sub">{{ artist.genreName }} • {{ artist.followerCount }} seguidores</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Canciones -->
+          <div class="result-section" *ngIf="searchResults()?.songs && searchResults()!.songs.length > 0">
+            <div class="section-header">
+              <h4>Canciones</h4>
+              <button class="see-all-btn" (click)="navigateToSongs()">Ver todos</button>
+            </div>
+            <div class="result-items">
+              <div 
+                *ngFor="let song of searchResults()!.songs" 
+                class="result-item"
+                (click)="closeDropdown()">
+                <span class="result-icon">🎧</span>
+                <div class="result-info">
+                  <span class="result-text">{{ song.title }}</span>
+                  <span class="result-sub">{{ song.artistName }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Playlists -->
+          <div class="result-section" *ngIf="searchResults()?.playlists && searchResults()!.playlists.length > 0">
+            <div class="section-header">
+              <h4>Playlists</h4>
+              <button class="see-all-btn" (click)="navigateToPlaylists()">Ver todos</button>
+            </div>
+            <div class="result-items">
+              <div 
+                *ngFor="let playlist of searchResults()!.playlists" 
+                class="result-item"
+                (click)="closeDropdown()">
+                <span class="result-icon">📝</span>
+                <div class="result-info">
+                  <span class="result-text">{{ playlist.name }}</span>
+                  <span class="result-sub">{{ playlist.ownerName }} • {{ playlist.trackCount }} canciones</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comunidades -->
+          <div class="result-section" *ngIf="searchResults()?.communities && searchResults()!.communities.length > 0">
+            <div class="section-header">
+              <h4>Comunidades</h4>
+              <button class="see-all-btn" (click)="navigateToCommunities()">Ver todos</button>
+            </div>
+            <div class="result-items">
+              <div 
+                *ngFor="let community of searchResults()!.communities" 
+                class="result-item"
+                [routerLink]="['/communities/detail', community.id]"
+                (click)="closeDropdown()">
+                <span class="result-icon">👥</span>
+                <div class="result-info">
+                  <span class="result-text">{{ community.name }}</span>
+                  <span class="result-sub">{{ community.memberCount }} miembros</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Sin resultados -->
+          <div class="no-results" *ngIf="searchResults() && 
+            (!searchResults()!.genres?.length) && 
+            (!searchResults()!.artists?.length) && 
+            (!searchResults()!.songs?.length) && 
+            (!searchResults()!.playlists?.length) && 
+            (!searchResults()!.communities?.length)">
+            No se encontraron resultados para "{{ query() }}"
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
