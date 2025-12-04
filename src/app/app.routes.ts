@@ -188,10 +188,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/upload/upload.component').then((m) => m.UploadComponent),
       },
-      {
-        path: 'search',
-        loadComponent: () => import('./features/search/search.component').then((m) => m.SearchComponent),
-      },
+      // Ruta de búsqueda desconectada - ahora se usa el overlay en navbar
+      // {
+      //   path: 'search',
+      //   loadComponent: () => import('./features/search/search.component').then((m) => m.SearchComponent),
+      // },
       {
         path: 'messages',
         loadComponent: () => import('./features/messages/messages.component').then((m) => m.MessagesComponent),

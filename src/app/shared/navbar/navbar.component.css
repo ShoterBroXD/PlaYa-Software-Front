@@ -87,10 +87,142 @@
 .premium-link, .upload-link { text-decoration:none; color:#b3b3b3; font-size:.85rem; }
 .premium-link:hover, .upload-link:hover { color:#fff; }
 
+/* Search Dropdown */
+.search-wrapper {
+  position: relative;
+}
+
+.search-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: #f9f9f9;
+  border: 1px solid #1282A2;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  max-height: 70vh;
+  overflow-y: auto;
+  z-index: 2000;
+  padding: 0.5rem 0;
+}
+
+.search-loading {
+  padding: 1rem;
+  text-align: center;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+.result-section {
+  padding: 0.5rem 0;
+}
+
+.result-section + .result-section {
+  border-top: 1px solid #2a2a2a;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 1rem;
+}
+
+.section-header h4 {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0A1128;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.see-all-btn {
+  background: none;
+  border: none;
+  color: #0b869a;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.see-all-btn:hover {
+  background: rgba(11, 134, 154, 0.1);
+}
+
+.result-items {
+  display: flex;
+  flex-direction: column;
+}
+
+.result-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-radius: 0.5rem;
+}
+
+.result-item:hover {
+  background: #1282A2;
+  span{
+    color: #fff;
+  }
+}
+
+.result-icon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+}
+
+.result-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.result-text {
+  color: #1282A2;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.result-sub {
+  color: #0A1128;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-results {
+  padding: 1.5rem 1rem;
+  text-align: center;
+  color: #888;
+  font-size: 0.85rem;
+}
+
 @media (max-width: 900px) {
   .main-navbar { flex-wrap: wrap; }
   .nav-center { order: 3; width: 100%; }
   .search-form { width: 100%; }
   .search-form input { flex: 1; width: auto; }
   .notificacion-layout { position:fixed; right:0.5rem; left:0.5rem; width:auto; }
+  .search-dropdown {
+    position: fixed;
+    left: 0.5rem;
+    right: 0.5rem;
+    width: auto;
+  }
 }

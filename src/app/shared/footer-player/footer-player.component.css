@@ -157,10 +157,24 @@
   cursor: pointer;
   padding: 0.5rem;
   transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-share img {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) saturate(100%) opacity(0.6);
+  transition: all 0.2s;
 }
 
 .btn-share:hover {
   color: #0a6e99;
+}
+
+.btn-share:hover img {
+  filter: brightness(0) saturate(100%) invert(35%) sepia(74%) saturate(1138%) hue-rotate(162deg) brightness(92%) contrast(95%);
 }
 
 /* Sección 2: Controles de reproducción */
@@ -187,9 +201,20 @@
   position: relative;
 }
 
+.control-btn img {
+  width: 20px;
+  height: 20px;
+  transition: all 0.2s;
+  filter: brightness(0) saturate(100%);
+}
+
 .control-btn:hover {
   color: #0a6e99;
   transform: scale(1.1);
+}
+
+.control-btn:hover img {
+  filter: brightness(0) saturate(100%) invert(35%) sepia(74%) saturate(1138%) hue-rotate(162deg) brightness(92%) contrast(95%);
 }
 
 .control-btn-primary {
@@ -201,6 +226,12 @@
   font-size: 1rem;
 }
 
+.control-btn-primary img {
+  width: 18px;
+  height: 18px;
+  filter: brightness(0) invert(1);
+}
+
 .control-btn-primary:hover {
   background: #084f6a;
   transform: scale(1.15);
@@ -208,6 +239,10 @@
 
 .control-btn.active {
   color: #0a6e99;
+}
+
+.control-btn.active img {
+  filter: brightness(0) saturate(100%) invert(35%) sepia(74%) saturate(1138%) hue-rotate(162deg) brightness(92%) contrast(95%);
 }
 
 .repeat-badge {
@@ -312,6 +347,22 @@
 
 .reaction-btn i {
   font-size: 0.9rem;
+}
+
+.reaction-btn img {
+  width: 16px;
+  height: 16px;
+  filter: brightness(0) invert(1);
+  transition: all 0.2s;
+}
+
+.reaction-btn-outline img {
+  filter: brightness(0) saturate(100%);
+}
+
+.reaction-btn-outline:hover img,
+.reaction-btn-outline.active img {
+  filter: brightness(0) invert(1);
 }
 
 .time-current,

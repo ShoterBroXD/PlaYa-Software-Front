@@ -1,8 +1,8 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080/api/v1',
-  uploadsUrl: 'http://localhost:8080/uploads', // Para archivos multimedia
-  wsUrl: 'ws://localhost:8080/ws', // Para notificaciones en tiempo real (opcional)
+  apiUrl: 'https://playa-software.onrender.com/api/v1',//'https://playa-software.onrender.com/api/v1',
+  uploadsUrl: 'https://playa-software.onrender.com/uploads', // Para archivos multimedia
+  wsUrl: 'wss://playa-software.onrender.com/ws', // Para notificaciones en tiempo real (opcional)
   cloudinary: {
     cloudName: 'dqlmwemvr',
     uploadPreset: 'PlaYaUpload',
