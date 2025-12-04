@@ -43,7 +43,7 @@
     </div>
 
     <div *ngIf="uploadedSongs.length > 0" class="songs-grid">
-      <article class="song-card" *ngFor="let song of uploadedSongs">
+      <article class="song-card" *ngFor="let song of displayedSongs">
         <div class="song-card__media">
           <img [src]="song.coverURL" [alt]="song.title" />
         </div>
