@@ -24,7 +24,7 @@ h2 {
 
 .filter-section label {
     font-weight: 600;
-    margin-right: 12px;
+    margin-right: 32px;
     font-size: 14px;
 }
 
@@ -36,6 +36,7 @@ h2 {
     font-size: 14px;
     color: #0b2239;
     background-color: white;
+    margin-right: 20px;
 }
 
 .filter-section input[type="text"] {
