@@ -2,16 +2,17 @@
 .cover-overlay {
   position: fixed;
   top: 40px; /* Debajo de navbar */
-  left: 0;
+  left: 45px;
   right: 0;
   bottom: 65px; /* Encima de footer */
   background: #000;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 900;
+  z-index: 100;
   cursor: pointer;
   animation: fadeIn 0.3s ease;
+  transition: right 0.3s ease;
 }
 
 @keyframes fadeIn {
@@ -23,12 +24,46 @@
   }
 }
 
+
+.cover-content-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
 .cover-container {
-  max-width: 90%;
-  max-height: 90%;
+  max-width: 50vw;
+  max-height: 80vh;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.song-info-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-left: 3rem;
+  background: rgba(20,20,20,0.85);
+  padding: 2rem 2.5rem;
+  border-radius: 1.5rem;
+  min-width: 280px;
+  max-width: 400px;
+  color: #fff;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.3);
+}
+
+.song-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+}
+.song-artist, .song-album, .song-duration {
+  font-size: 1.15rem;
+  margin-bottom: 0.7rem;
 }
 
 .cover-image {
@@ -41,6 +76,7 @@
 /* Ajuste cuando hay sidebar abierta (35% del ancho) */
 .cover-overlay.has-sidebar {
   right: 35%;
+  width: 65%;
 }
 
 @media (max-width: 768px) {

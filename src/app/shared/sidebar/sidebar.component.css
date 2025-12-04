@@ -13,7 +13,7 @@
   left: 0;
   overflow-y: auto;
   overflow-x: hidden;
-  z-index: 100;
+  z-index: 150;
 }
 
 .sidebar-main.collapsed {
@@ -22,7 +22,7 @@
 
 /* Ajuste de altura cuando el player está visible */
 .sidebar-main.has-player {
-  height: calc(100vh - 45px - 65px);
+  height: calc(100vh - 45px - 55px);
 }
 
 /* Botón de colapsar */
