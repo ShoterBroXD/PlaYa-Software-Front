@@ -39,23 +39,23 @@ export class SidebarComponent {
     }
   }
 
-  getIconClass(icon: string): string {
-    // Mapeo de nombres de iconos a clases Font Awesome
+  getIconPath(icon: string): string {
+    // Mapeo de nombres de iconos a rutas SVG
     const iconMap: { [key: string]: string } = {
-      'collection': 'fa-solid fa-folder-open',
-      'liked': 'fa-solid fa-heart',
-      'following': 'fa-solid fa-user-plus',
-      'history': 'fa-solid fa-clock-rotate-left',
-      'cog': 'fa-solid fa-gear',
-      'logout': 'fa-solid fa-right-from-bracket',
-      'grid': 'fa-solid fa-border-all',
-      'music': 'fa-solid fa-music',
-      'users': 'fa-solid fa-users',
-      'search': 'fa-solid fa-magnifying-glass',
-      'plus': 'fa-solid fa-plus',
-      'list': 'fa-solid fa-list',
-      'album': 'fa-solid fa-compact-disc'
+      'collection': '/assets/img/icons/collection.svg',
+      'liked': '/assets/img/icons/liked.svg',
+      'following': '/assets/img/icons/following.svg',
+      'history': '/assets/img/icons/history.svg',
+      'cog': '/assets/img/icons/cog.svg',
+      'logout': '/assets/img/icons/logout.svg',
+      'grid': '/assets/img/icons/icon_all.svg',
+      'music': '/assets/img/icons/icon_tracks.svg',
+      'users': '/assets/img/icons/icon-users.svg',
+      'search': '/assets/img/icons/search.svg',
+      'plus': '/assets/img/icons/add-list.svg',
+      'list': '/assets/img/icons/icon_list_white.svg',
+      'album': '/assets/img/icons/icon_album.svg'
     };
-    return iconMap[icon] || 'fa-solid fa-circle';
+    return iconMap[icon] || '/assets/img/icons/collection.svg';
   }
 }

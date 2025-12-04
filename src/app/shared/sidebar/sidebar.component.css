@@ -96,10 +96,19 @@
 
 /* Icono */
 .sidebar-icon {
-  font-size: 1.25rem;
   width: 24px;
-  text-align: center;
+  height: 24px;
   flex-shrink: 0;
+  filter: brightness(0) saturate(100%) invert(40%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(90%);
+  transition: filter 0.2s;
+}
+
+.sidebar-item:hover .sidebar-icon {
+  filter: brightness(0) saturate(100%) invert(39%) sepia(64%) saturate(652%) hue-rotate(152deg) brightness(94%) contrast(91%);
+}
+
+.sidebar-item.active .sidebar-icon {
+  filter: brightness(0) saturate(100%) invert(39%) sepia(64%) saturate(652%) hue-rotate(152deg) brightness(94%) contrast(91%);
 }
 
 /* Label */

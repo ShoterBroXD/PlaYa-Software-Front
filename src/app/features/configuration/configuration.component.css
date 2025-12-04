@@ -242,6 +242,26 @@ select {
     margin: 0;
 }
 
+.btn-logout {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease;
+}
+
+.btn-logout:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+}
+
+.btn-logout:active {
+    transform: translateY(0);
+}
+
 /* Overlay para cambio de contraseña */
 .overlay {
     position: fixed;
