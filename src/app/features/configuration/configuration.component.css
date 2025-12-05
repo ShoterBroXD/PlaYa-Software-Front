@@ -130,10 +130,11 @@ label {
 
 /* Switch toggle styles para notificaciones */
 .switch-label {
+    height: 2.5rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: 12px 0;
+    margin: 0;
     font-size: 14px;
 }
 
@@ -240,6 +241,26 @@ select {
 .button-row .btn,
 .button-row .btn-preferences {
     margin: 0;
+}
+
+.btn-logout {
+    background: #dc3545;
+    color: white;
+    border: none;
+    padding: 12px 40px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.1s ease;
+}
+
+.btn-logout:hover {
+    background: #c82333;
+    transform: translateY(-1px);
+}
+
+.btn-logout:active {
+    transform: translateY(0);
 }
 
 /* Overlay para cambio de contraseña */
@@ -395,7 +416,7 @@ select {
     padding-top: 20px;
     border-top: 2px solid #ddd;
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
 }
 
 .btn-save {

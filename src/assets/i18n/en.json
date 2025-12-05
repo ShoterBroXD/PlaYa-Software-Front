@@ -259,7 +259,8 @@
     },
     "actions": {
       "save": "Save Changes",
-      "saving": "Saving..."
+      "saving": "Saving...",
+      "logout": "Log Out"
     },
     "changePassword": {
       "title": "Change password",

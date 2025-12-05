@@ -14,7 +14,7 @@
       class="sidebar-item"
       (click)="handleItemClick(item.route, $event)"
     >
-      <i [class]="getIconClass(item.icon)" class="sidebar-icon"></i>
+      <img [src]="getIconPath(item.icon)" [alt]="item.label" class="sidebar-icon">
       <span class="sidebar-label" *ngIf="!isCollapsed()">{{ item.label }}</span>
       <i class="fa-solid fa-chevron-right chevron-icon" *ngIf="!isCollapsed()"></i>
     </a>
@@ -29,7 +29,7 @@
       class="sidebar-item"
       (click)="handleItemClick(item.route, $event)"
     >
-      <i [class]="getIconClass(item.icon)" class="sidebar-icon"></i>
+      <img [src]="getIconPath(item.icon)" [alt]="item.label" class="sidebar-icon">
       <span class="sidebar-label" *ngIf="!isCollapsed()">{{ item.label }}</span>
     </a>
   </div>

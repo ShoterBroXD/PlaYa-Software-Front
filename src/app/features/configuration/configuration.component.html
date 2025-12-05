@@ -138,6 +138,9 @@
 
         <!-- Botón de guardar cambios -->
         <div class="save-section">
+            <button class="btn btn-logout" (click)="logout()">
+                {{ 'config.actions.logout' | translate }}
+            </button>
             <button
                 class="btn btn-save"
                 (click)="guardarCambios()"

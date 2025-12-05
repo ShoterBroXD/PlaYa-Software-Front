@@ -1,6 +1,7 @@
 import { Component, signal, computed, effect, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import { AuthService } from '../../core/services/auth.service';
 import { UserService } from '../../core/services/user.service';
@@ -23,6 +24,7 @@ export class ConfigurationComponent implements OnInit {
   private userService = inject(UserService);
   private translationService = inject(TranslationService);
   private notificationService = inject(NotificationService);
+  private router = inject(Router);
 
   // Datos del usuario actual
   userId: number | null = null;
@@ -369,6 +371,11 @@ export class ConfigurationComponent implements OnInit {
 
   onPreferencesUpdated(): void {
     this.showMessage('success', 'Preferencias musicales actualizadas');
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.router.navigate(['/login']);
   }
 
 }
