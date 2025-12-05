@@ -84,8 +84,8 @@
 .icon-btn { background:none; border:none; cursor:pointer; padding:.25rem; display:flex; align-items:center; }
 .icon-btn img { height:26px; }
 .avatar { height:34px; border-radius:50%; }
-.premium-link, .upload-link { text-decoration:none; color:#b3b3b3; font-size:.85rem; }
-.premium-link:hover, .upload-link:hover { color:#fff; }
+.premium-link { text-decoration:none; color:#b3b3b3; font-size:.85rem; }
+.premium-link:hover { color:#fff; }
 
 a.auth-link{
   color: #ffffff;
@@ -93,16 +93,19 @@ a.auth-link{
 
 .upload-link {
   background: linear-gradient(135deg, #0b869a 0%, #0e6279 100%);
-  color: #000000;
+  color: #f9f9f9 !important;
   padding: 0.5rem 1rem;
   border-radius: 8px;
   font-weight: 600;
+  font-size: .85rem;
+  text-decoration: none;
   transition: all 0.3s ease;
   box-shadow: 0 2px 8px rgba(11, 134, 154, 0.3);
 }
 
 .upload-link:hover {
   background: linear-gradient(135deg, #0e6279 0%, #0b869a 100%);
+  color: #fff !important;
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(11, 134, 154, 0.4);
 }

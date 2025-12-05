@@ -259,7 +259,8 @@
     },
     "actions": {
       "save": "Salvar Alterações",
-      "saving": "Salvando..."
+      "saving": "Salvando...",
+      "logout": "Sair"
     },
     "changePassword": {
       "title": "Alterar senha",

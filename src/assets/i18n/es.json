@@ -259,7 +259,8 @@
     },
     "actions": {
       "save": "Guardar Cambios",
-      "saving": "Guardando..."
+      "saving": "Guardando...",
+      "logout": "Cerrar Sesión"
     },
     "changePassword": {
       "title": "Cambio de contraseña",
